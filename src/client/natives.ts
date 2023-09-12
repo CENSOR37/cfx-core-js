@@ -129,6 +129,20 @@ export function addTextEntryByHash(entryKey: number, entryText: string): void {
 
 
 /**
+ * Break off vehicle wheel by index. The `leaveDebrisTrail` flag requires `putOnFire` to be true.
+ * @param vehicle
+ * @param wheelIndex
+ * @param leaveDebrisTrail
+ * @param deleteWheel
+ * @param unknownFlag
+ * @param putOnFire
+ */
+export function breakOffVehicleWheel(vehicle: number, wheelIndex: number, leaveDebrisTrail: boolean, deleteWheel: boolean, unknownFlag: boolean, putOnFire: boolean): void { 
+	return _in(0x00000000, 0xa274cadb, vehicle, wheelIndex, leaveDebrisTrail, deleteWheel, unknownFlag, putOnFire); 
+}
+
+
+/**
  * This is similar to the PushScaleformMovieFunction natives, except it calls in the `TIMELINE` of a minimap overlay.
  * @param miniMap
  * @param fnName
@@ -144,6 +158,11 @@ export function callMinimapScaleformFunction(miniMap: number, fnName: string): b
  */
 export function clearVehicleXenonLightsCustomColor(vehicle: number): void { 
 	return _in(0x00000000, 0x2867ed8c, vehicle); 
+}
+
+
+export function cloneTimecycleModifier(sourceModifierName: string, clonedModifierName: string): number { 
+	return _in(0x00000000, 0x54d636b3, _ts(sourceModifierName), _ts(clonedModifierName), _r, _ri); 
 }
 
 
@@ -242,6 +261,15 @@ export function createRuntimeTxd(name: string): any {
 
 
 /**
+ * Create a clean timecycle modifier. See [`SET_TIMECYCLE_MODIFIER_VAR`](#\_0x6E0A422B) to add variables.
+ * @param modifierName
+ */
+export function createTimecycleModifier(modifierName: string): number { 
+	return _in(0x00000000, 0x70fa2afa, _ts(modifierName), _r, _ri); 
+}
+
+
+/**
  * Destroys a DUI browser.
  * @param duiObject
  */
@@ -269,12 +297,26 @@ export function disableIdleCamera(state: boolean): void {
 
 
 /**
+ * Disables the game's afk camera that starts panning around after 30 seconds of inactivity(While riding in a car as a passenger)
+ * @param state
+ */
+export function disableVehiclePassengerIdleCamera(state: boolean): void { 
+	return _in(0x00000000, 0x5c140555, state); 
+}
+
+
+/**
  * Disables the game's world horizon lods rendering (see `farlods.#dd`).
  * Using the island hopper natives might also affect this state.
  * @param state
  */
 export function disableWorldhorizonRendering(state: boolean): void { 
 	return _in(0x00000000, 0xa9c92cdc, state); 
+}
+
+
+export function doesTimecycleModifierHasVar(modifierName: string, varName: string): boolean { 
+	return _in(0x00000000, 0xc53bb6d3, _ts(modifierName), _ts(varName), _r); 
 }
 
 
@@ -543,6 +585,33 @@ export function getAmbientVehicleRangeMultiplier(): number {
 
 
 /**
+ * This native returns the index of a calming quad if the given point is inside its bounds.
+ * @param x
+ * @param y
+ */
+export function getCalmingQuadAtCoords(x: number, y: number): number { 
+	return _in(0x00000000, 0x870e8b40, _fv(x), _fv(y), _r, _ri); 
+}
+
+
+export function getCalmingQuadBounds(waterQuad: number): [boolean, number, number, number, number] { 
+	const [retval, minX_out, minY_out, maxX_out, maxY_out] = _in(0x00000000, 0x0ff60e63, waterQuad, _i, _i, _i, _i, _r);
+	return [retval as boolean, minX_out as number, minY_out as number, maxX_out as number, maxY_out as number]; 
+}
+
+
+export function getCalmingQuadCount(): number { 
+	return _in(0x00000000, 0x0cebfc42, _r, _ri); 
+}
+
+
+export function getCalmingQuadDampening(waterQuad: number, calmingQuadDampening: number): [boolean, number] { 
+	const [retval, calmingQuadDampening_out] = _in(0x00000000, 0xb0e3a058, waterQuad, _fi(calmingQuadDampening), _r);
+	return [retval as boolean, calmingQuadDampening_out as number]; 
+}
+
+
+/**
  * Returns the world matrix of the specified camera. To turn this into a view matrix, calculate the inverse.
  * @param camera
  * @param rightVector
@@ -662,6 +731,28 @@ export function getExternalKvpString(resource: string, key: string): string {
  */
 export function getGamePool(poolName: string): any { 
 	return _in(0x00000000, 0x2b9d4f50, _ts(poolName), _r, _ro); 
+}
+
+
+/**
+ * See [SET_SCRIPT_GFX_ALIGN](#\_0xB8A850F20A067EB6) for details about how gfx align works.
+ * @param id
+ * @param horizontalAlign
+ * @param verticalAlign
+ */
+export function getHudComponentAlign(id: number): [number, number] { 
+	const [horizontalAlign_out, verticalAlign_out] = _in(0x00000000, 0xcd949e20, id, _i, _i);
+	return [horizontalAlign_out as number, verticalAlign_out as number]; 
+}
+
+
+export function getHudComponentName(id: number): string { 
+	return _in(0x00000000, 0xa91866bc, id, _r, _s); 
+}
+
+
+export function getHudComponentSize(id: number): Vector3 { 
+	return _mv(_in(0x00000000, 0x12217d33, id, _r, _rv)); 
 }
 
 
@@ -937,6 +1028,15 @@ export function getPedMovementClipset(ped: number): number {
 }
 
 
+/**
+ * A getter for [SET_PED_SWEAT](#\_0x27B0405F59637D1F).
+ * @param ped
+ */
+export function getPedSweat(ped: number): number { 
+	return _in(0x00000000, 0x44b91e94, ped, _r, _rf); 
+}
+
+
 export function getPlayerFromServerId(serverId: number): number { 
 	return _in(0x00000000, 0x344ea166, serverId, _r, _ri); 
 }
@@ -1066,6 +1166,71 @@ export function getRuntimeTextureWidth(tex: any): number {
  */
 export function getScenarioPedDensityMultiplier(): number { 
 	return _in(0x00000000, 0x77c598b2, _r, _rf); 
+}
+
+
+export function getTimecycleModifierCount(): number { 
+	return _in(0x00000000, 0xfe2a1d4d, _r, _ri); 
+}
+
+
+export function getTimecycleModifierIndexByName(modifierName: string): number { 
+	return _in(0x00000000, 0x5f4cd0e2, _ts(modifierName), _r, _ri); 
+}
+
+
+export function getTimecycleModifierNameByIndex(modifierIndex: number): string { 
+	return _in(0x00000000, 0x28cb8608, modifierIndex, _r, _s); 
+}
+
+
+/**
+ * A getter for [SET_TIMECYCLE_MODIFIER_STRENGTH](#\_0x82E7FFCD5B2326B3).
+ */
+export function getTimecycleModifierStrength(): number { 
+	return _in(0x00000000, 0xbe54124a, _r, _rf); 
+}
+
+
+export function getTimecycleModifierVar(modifierName: string, varName: string): [boolean, number, number] { 
+	const [retval, value1_out, value2_out] = _in(0x00000000, 0xa7109e12, _ts(modifierName), _ts(varName), _f, _f, _r);
+	return [retval as boolean, value1_out as number, value2_out as number]; 
+}
+
+
+export function getTimecycleModifierVarCount(modifierName: string): number { 
+	return _in(0x00000000, 0x60fb60fe, _ts(modifierName), _r, _ri); 
+}
+
+
+export function getTimecycleModifierVarNameByIndex(modifierName: string, modifierVarIndex: number): string { 
+	return _in(0x00000000, 0xe874ab1d, _ts(modifierName), modifierVarIndex, _r, _s); 
+}
+
+
+/**
+ * Returns the amount of variables available to be applied on timecycle modifiers.
+ */
+export function getTimecycleVarCount(): number { 
+	return _in(0x00000000, 0x838b34d8, _r, _ri); 
+}
+
+
+/**
+ * See [GET_TIMECYCLE_VAR_COUNT](#\_0x838B34D8).
+ * @param varIndex
+ */
+export function getTimecycleVarDefaultValueByIndex(varIndex: number): number { 
+	return _in(0x00000000, 0x03b90238, varIndex, _r, _rf); 
+}
+
+
+/**
+ * See [GET_TIMECYCLE_VAR_COUNT](#\_0x838B34D8).
+ * @param varIndex
+ */
+export function getTimecycleVarNameByIndex(varIndex: number): string { 
+	return _in(0x00000000, 0xc6c55aaf, varIndex, _r, _s); 
 }
 
 
@@ -1502,6 +1667,125 @@ export function getVehicleXenonLightsCustomColor(vehicle: number): [boolean, num
 }
 
 
+export function getWaterQuadAlpha(waterQuad: number): [boolean, number, number, number, number] { 
+	const [retval, a0_out, a1_out, a2_out, a3_out] = _in(0x00000000, 0x14088095, waterQuad, _i, _i, _i, _i, _r);
+	return [retval as boolean, a0_out as number, a1_out as number, a2_out as number, a3_out as number]; 
+}
+
+
+/**
+ * This native returns the index of a water quad if the given point is inside its bounds.
+ * 
+ * *If you also want to check for water level, check out [`GetWaterQuadAtCoords_3d`](#\_0xF8E03DB8)*
+ * @param x
+ * @param y
+ */
+export function getWaterQuadAtCoords(x: number, y: number): number { 
+	return _in(0x00000000, 0x17321452, _fv(x), _fv(y), _r, _ri); 
+}
+
+
+/**
+ * This alternative implementation of [`GetWaterQuadAtCoords`](#\_0x17321452) also checks the height of the water level.
+ * @param x
+ * @param y
+ * @param z
+ */
+export function getWaterQuadAtCoords3d(x: number, y: number, z: number): number { 
+	return _in(0x00000000, 0xf8e03db8, _fv(x), _fv(y), _fv(z), _r, _ri); 
+}
+
+
+export function getWaterQuadBounds(waterQuad: number): [boolean, number, number, number, number] { 
+	const [retval, minX_out, minY_out, maxX_out, maxY_out] = _in(0x00000000, 0x42e9a06a, waterQuad, _i, _i, _i, _i, _r);
+	return [retval as boolean, minX_out as number, minY_out as number, maxX_out as number, maxY_out as number]; 
+}
+
+
+export function getWaterQuadCount(): number { 
+	return _in(0x00000000, 0xb1884159, _r, _ri); 
+}
+
+
+export function getWaterQuadHasLimitedDepth(waterQuad: number, hasLimitedDepth: number): [boolean, number] { 
+	const [retval, hasLimitedDepth_out] = _in(0x00000000, 0x22ea3bd8, waterQuad, _ii(hasLimitedDepth), _r);
+	return [retval as boolean, hasLimitedDepth_out as number]; 
+}
+
+
+export function getWaterQuadIsInvisible(waterQuad: number, isInvisible: number): [boolean, number] { 
+	const [retval, isInvisible_out] = _in(0x00000000, 0x1dedbd77, waterQuad, _ii(isInvisible), _r);
+	return [retval as boolean, isInvisible_out as number]; 
+}
+
+
+/**
+ * *level is defined as "z" in water.xml*
+ * @param waterQuad
+ * @param waterQuadLevel
+ */
+export function getWaterQuadLevel(waterQuad: number, waterQuadLevel: number): [boolean, number] { 
+	const [retval, waterQuadLevel_out] = _in(0x00000000, 0x6523816b, waterQuad, _fi(waterQuadLevel), _r);
+	return [retval as boolean, waterQuadLevel_out as number]; 
+}
+
+
+export function getWaterQuadNoStencil(waterQuad: number, noStencil: number): [boolean, number] { 
+	const [retval, noStencil_out] = _in(0x00000000, 0x06f4acba, waterQuad, _ii(noStencil), _r);
+	return [retval as boolean, noStencil_out as number]; 
+}
+
+
+/**
+ * Valid type definitions:
+ * 
+ * *   **0** Square
+ * *   **1** Right triangle where the 90 degree angle is at maxX, minY
+ * *   **2** Right triangle where the 90 degree angle is at minX, minY
+ * *   **3** Right triangle where the 90 degree angle is at minX, maxY
+ * *   **4** Right triangle where the 90 degree angle is at maxY, maxY
+ * @param waterQuad
+ * @param waterType
+ */
+export function getWaterQuadType(waterQuad: number, waterType: number): [boolean, number] { 
+	const [retval, waterType_out] = _in(0x00000000, 0xe2501b8b, waterQuad, _ii(waterType), _r);
+	return [retval as boolean, waterType_out as number]; 
+}
+
+
+export function getWaveQuadAmplitude(waveQuad: number, waveQuadAmplitude: number): [boolean, number] { 
+	const [retval, waveQuadAmplitude_out] = _in(0x00000000, 0x865139a3, waveQuad, _fi(waveQuadAmplitude), _r);
+	return [retval as boolean, waveQuadAmplitude_out as number]; 
+}
+
+
+/**
+ * This native returns the index of a wave quad if the given point is inside its bounds.
+ * @param x
+ * @param y
+ */
+export function getWaveQuadAtCoords(x: number, y: number): number { 
+	return _in(0x00000000, 0x3f5a61a7, _fv(x), _fv(y), _r, _ri); 
+}
+
+
+export function getWaveQuadBounds(waveQuad: number): [boolean, number, number, number, number] { 
+	const [retval, minX_out, minY_out, maxX_out, maxY_out] = _in(0x00000000, 0xf86136db, waveQuad, _i, _i, _i, _i, _r);
+	return [retval as boolean, minX_out as number, minY_out as number, maxX_out as number, maxY_out as number]; 
+}
+
+
+export function getWaveQuadCount(): number { 
+	return _in(0x00000000, 0x09250c76, _r, _ri); 
+}
+
+
+export function getWaveQuadDirection(waveQuad: number): [boolean, number, number] { 
+	const [retval, directionX_out, directionY_out] = _in(0x00000000, 0xcce49a1c, waveQuad, _f, _f, _r);
+	return [retval as boolean, directionX_out as number, directionY_out as number]; 
+}
+
+
 /**
  * A getter for [SET_WEAPON_ANIMATION_OVERRIDE](\_0x1055AC3A667F09D9).
  * @param ped
@@ -1615,8 +1899,6 @@ export function hasMinimapOverlayLoaded(id: number): boolean {
 
 
 /**
- * <!-- Native implemented by Disquse. 0xFFF65C63 -->
- * 
  * Returns true if the minimap is currently expanded. False if it's the normal minimap state.
  * Use [`IsBigmapFull`](#\_0x66EE14B2) to check if the full map is currently revealed on the minimap.
  */
@@ -1625,9 +1907,6 @@ export function isBigmapActive(): boolean {
 }
 
 
-/**
- * <!-- Native implemented by Disquse. 0x66EE14B2 -->
- */
 export function isBigmapFull(): boolean { 
 	return _in(0x00000000, 0x66ee14b2, _r); 
 }
@@ -1639,15 +1918,6 @@ export function isBigmapFull(): boolean {
  */
 export function isDuiAvailable(duiObject: any): boolean { 
 	return _in(0x00000000, 0x7aac3b4c, duiObject, _r); 
-}
-
-
-/**
- * A getter for [FREEZE_ENTITY_POSITION](#\_0x428CA6DBD1094446).
- * @param entity
- */
-export function isEntityPositionFrozen(entity: number): boolean { 
-	return _in(0x00000000, 0xedbe6add, entity, _r); 
 }
 
 
@@ -1664,6 +1934,11 @@ export function isNuiFocusKeepingInput(): boolean {
  */
 export function isNuiFocused(): boolean { 
 	return _in(0x00000000, 0x98545e6d, _r); 
+}
+
+
+export function isPedComponentVariationGen9Exclusive(ped: number, componentId: number, drawableId: number): boolean { 
+	return _in(0x00000000, 0xc767b581, ped, componentId, drawableId, _r); 
 }
 
 
@@ -1708,6 +1983,16 @@ export function isVehicleWanted(vehicle: number): boolean {
  */
 export function leaveCursorMode(): void { 
 	return _in(0x00000000, 0xadecf19e); 
+}
+
+
+/**
+ * Define the xml in a resources fxmanifest, under the file(s) section.
+ * @param resourceName
+ * @param fileName
+ */
+export function loadWaterFromPath(resourceName: string, fileName: string): boolean { 
+	return _in(0x00000000, 0xf5102568, _ts(resourceName), _ts(fileName), _r); 
 }
 
 
@@ -2038,6 +2323,8 @@ export function registerFontId(fontName: string): number {
  * Registers a key mapping for the current resource.
  * 
  * See the related [cookbook post](https://cookbook.fivem.net/2020/01/06/using-the-new-console-key-bindings/) for more information.
+ * 
+ * Below you can find some examples on how to create these keybindings as well as the alternate keybinding syntax, which is preceded by `~!` to indicate that it's an alternate key.
  * @param commandString
  * @param description
  * @param defaultMapper
@@ -2121,6 +2408,16 @@ export function removeReplaceTexture(origTxd: string, origTxn: string): void {
 }
 
 
+export function removeTimecycleModifier(modifierName: string): void { 
+	return _in(0x00000000, 0x36df8612, _ts(modifierName)); 
+}
+
+
+export function removeTimecycleModifierVar(modifierName: string, varName: string): void { 
+	return _in(0x00000000, 0x5a5e0d05, _ts(modifierName), _ts(varName)); 
+}
+
+
 /**
  * Requests a resource file set with the specified name to be downloaded and mounted on top of the current resource.
  * 
@@ -2186,6 +2483,14 @@ export function resetPedModelPersonality(modelHash: number): void {
  */
 export function resetVehiclePedsCanStandOnTopFlag(vehicle: number): void { 
 	return _in(0x00000000, 0xdf62cfe2, vehicle); 
+}
+
+
+/**
+ * Resets the water to the games default water.xml.
+ */
+export function resetWater(): void { 
+	return _in(0x00000000, 0x01da4791); 
 }
 
 
@@ -2352,6 +2657,16 @@ export function setAudioSubmixEffectRadioFx(submixId: number, effectSlot: number
  */
 export function setAudioSubmixOutputVolumes(submixId: number, outputSlot: number, frontLeftVolume: number, frontRightVolume: number, rearLeftVolume: number, rearRightVolume: number, channel5Volume: number, channel6Volume: number): void { 
 	return _in(0x00000000, 0x825dc0d1, submixId, outputSlot, _fv(frontLeftVolume), _fv(frontRightVolume), _fv(rearLeftVolume), _fv(rearRightVolume), _fv(channel5Volume), _fv(channel6Volume)); 
+}
+
+
+export function setCalmingQuadBounds(waterQuad: number, minX: number, minY: number, maxX: number, maxY: number): boolean { 
+	return _in(0x00000000, 0xc5945bd9, waterQuad, minX, minY, maxX, maxY, _r); 
+}
+
+
+export function setCalmingQuadDampening(calmingQuad: number, dampening: number): boolean { 
+	return _in(0x00000000, 0x67977501, calmingQuad, _fv(dampening), _r); 
 }
 
 
@@ -2577,6 +2892,22 @@ export function setHandlingInt(vehicle: string, class_: string, fieldName: strin
  */
 export function setHandlingVector(vehicle: string, class_: string, fieldName: string, value: Vector3): void { 
 	return _in(0x00000000, 0x07f9d543, _ts(vehicle), _ts(class_), _ts(fieldName), value); 
+}
+
+
+/**
+ * See [SET_SCRIPT_GFX_ALIGN](#\_0xB8A850F20A067EB6) for details about how gfx align works.
+ * @param id
+ * @param horizontalAlign
+ * @param verticalAlign
+ */
+export function setHudComponentAlign(id: number, horizontalAlign: number, verticalAlign: number): void { 
+	return _in(0x00000000, 0xeed219f2, id, horizontalAlign, verticalAlign); 
+}
+
+
+export function setHudComponentSize(id: number, x: number, y: number): void { 
+	return _in(0x00000000, 0x7644a9fa, id, _fv(x), _fv(y)); 
 }
 
 
@@ -2855,6 +3186,11 @@ export function setSnakeoilForEntry(name: string, path: string, data: string): v
 
 export function setTextChatEnabled(enabled: boolean): boolean { 
 	return _in(0x00000000, 0x97b2f9f8, enabled, _r); 
+}
+
+
+export function setTimecycleModifierVar(modifierName: string, varName: string, value1: number, value2: number): void { 
+	return _in(0x00000000, 0x6e0a422b, _ts(modifierName), _ts(varName), _fv(value1), _fv(value2)); 
 }
 
 
@@ -3210,12 +3546,123 @@ export function setVisualSettingFloat(name: string, value: number): void {
 
 
 /**
+ * Sets world clip boundaries for water quads file (water.xml, water_heistisland.xml)
+ * Used internally by LOAD_GLOBAL_WATER_FILE
+ * @param minX
+ * @param minY
+ * @param maxX
+ * @param maxY
+ */
+export function setWaterAreaClipRect(minX: number, minY: number, maxX: number, maxY: number): void { 
+	return _in(0x00000000, 0x9fcd2ee6, minX, minY, maxX, maxY); 
+}
+
+
+export function setWaterQuadAlpha(waterQuad: number, a0: number, a1: number, a2: number, a3: number): boolean { 
+	return _in(0x00000000, 0xf49797eb, waterQuad, a0, a1, a2, a3, _r); 
+}
+
+
+/**
+ * This native allows you to update the bounds of a specified water quad index.
+ * @param waterQuad
+ * @param minX
+ * @param minY
+ * @param maxX
+ * @param maxY
+ */
+export function setWaterQuadBounds(waterQuad: number, minX: number, minY: number, maxX: number, maxY: number): boolean { 
+	return _in(0x00000000, 0x80ad144c, waterQuad, minX, minY, maxX, maxY, _r); 
+}
+
+
+export function setWaterQuadHasLimitedDepth(waterQuad: number, hasLimitedDepth: boolean): boolean { 
+	return _in(0x00000000, 0xd1fdcfc1, waterQuad, hasLimitedDepth, _r); 
+}
+
+
+export function setWaterQuadIsInvisible(waterQuad: number, isInvisible: boolean): boolean { 
+	return _in(0x00000000, 0xa387d917, waterQuad, isInvisible, _r); 
+}
+
+
+export function setWaterQuadLevel(waterQuad: number, level: number): boolean { 
+	return _in(0x00000000, 0x6292f7a8, waterQuad, _fv(level), _r); 
+}
+
+
+export function setWaterQuadNoStencil(waterQuad: number, noStencil: boolean): boolean { 
+	return _in(0x00000000, 0xc3ff42ff, waterQuad, noStencil, _r); 
+}
+
+
+/**
+ * This native allows you to update the water quad type.
+ * 
+ * Valid type definitions:
+ * 
+ * *   **0** Square
+ * *   **1** Right triangle where the 90 degree angle is at maxX, minY
+ * *   **2** Right triangle where the 90 degree angle is at minX, minY
+ * *   **3** Right triangle where the 90 degree angle is at minX, maxY
+ * *   **4** Right triangle where the 90 degree angle is at maxY, maxY
+ * @param waterQuad
+ * @param type
+ */
+export function setWaterQuadType(waterQuad: number, type: number): boolean { 
+	return _in(0x00000000, 0x50131eb2, waterQuad, type, _r); 
+}
+
+
+export function setWaveQuadAmplitude(waveQuad: number, amplitude: number): boolean { 
+	return _in(0x00000000, 0xe4174b7b, waveQuad, _fv(amplitude), _r); 
+}
+
+
+/**
+ * This native allows you to update the bounds of a specified water quad index.
+ * @param waveQuad
+ * @param minX
+ * @param minY
+ * @param maxX
+ * @param maxY
+ */
+export function setWaveQuadBounds(waveQuad: number, minX: number, minY: number, maxX: number, maxY: number): boolean { 
+	return _in(0x00000000, 0x1fcc1faf, waveQuad, minX, minY, maxX, maxY, _r); 
+}
+
+
+/**
+ * directionX/Y should be constrained between -1.0 and 1.0
+ * A positive value will create the wave starting at min and rolling towards max
+ * A negative value will create the wave starting at max and rolling towards min
+ * Applying both values allows you to make diagonal waves
+ * @param waveQuad
+ * @param directionX
+ * @param directionY
+ */
+export function setWaveQuadDirection(waveQuad: number, directionX: number, directionY: number): boolean { 
+	return _in(0x00000000, 0xfc9341a3, waveQuad, _fv(directionX), _fv(directionY), _r); 
+}
+
+
+/**
  * A setter for the recoil shake amplitude of a weapon.
  * @param weaponHash
  * @param amplitude
  */
 export function setWeaponRecoilShakeAmplitude(weaponHash: number, amplitude: number): void { 
 	return _in(0x00000000, 0x9864312f, weaponHash, _fv(amplitude)); 
+}
+
+
+/**
+ * Disables weapons aim blocking due to environment for local player.
+ * For non-player peds [SET_PED_ENABLE_WEAPON_BLOCKING](#\_0x97A790315D3831FD) can be used.
+ * @param state
+ */
+export function setWeaponsNoAimBlocking(state: boolean): void { 
+	return _in(0x00000000, 0xdfd8f6de, state); 
 }
 
 

@@ -236,8 +236,7 @@ export function canPlayerStartCommerceSession(playerSrc: string): boolean {
 
 
 /**
- * List of component/props ID
- * gtaxscripting.blogspot.com/2016/04/gta-v-peds-component-and-props.html
+ * CLEAR_PED_PROP
  * 
  * **This is the server-side RPC native equivalent of the client native [CLEAR_PED_PROP](?\_0x0943E5B8E078E76E).**
  * @param ped
@@ -249,6 +248,8 @@ export function clearPedProp(ped: number, propId: number): void {
 
 
 /**
+ * CLEAR_PED_SECONDARY_TASK
+ * 
  * **This is the server-side RPC native equivalent of the client native [CLEAR_PED_SECONDARY_TASK](?\_0x176CECF6F920D707).**
  * @param ped
  */
@@ -348,6 +349,8 @@ export function createPed(pedType: number, modelHash: number, x: number, y: numb
 
 
 /**
+ * CREATE_PED_INSIDE_VEHICLE
+ * 
  * **This is the server-side RPC native equivalent of the client native [CREATE_PED_INSIDE_VEHICLE](?\_0x7DD959874C1FD534).**
  * @param vehicle
  * @param pedType
@@ -418,8 +421,22 @@ export function deleteResourceKvpNoSync(key: string): void {
 }
 
 
+export function doesBoatSinkWhenWrecked(vehicle: number): boolean { 
+	return _in(0x00000000, 0x43f15989, vehicle, _r); 
+}
+
+
 export function doesEntityExist(entity: number): boolean { 
 	return _in(0x00000000, 0x3ac90869, entity, _r); 
+}
+
+
+/**
+ * Returns whether or not the player exists
+ * @param playerSrc
+ */
+export function doesPlayerExist(playerSrc: string): boolean { 
+	return _in(0x00000000, 0x12038599, _ts(playerSrc), _r); 
 }
 
 
@@ -541,6 +558,11 @@ export function getEntityAttachedTo(entity: number): number {
 }
 
 
+export function getEntityCollisionDisabled(entity: number): boolean { 
+	return _in(0x00000000, 0xe8c0c629, entity, _r); 
+}
+
+
 /**
  * Gets the current coordinates for a specified entity. This native is used server side when using OneSync.
  * 
@@ -558,7 +580,7 @@ export function getEntityHeading(entity: number): number {
 
 
 /**
- * Currently it only works with peds.
+ * Only works for vehicle and peds
  * @param entity
  */
 export function getEntityHealth(entity: number): number { 
@@ -632,6 +654,13 @@ export function getEntitySpeed(entity: number): number {
 /**
  * Gets the entity type (as an integer), which can be one of the following defined down below:
  * 
+ * **The following entities will return type `1`:**
+ * 
+ * *   Ped
+ * *   Player
+ * *   Animal (Red Dead Redemption 2)
+ * *   Horse (Red Dead Redemption 2)
+ * 
  * **The following entities will return type `2`:**
  * 
  * *   Automobile
@@ -643,13 +672,6 @@ export function getEntitySpeed(entity: number): number {
  * *   Trailer
  * *   Train
  * *   DraftVeh (Red Dead Redemption 2)
- * 
- * **The following entities will return type `1`:**
- * 
- * *   Ped
- * *   Player
- * *   Animal (Red Dead Redemption 2)
- * *   Horse (Red Dead Redemption 2)
  * 
  * **The following entities will return type `3`:**
  * 
@@ -820,6 +842,11 @@ export function getPedSourceOfDeath(ped: number): number {
  */
 export function getPedSpecificTaskType(ped: number, index: number): number { 
 	return _in(0x00000000, 0x7f4563d3, ped, index, _r, _ri); 
+}
+
+
+export function getPedStealthMovement(ped: number): boolean { 
+	return _in(0x00000000, 0x40321b83, ped, _r); 
 }
 
 
@@ -1195,6 +1222,8 @@ export function getVehicleWindowTint(vehicle: number): number {
 
 
 /**
+ * GIVE_WEAPON_COMPONENT_TO_PED
+ * 
  * **This is the server-side RPC native equivalent of the client native [GIVE_WEAPON_COMPONENT_TO_PED](?\_0xD966D51AA5B28BB9).**
  * @param ped
  * @param weaponHash
@@ -1206,6 +1235,8 @@ export function giveWeaponComponentToPed(ped: number, weaponHash: number, compon
 
 
 /**
+ * GIVE_WEAPON_TO_PED
+ * 
  * **This is the server-side RPC native equivalent of the client native [GIVE_WEAPON_TO_PED](?\_0xBF0FD6E56C964FCB).**
  * @param ped
  * @param weaponHash
@@ -1223,8 +1254,23 @@ export function hasEntityBeenMarkedAsNoLongerNeeded(vehicle: number): boolean {
 }
 
 
+export function hasVehicleBeenDamagedByBullets(vehicle: number): boolean { 
+	return _in(0x00000000, 0xb8af3137, vehicle, _r); 
+}
+
+
 export function hasVehicleBeenOwnedByPlayer(vehicle: number): boolean { 
 	return _in(0x00000000, 0xe4e83a5b, vehicle, _r); 
+}
+
+
+export function isBoatAnchoredAndFrozen(vehicle: number): boolean { 
+	return _in(0x00000000, 0xd5c39ee6, vehicle, _r); 
+}
+
+
+export function isBoatWrecked(vehicle: number): boolean { 
+	return _in(0x00000000, 0x9049db44, vehicle, _r); 
 }
 
 
@@ -1237,12 +1283,37 @@ export function isEntityVisible(entity: number): boolean {
 }
 
 
+export function isFlashLightOn(ped: number): boolean { 
+	return _in(0x00000000, 0x76876154, ped, _r); 
+}
+
+
 /**
  * This native checks if the given ped is a player.
  * @param ped
  */
 export function isPedAPlayer(ped: number): boolean { 
 	return _in(0x00000000, 0x404794ca, ped, _r); 
+}
+
+
+export function isPedHandcuffed(ped: number): boolean { 
+	return _in(0x00000000, 0x25865633, ped, _r); 
+}
+
+
+export function isPedRagdoll(ped: number): boolean { 
+	return _in(0x00000000, 0xc833bbe1, ped, _r); 
+}
+
+
+export function isPedStrafing(ped: number): boolean { 
+	return _in(0x00000000, 0xefeed13c, ped, _r); 
+}
+
+
+export function isPedUsingActionMode(ped: number): boolean { 
+	return _in(0x00000000, 0x5ae7eda2, ped, _r); 
 }
 
 
@@ -1300,6 +1371,16 @@ export function isVehicleSirenOn(vehicle: number): boolean {
 
 export function isVehicleTyreBurst(vehicle: number, wheelID: number, completely: boolean): boolean { 
 	return _in(0x00000000, 0x48c80210, vehicle, wheelID, completely, _r); 
+}
+
+
+/**
+ * See the client-side [IS_VEHICLE_WINDOW_INTACT](https://docs.fivem.net/natives/?\_0x46E571A0E20D01F1) for a window indexes list.
+ * @param vehicle
+ * @param windowIndex
+ */
+export function isVehicleWindowIntact(vehicle: number, windowIndex: number): boolean { 
+	return _in(0x00000000, 0xac4ef23d, vehicle, windowIndex, _r); 
 }
 
 
@@ -1461,6 +1542,8 @@ export function removeBlip(blip: number): number {
 
 
 /**
+ * REMOVE_WEAPON_COMPONENT_FROM_PED
+ * 
  * **This is the server-side RPC native equivalent of the client native [REMOVE_WEAPON_COMPONENT_FROM_PED](?\_0x1E8BE90C74FB4C09).**
  * @param ped
  * @param weaponHash
@@ -1572,6 +1655,8 @@ export function setConvarServerInfo(varName: string, value: string): void {
 
 
 /**
+ * SET_CURRENT_PED_WEAPON
+ * 
  * **This is the server-side RPC native equivalent of the client native [SET_CURRENT_PED_WEAPON](?\_0xADF692B254977C0C).**
  * @param ped
  * @param weaponHash
@@ -1603,6 +1688,8 @@ export function setEntityCoords(entity: number, xPos: number, yPos: number, zPos
 /**
  * It overrides the default distance culling radius of an entity. Set to `0.0` to reset.
  * If you want to interact with an entity outside of your players' scopes set the radius to a huge number.
+ * 
+ * **WARNING**: Culling natives are deprecated and have known, [unfixable issues](https://forum.cfx.re/t/issue-with-culling-radius-and-server-side-entities/4900677/4)
  * @param entity
  * @param radius
  */
@@ -1624,6 +1711,18 @@ export function setEntityHeading(entity: number, heading: number): void {
 
 
 /**
+ * It allows to flag an entity to ignore the request control filter policy.
+ * @param entity
+ * @param ignore
+ */
+export function setEntityIgnoreRequestControlFilter(entity: number, ignore: boolean): void { 
+	return _in(0x00000000, 0x9f7f8d36, entity, ignore); 
+}
+
+
+/**
+ * SET_ENTITY_ROTATION
+ * 
  * **This is the server-side RPC native equivalent of the client native [SET_ENTITY_ROTATION](?\_0x8524A8B0171D5E07).**
  * @param entity
  * @param pitch
@@ -1668,6 +1767,45 @@ export function setGameType(gametypeName: string): void {
 }
 
 
+/**
+ * Sets the handler for HTTP requests made to the executing resource.
+ * 
+ * Example request URL: `http://localhost:30120/http-test/ping` - this request will be sent to the `http-test` resource with the `/ping` path.
+ * 
+ * The handler function assumes the following signature:
+ * 
+ * ```ts
+ * function HttpHandler(
+ * request: {
+ * address: string;
+ * headers: Record<string, string>;
+ * method: string;
+ * path: string;
+ * setDataHandler(handler: (data: string) => void): void;
+ * setDataHandler(handler: (data: ArrayBuffer) => void, binary: 'binary'): void;
+ * setCancelHandler(handler: () => void): void;
+ * },
+ * response: {
+ * writeHead(code: number, headers?: Record<string, string | string[]>): void;
+ * write(data: string): void;
+ * send(data?: string): void;
+ * }
+ * ): void;
+ * ```
+ * 
+ * *   **request**: The request object.
+ * *   **address**: The IP address of the request sender.
+ * *   **path**: The path to where the request was sent.
+ * *   **headers**: The headers sent with the request.
+ * *   **method**: The request method.
+ * *   **setDataHandler**: Sets the handler for when a data body is passed with the request. Additionally you can pass the `'binary'` argument to receive a `BufferArray` in JavaScript or `System.Byte[]` in C# (has no effect in Lua).
+ * *   **setCancelHandler**: Sets the handler for when the request is cancelled.
+ * *   **response**: An object to control the response.
+ * *   **writeHead**: Sets the status code & headers of the response. Can be only called once and won't work if called after running other response functions.
+ * *   **write**: Writes to the response body without sending it. Can be called multiple times.
+ * *   **send**: Writes to the response body and then sends it along with the status code & headers, finishing the request.
+ * @param handler
+ */
 export function setHttpHandler(handler: any): void { 
 	return _in(0x00000000, 0xf5c6330c, _mfr(handler)); 
 }
@@ -1706,6 +1844,8 @@ export function setPedArmour(ped: number, amount: number): void {
 
 
 /**
+ * SET_PED_CAN_RAGDOLL
+ * 
  * **This is the server-side RPC native equivalent of the client native [SET_PED_CAN_RAGDOLL](?\_0xB128377056A54E2A).**
  * @param ped
  * @param toggle
@@ -1720,24 +1860,40 @@ export function setPedCanRagdoll(ped: number, toggle: boolean): void {
  * 
  * ### MP Freemode list of components
  * 
- * **0**: Face\
- * **1**: Mask\
- * **2**: Hair\
- * **3**: Torso\
- * **4**: Leg\
- * **5**: Parachute / bag\
- * **6**: Shoes\
- * **7**: Accessory\
- * **8**: Undershirt\
- * **9**: Kevlar\
- * **10**: Badge\
+ * **0**: Face
+ * **1**: Mask
+ * **2**: Hair
+ * **3**: Torso
+ * **4**: Leg
+ * **5**: Parachute / bag
+ * **6**: Shoes
+ * **7**: Accessory
+ * **8**: Undershirt
+ * **9**: Kevlar
+ * **10**: Badge
  * **11**: Torso 2
+ * List of Component IDs
  * 
- * ### Related and useful natives
- * 
- * [GET_NUMBER_OF_PED_DRAWABLE_VARIATIONS](#\_0x27561561732A7842)\
- * [GET_NUMBER_OF_PED_TEXTURE_VARIATIONS](#\_0x8F7156A3142A6BAD)
- * [List of component/props ID](gtaxscripting.blogspot.com/2016/04/gta-v-peds-component-and-props.html) of player_two with examples
+ * ```cpp
+ * // Components
+ * enum ePedVarComp
+ * {
+ * PV_COMP_INVALID = 0xFFFFFFFF,
+ * PV_COMP_HEAD = 0, // "HEAD"
+ * PV_COMP_BERD = 1, // "BEARD"
+ * PV_COMP_HAIR = 2, // "HAIR"
+ * PV_COMP_UPPR = 3, // "UPPER"
+ * PV_COMP_LOWR = 4, // "LOWER"
+ * PV_COMP_HAND = 5, // "HAND"
+ * PV_COMP_FEET = 6, // "FEET"
+ * PV_COMP_TEEF = 7, // "TEETH"
+ * PV_COMP_ACCS = 8, // "ACCESSORIES"
+ * PV_COMP_TASK = 9, // "TASK"
+ * PV_COMP_DECL = 10, // "DECL"
+ * PV_COMP_JBIB = 11, // "JBIB"
+ * PV_COMP_MAX = 12,
+ * };
+ * ```
  * 
  * **This is the server-side RPC native equivalent of the client native [SET_PED_COMPONENT_VARIATION](?\_0x262B14F48D29DE80).**
  * @param ped
@@ -2415,6 +2571,8 @@ export function setPedHeadOverlayColor(ped: number, overlayID: number, colorType
 
 
 /**
+ * SET_PED_INTO_VEHICLE
+ * 
  * **This is the server-side RPC native equivalent of the client native [SET_PED_INTO_VEHICLE](?\_0xF75B0D629E1C063D).**
  * @param ped
  * @param vehicle
@@ -2430,17 +2588,33 @@ export function setPedIntoVehicle(ped: number, vehicle: number, seatIndex: numbe
  * 
  * ### MP Freemode list of props
  * 
- * **0**: Hat\
- * **1**: Glass\
- * **2**: Ear\
- * **6**: Watch\
- * **7**: Bracelet
+ * **0**: Hats
+ * **1**: Glasses
+ * **2**: Ears
+ * **6**: Watches
+ * **7**: Bracelets
+ * List of Prop IDs
  * 
- * ### Related and useful natives
- * 
- * [GET_NUMBER_OF_PED_PROP_DRAWABLE_VARIATIONS](#\_0x5FAF9754E789FB47)\
- * [GET_NUMBER_OF_PED_PROP_TEXTURE_VARIATIONS](#\_0xA6E7F1CEB523E171)
- * [List of component/props ID](https://gtaxscripting.blogspot.com/2016/04/gta-v-peds-component-and-props.html) of player_two with examples
+ * ```cpp
+ * // Props
+ * enum eAnchorPoints
+ * {
+ * ANCHOR_HEAD = 0, // "p_head"
+ * ANCHOR_EYES = 1, // "p_eyes"
+ * ANCHOR_EARS = 2, // "p_ears"
+ * ANCHOR_MOUTH = 3, // "p_mouth"
+ * ANCHOR_LEFT_HAND = 4, // "p_lhand"
+ * ANCHOR_RIGHT_HAND = 5, // "p_rhand"
+ * ANCHOR_LEFT_WRIST = 6, // "p_lwrist"
+ * ANCHOR_RIGHT_WRIST = 7, // "p_rwrist"
+ * ANCHOR_HIP = 8, // "p_lhip"
+ * ANCHOR_LEFT_FOOT = 9, // "p_lfoot"
+ * ANCHOR_RIGHT_FOOT = 10, // "p_rfoot"
+ * ANCHOR_PH_L_HAND = 11, // "ph_lhand"
+ * ANCHOR_PH_R_HAND = 12, // "ph_rhand"
+ * NUM_ANCHORS = 13,
+ * };
+ * ```
  * 
  * **This is the server-side RPC native equivalent of the client native [SET_PED_PROP_INDEX](?\_0x93376B65A266EB5F).**
  * @param ped
@@ -2456,8 +2630,6 @@ export function setPedPropIndex(ped: number, componentId: number, drawableId: nu
 
 /**
  * p1 is always 0 in R\* scripts; and a quick disassembly seems to indicate that p1 is unused.
- * List of component/props ID:
- * gtaxscripting.blogspot.com/2016/04/gta-v-peds-component-and-props.html
  * 
  * **This is the server-side RPC native equivalent of the client native [SET_PED_RANDOM_COMPONENT_VARIATION](?\_0xC8A9481A01E63C28).**
  * @param ped
@@ -2469,8 +2641,7 @@ export function setPedRandomComponentVariation(ped: number, p1: number): void {
 
 
 /**
- * List of component/props ID
- * gtaxscripting.blogspot.com/2016/04/gta-v-peds-component-and-props.html
+ * SET_PED_RANDOM_PROPS
  * 
  * **This is the server-side RPC native equivalent of the client native [SET_PED_RANDOM_PROPS](?\_0xC44AA05345C992C6).**
  * @param ped
@@ -2576,6 +2747,8 @@ export function setPlayerControl(player: number, bHasControl: boolean, flags: nu
 /**
  * Sets the culling radius for the specified player.
  * Set to `0.0` to reset.
+ * 
+ * **WARNING**: Culling natives are deprecated and have known, [unfixable issues](https://forum.cfx.re/t/issue-with-culling-radius-and-server-side-entities/4900677/4)
  * @param playerSrc
  * @param radius
  */
@@ -2697,6 +2870,8 @@ export function setRoutingBucketPopulationEnabled(bucketId: number, mode: boolea
 
 
 /**
+ * SET_VEHICLE_ALARM
+ * 
  * **This is the server-side RPC native equivalent of the client native [SET_VEHICLE_ALARM](?\_0xCDE5E70C1DDB954C).**
  * @param vehicle
  * @param state
@@ -2822,6 +2997,8 @@ export function setVehicleDoorsLocked(vehicle: number, doorLockStatus: number): 
 
 
 /**
+ * SET_VEHICLE_NUMBER_PLATE_TEXT
+ * 
  * **This is the server-side RPC native equivalent of the client native [SET_VEHICLE_NUMBER_PLATE_TEXT](?\_0x95A88F0B409CDA47).**
  * @param vehicle
  * @param plateText
@@ -2902,6 +3079,8 @@ export function taskEnterVehicle(ped: number, vehicle: number, timeout: number, 
 
 
 /**
+ * TASK_EVERYONE_LEAVE_VEHICLE
+ * 
  * **This is the server-side RPC native equivalent of the client native [TASK_EVERYONE_LEAVE_VEHICLE](?\_0x7F93691AB4B92272).**
  * @param vehicle
  */
@@ -2911,6 +3090,8 @@ export function taskEveryoneLeaveVehicle(vehicle: number): void {
 
 
 /**
+ * TASK_GO_STRAIGHT_TO_COORD
+ * 
  * **This is the server-side RPC native equivalent of the client native [TASK_GO_STRAIGHT_TO_COORD](?\_0xD76B57B44F1E6F8B).**
  * @param ped
  * @param x
@@ -3114,6 +3295,8 @@ export function taskPlayAnimAdvanced(ped: number, animDict: string, animName: st
 
 
 /**
+ * TASK_REACT_AND_FLEE_PED
+ * 
  * **This is the server-side RPC native equivalent of the client native [TASK_REACT_AND_FLEE_PED](?\_0x72C896464915D1B1).**
  * @param ped
  * @param fleeTarget
@@ -3161,6 +3344,8 @@ export function taskShootAtEntity(entity: number, target: number, duration: numb
 
 
 /**
+ * TASK_WARP_PED_INTO_VEHICLE
+ * 
  * **This is the server-side RPC native equivalent of the client native [TASK_WARP_PED_INTO_VEHICLE](?\_0x9A7D091411C5F684).**
  * @param ped
  * @param vehicle

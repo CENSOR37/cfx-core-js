@@ -214,6 +214,7 @@ export function getEntityFromStateBagName(bagName: string): number {
  * *   2612
  * *   2699
  * *   2802
+ * *   2944
  * *   RedM
  * *   1311
  * *   1355
@@ -426,6 +427,15 @@ export function isAceAllowed(object: string): boolean {
  */
 export function isDuplicityVersion(): boolean { 
 	return _in(0x00000000, 0xcf24c52e, _r); 
+}
+
+
+/**
+ * A getter for [FREEZE_ENTITY_POSITION](#\_0x428CA6DBD1094446).
+ * @param entity
+ */
+export function isEntityPositionFrozen(entity: number): boolean { 
+	return _in(0x00000000, 0xedbe6add, entity, _r); 
 }
 
 
