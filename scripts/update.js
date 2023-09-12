@@ -106,7 +106,7 @@ async function downloadCFXNatives() {
     if (!fs.existsSync("./bin")) {
         fs.mkdirSync("./bin");
     }
-    fs.writeFile(`./bin/natives.json`, jsonData, (err) => {
+    fs.writeFile(`./bin/cfx-natives.json`, jsonData, (err) => {
         if (err) {
             console.error(err);
             return;

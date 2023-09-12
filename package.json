@@ -7,8 +7,8 @@
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -w",
-		"update": "node ./scripts/update.js",
-		"gen": "node ./scripts/generate.js"
+		"update": "node ./scripts/update.js && node ./scripts/native-update.js",
+		"gen": "node ./scripts/native-gen-cfx.js && node ./scripts/native-gen-gta.js"
 	},
 	"keywords": [
 		"fivem",
@@ -29,6 +29,9 @@
 	},
 	"exports": {
 		"./client": "./dist/client/index.js",
-		"./server": "./dist/server/index.js"
+		"./server": "./dist/server/index.js",
+        "./shared": "./dist/shared/index.js",
+		"./natives": "./dist/natives/index.js",
+        "./script": "./scripts/index.js"
 	}
 }
