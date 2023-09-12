@@ -1,0 +1,34 @@
+{
+	"name": "@censor/cfx",
+	"main": "dist/index.js",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"version": "1.1.5",
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc -w",
+		"update": "node ./scripts/update.js",
+		"gen": "node ./scripts/generate.js"
+	},
+	"keywords": [
+		"fivem",
+		"cfx",
+		"cfx.re"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/CENSOR1337/cfx-server"
+	},
+	"author": "CENSOR_1337",
+	"license": "MIT",
+	"devDependencies": {
+		"@citizenfx/client": "latest",
+		"@citizenfx/server": "latest",
+		"@types/node": "^20.5.9",
+		"typescript": "^5.2.2"
+	},
+	"exports": {
+		"./client": "./dist/client/index.js",
+		"./server": "./dist/server/index.js"
+	}
+}
