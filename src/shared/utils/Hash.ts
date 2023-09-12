@@ -1,3 +1,12 @@
+function modulo(a: number, b: number) {
+	return a - Math.floor(a / b) * b;
+}
+
+function ToInteger(x: number) {
+	x = Number(x);
+	return x < 0 ? Math.ceil(x) : Math.floor(x);
+}
+
 export function joaat(string: string) {
 	const k = string.toLowerCase();
 	let h, i;
@@ -12,5 +21,12 @@ export function joaat(string: string) {
 	h ^= h >>> 11;
 	h += h << 15;
 
-	return h >>> 0;
+	const uintHash = h >>> 0;
+
+	let int32 = modulo(ToInteger(uintHash), Math.pow(2, 32));
+
+    if (int32 >= Math.pow(2, 31)) {
+        int32 -= Math.pow(2, 32);
+    }
+    return int32;
 }
