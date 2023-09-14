@@ -82,7 +82,7 @@ function _mfr(fn: any) {
 }
 
 function _mv(vector: any): Vector3 {
-	return Vector3.fromArray(vector);
+	return new Vector3(vector);
 }
 `;
 
