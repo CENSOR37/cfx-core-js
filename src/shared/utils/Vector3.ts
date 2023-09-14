@@ -93,7 +93,7 @@ export class Vector3 implements IVector3 {
 	}
 
 	public toString(): string {
-		return `(${this.x}, ${this.y}, ${this.z})`;
+		return `Vector3{ x: ${this.x.toFixed(4)}, y: ${this.y.toFixed(4)}, z: ${this.z.toFixed(4)} }`;
 	}
 
 	public add(x: number, y: number, z: number): Vector3;
