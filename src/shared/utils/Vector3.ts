@@ -1,20 +1,12 @@
 // This Vector3 class is based on Alt:V
 // https://github.com/altmp/altv-js-module/blob/dev/shared/bindings/Vector3.js
 
+import { assert, assertType, assertNotNaN } from "./Assert";
+
 export interface IVector3 {
 	readonly x: number;
 	readonly y: number;
 	readonly z: number;
-}
-
-function assert(condition: any, msg?: string): asserts condition {
-	if (!condition) {
-		throw new Error(msg);
-	}
-}
-
-function typeCheck(obj: any, types: string[]): boolean {
-	return types.some((type) => typeof obj === type);
 }
 
 function getXYZFromArgs(args: any[]) {
@@ -29,7 +21,9 @@ function getXYZFromArgs(args: any[]) {
 		y = parseFloat(args[1]);
 		z = parseFloat(args[2]);
 
-		assert(!isNaN(x) && !isNaN(y) && !isNaN(z), "All arguments must be numbers");
+		assertNotNaN(x, "All arguments must be numbers");
+		assertNotNaN(y, "All arguments must be numbers");
+		assertNotNaN(z, "All arguments must be numbers");
 	} else {
 		const firstArgType = typeof firstArg;
 		if (firstArgType === "number" || firstArgType === "string") {
@@ -39,9 +33,9 @@ function getXYZFromArgs(args: any[]) {
 			y = number;
 			z = number;
 		} else if (Array.isArray(firstArg)) {
-			assert(typeCheck(firstArg[0], ["number", "string"]), "Expected an array of numbers of first argument");
-			assert(typeCheck(firstArg[1], ["number", "string"]), "Expected an array of numbers of second argument");
-			assert(typeCheck(firstArg[2], ["number", "string"]), "Expected an array of numbers of third argument");
+			assertType(firstArg[0], ["number", "string"], "Expected an array of 3 numbers");
+			assertType(firstArg[1], ["number", "string"], "Expected an array of 3 numbers");
+			assertType(firstArg[2], ["number", "string"], "Expected an array of 3 numbers");
 
 			x = parseFloat(firstArg[0]);
 			y = parseFloat(firstArg[1]);
@@ -49,15 +43,17 @@ function getXYZFromArgs(args: any[]) {
 
 			assert(!isNaN(x) && !isNaN(y) && !isNaN(z), "All arguments must be numbers");
 		} else if (firstArg && typeof firstArg === "object") {
-			assert(typeCheck(firstArg.x, ["number", "string"]), "Expected an object with x property");
-			assert(typeCheck(firstArg.y, ["number", "string"]), "Expected an object with y property");
-			assert(typeCheck(firstArg.z, ["number", "string"]), "Expected an object with z property");
+			assertType(firstArg.x, ["number", "string"], "Expected an object with x property");
+			assertType(firstArg.y, ["number", "string"], "Expected an object with y property");
+			assertType(firstArg.z, ["number", "string"], "Expected an object with z property");
 
 			x = parseFloat(firstArg.x);
 			y = parseFloat(firstArg.y);
 			z = parseFloat(firstArg.z);
 
-			assert(!isNaN(x) && !isNaN(y) && !isNaN(z), "All arguments must be numbers");
+			assertNotNaN(x, "All arguments must be numbers");
+			assertNotNaN(y, "All arguments must be numbers");
+			assertNotNaN(z, "All arguments must be numbers");
 		} else {
 			throw new Error("Argument must be a number, an array of 3 numbers or IVector3");
 		}
