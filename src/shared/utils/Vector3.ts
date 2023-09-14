@@ -168,10 +168,10 @@ export class Vector3 implements IVector3 {
 	}
 
 	public distanceToSquared(vector: IVector3): number {
-		assert(vector !== undefined, "Expected Vector3 as first argument");
-		assert(vector.x !== undefined, "Expected Vector3 as first argument");
-		assert(vector.y !== undefined, "Expected Vector3 as first argument");
-		assert(vector.z !== undefined, "Expected Vector3 as first argument");
+		assert(vector !== undefined, "Expected Vector3");
+		assert(vector.x !== undefined, "Expected Vector3");
+		assert(vector.y !== undefined, "Expected Vector3");
+		assert(vector.z !== undefined, "Expected Vector3");
 		const x = this.x - vector.x;
 		const y = this.y - vector.y;
 		const z = this.z - vector.z;
@@ -179,10 +179,10 @@ export class Vector3 implements IVector3 {
 	}
 
 	public angleTo(vector: IVector3): number {
-		assert(vector !== undefined, "Expected Vector3 as first argument");
-		assert(vector.x !== undefined, "Expected Vector3 as first argument");
-		assert(vector.y !== undefined, "Expected Vector3 as first argument");
-		assert(vector.z !== undefined, "Expected Vector3 as first argument");
+		assert(vector !== undefined, "Expected Vector3");
+		assert(vector.x !== undefined, "Expected Vector3");
+		assert(vector.y !== undefined, "Expected Vector3");
+		assert(vector.z !== undefined, "Expected Vector3");
 		const posALength = Math.hypot(this.x, this.y, this.z);
 		const posBLength = Math.hypot(vector.x, vector.y, vector.z);
 		if (posALength === 0 || posBLength === 0) throw new Error("Cannot calculate angle between zero length vectors");
