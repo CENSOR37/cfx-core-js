@@ -7,13 +7,6 @@ export interface IVector3 {
 	readonly z: number;
 }
 
-enum Vector3MedthodType {
-	NUMBERS,
-	ARRAY,
-	OBJECT,
-	VALUE,
-}
-
 function assert(condition: any, msg?: string): asserts condition {
 	if (!condition) {
 		throw new Error(msg);
