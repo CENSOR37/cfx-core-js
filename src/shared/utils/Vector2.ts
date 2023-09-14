@@ -1,4 +1,4 @@
-// This Vector3 class is based on Alt:V
+// This Vector2 class is based on Alt:V
 // https://github.com/altmp/altv-js-module/blob/dev/shared/bindings/Vector2.js
 
 import { assert, assertType, assertNotNaN } from "./Assert";
