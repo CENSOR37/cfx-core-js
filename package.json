@@ -1,12 +1,15 @@
 {
 	"name": "@censor1337/cfx-core",
-    "version": "0.0.1",
+    "version": "0.0.3",
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -w",
 		"update": "node ./scripts/update.js && node ./scripts/native-update.js",
 		"gen": "node ./scripts/native-gen-cfx.js && node ./scripts/native-gen-gta.js"
 	},
+    "files": [
+        "/dist"
+    ],
 	"keywords": [
 		"fivem",
 		"cfx",
