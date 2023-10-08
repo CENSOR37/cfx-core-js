@@ -24,7 +24,7 @@
 	"devDependencies": {
 		"@citizenfx/client": "latest",
 		"@citizenfx/server": "latest",
-		"@types/node": "^20.5.9",
+		"@types/node": "^20.8.3",
 		"typescript": "^5.2.2"
 	},
 	"exports": {
