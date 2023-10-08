@@ -2,8 +2,9 @@
 // https://github.com/altmp/altv-js-module/blob/dev/shared/bindings/Vector3.js
 
 import { assert, assertType, assertNotNaN } from "./Assert";
+import { IVector2 } from "./Vector2";
 
-export interface IVector3 {
+export interface IVector3 extends IVector2 {
 	readonly x: number;
 	readonly y: number;
 	readonly z: number;
