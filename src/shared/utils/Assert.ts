@@ -7,7 +7,7 @@ function assertType(obj: any, types: string[], message?: string) {
 }
 
 function assertNotNaN(number: number, message?: string) {
-    if (isNaN(number)) throw new Error(message || "Invalid number");
+	if (isNaN(number)) throw new Error(message || "Invalid number");
 }
 
 export { assert, assertType, assertNotNaN };

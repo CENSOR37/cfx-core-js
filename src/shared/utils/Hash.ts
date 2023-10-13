@@ -25,8 +25,8 @@ export function joaat(string: string) {
 
 	let int32 = modulo(ToInteger(uintHash), Math.pow(2, 32));
 
-    if (int32 >= Math.pow(2, 31)) {
-        int32 -= Math.pow(2, 32);
-    }
-    return int32;
+	if (int32 >= Math.pow(2, 31)) {
+		int32 -= Math.pow(2, 32);
+	}
+	return int32;
 }
