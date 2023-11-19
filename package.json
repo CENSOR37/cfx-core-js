@@ -1,15 +1,15 @@
 {
 	"name": "@censor1337/cfx-core",
-    "version": "0.1.1",
+	"version": "0.1.1",
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -w",
-		"update": "node ./scripts/update.js && node ./scripts/native-update.js",
-		"gen": "node ./scripts/native-gen-cfx.js && node ./scripts/native-gen-gta.js"
+		"update": "node ./scripts/update.js && node ./scripts/native-update.js && node ./scripts/enum.struct-update.js",
+		"gen": "node ./scripts/native-gen-cfx.js && node ./scripts/native-gen-gta.js && node ./scripts/enum.struct-generate.js"
 	},
-    "files": [
-        "/dist"
-    ],
+	"files": [
+		"/dist"
+	],
 	"keywords": [
 		"fivem",
 		"cfx",
@@ -30,8 +30,8 @@
 	"exports": {
 		"./client": "./dist/client/index.js",
 		"./server": "./dist/server/index.js",
-        "./shared": "./dist/shared/index.js",
+		"./shared": "./dist/shared/index.js",
 		"./natives": "./dist/natives/index.js",
-        "./script": "./scripts/index.js"
+		"./script": "./scripts/index.js"
 	}
 }
