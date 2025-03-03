@@ -6,6 +6,25 @@ import { _i, _f, _v, _r, _ri, _rf, _rl, _s, _rv, _ro, _in, _ii, _fi, _ch, _obj, 
 
 
 /**
+ * Adds a listener for Console Variable changes.
+ * 
+ * The function called expects to match the following signature:
+ * 
+ * ```ts
+ * function ConVarChangeListener(conVarName: string, reserved: any);
+ * ```
+ * 
+ * *   **conVarName**: The ConVar that changed.
+ * *   **reserved**: Currently unused.
+ * @param conVarFilter
+ * @param handler
+ */
+export function addConvarChangeListener(conVarFilter: string, handler: any): number { 
+	return _in(0x00000000, 0xab7f7241, _ts(conVarFilter), _mfr(handler), _r, _ri); 
+}
+
+
+/**
  * Adds a handler for changes to a state bag.
  * 
  * The function called expects to match the following signature:
@@ -92,6 +111,26 @@ export function getConvar(varName: string, default_: string): string {
 
 
 /**
+ * Can be used to get a console variable casted back to `bool`.
+ * @param varName
+ * @param defaultValue
+ */
+export function getConvarBool(varName: string, defaultValue: boolean): boolean { 
+	return _in(0x00000000, 0x7e8ebfe5, _ts(varName), defaultValue, _r); 
+}
+
+
+/**
+ * This will have floating point inaccuracy.
+ * @param varName
+ * @param defaultValue
+ */
+export function getConvarFloat(varName: string, defaultValue: number): number { 
+	return _in(0x00000000, 0x009e666d, _ts(varName), _fv(defaultValue), _r, _rf); 
+}
+
+
+/**
  * Can be used to get a console variable casted back to `int` (an integer value).
  * @param varName
  * @param default_
@@ -133,6 +172,10 @@ export function getEntityFromStateBagName(bagName: string): number {
  * *   2699
  * *   2802
  * *   2944
+ * *   3095
+ * *   3258
+ * *   3323
+ * *   3407
  * *   RedM
  * *   1311
  * *   1355
@@ -162,6 +205,28 @@ export function getGameBuildNumber(): number {
  */
 export function getGameName(): string { 
 	return _in(0x00000000, 0xe8eaa18b, _r, _s); 
+}
+
+
+/**
+ * Returns a list of entity handles (script GUID) for all entities in the specified pool - the data returned is an array as
+ * follows:
+ * 
+ * ```json
+ * [ 770, 1026, 1282, 1538, 1794, 2050, 2306, 2562, 2818, 3074, 3330, 3586, 3842, 4098, 4354, 4610, ...]
+ * ```
+ * 
+ * ### Supported pools
+ * 
+ * *   `CPed`: Peds (including animals) and players.
+ * *   `CObject`: Objects (props), doors, and projectiles.
+ * *   `CNetObject`: Networked objects
+ * *   `CVehicle`: Vehicles.
+ * *   `CPickup`: Pickups.
+ * @param poolName
+ */
+export function getGamePool(poolName: string): any { 
+	return _in(0x00000000, 0x2b9d4f50, _ts(poolName), _r, _ro); 
 }
 
 
@@ -309,6 +374,11 @@ export function getResourceState(resourceName: string): string {
 }
 
 
+export function getStateBagKeys(bagName: string): any { 
+	return _in(0x00000000, 0x78d864c7, _ts(bagName), _r, _ro); 
+}
+
+
 /**
  * Returns the value of a state bag key.
  * @param bagName
@@ -329,9 +399,25 @@ export function getVehicleSteeringAngle(vehicle: number): number {
 }
 
 
-export function invokeFunctionReference(referenceIdentity: string, argsSerialized: string, argsLength: number, retvalLength: number): [string, number] { 
-	const [retval, retvalLength_out] = _in(0x00000000, 0xe3551879, _ts(referenceIdentity), _ts(argsSerialized), argsLength, _ii(retvalLength), _r, _s);
-	return [retval as string, retvalLength_out as number]; 
+/**
+ * Returns the type of the passed vehicle.
+ * 
+ * For client scripts, reference the more detailed [GET_VEHICLE_TYPE_RAW](#\_0xDE73BC10) native.
+ * 
+ * ### Vehicle types
+ * 
+ * *   automobile
+ * *   bike
+ * *   boat
+ * *   heli
+ * *   plane
+ * *   submarine
+ * *   trailer
+ * *   train
+ * @param vehicle
+ */
+export function getVehicleType(vehicle: number): string { 
+	return _in(0x00000000, 0xa273060e, vehicle, _r, _s); 
 }
 
 
@@ -441,6 +527,11 @@ export function registerResourceAsEventHandler(eventName: string): void {
 }
 
 
+export function removeConvarChangeListener(cookie: number): void { 
+	return _in(0x00000000, 0xeac49841, cookie); 
+}
+
+
 /**
  * **Experimental**: This native may be altered or removed in future versions of CitizenFX without warning.
  * 
@@ -497,6 +588,11 @@ export function setStateBagValue(bagName: string, keyName: string, valueData: st
 
 export function startFindKvp(prefix: string): number { 
 	return _in(0x00000000, 0xdd379006, _ts(prefix), _r, _ri); 
+}
+
+
+export function stateBagHasKey(bagName: string, key: string): boolean { 
+	return _in(0x00000000, 0x0012a330, _ts(bagName), _ts(key), _r); 
 }
 
 

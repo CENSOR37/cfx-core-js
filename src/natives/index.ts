@@ -47,6 +47,10 @@ export function activateAudioSlowmoMode(mode: string): void {
 	return _in(0xd01005d2, 0xba2eb778, _ts(mode)); 
 }
 
+export function activateCamWithInterpAndFovCurve(camTo: number, camFrom: number, duration: number, easeLocation: number, easeRotation: number, easeFov: number): void { 
+	return _in(0x34cfc4c2, 0xa38e83e3, camTo, camFrom, duration, easeLocation, easeRotation, easeFov); 
+}
+
 export function activateDamageTrackerOnNetworkId(netID: number, toggle: boolean): void { 
 	return _in(0xd45b1ffc, 0xcd52ff19, netID, toggle); 
 }
@@ -465,9 +469,10 @@ export function addDispatchSpawnSphereBlockingArea(x1: number, y1: number, x2: n
  * @param p5
  * @param scriptDoor
  * @param isLocal
+ * @param p8
  */
-export function addDoorToSystem(doorHash: number, modelHash: number, x: number, y: number, z: number, p5: boolean, scriptDoor: boolean, isLocal: boolean): void { 
-	return _in(0x6f8838d0, 0x3d1dc226, _ch(doorHash), _ch(modelHash), _fv(x), _fv(y), _fv(z), p5, scriptDoor, isLocal); 
+export function addDoorToSystem(doorHash: number, modelHash: number, x: number, y: number, z: number, p5: boolean, scriptDoor: boolean, isLocal: boolean, p8: number): void { 
+	return _in(0x6f8838d0, 0x3d1dc226, _ch(doorHash), _ch(modelHash), _fv(x), _fv(y), _fv(z), p5, scriptDoor, isLocal, p8); 
 }
 
 /**
@@ -862,8 +867,8 @@ export function addRope(x: number, y: number, z: number, rotX: number, rotY: num
 	return [retval as number, unkPtr_out as number]; 
 }
 
-export function addScenarioBlockingArea(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number, p6: boolean, p7: boolean, p8: boolean, p9: boolean): number { 
-	return _in(0x1b5c85c6, 0x12e5256e, _fv(x1), _fv(y1), _fv(z1), _fv(x2), _fv(y2), _fv(z2), p6, p7, p8, p9, _r, _ri); 
+export function addScenarioBlockingArea(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number, p6: boolean, p7: boolean, p8: boolean, p9: boolean, p10: number): number { 
+	return _in(0x1b5c85c6, 0x12e5256e, _fv(x1), _fv(y1), _fv(z1), _fv(x2), _fv(y2), _fv(z2), p6, p7, p8, p9, p10, _r, _ri); 
 }
 
 /**
@@ -1400,9 +1405,14 @@ export function appSetString(property: string, value: string): void {
  * @param damageAmount
  * @param p2
  * @param p3
+ * @param weaponType
  */
-export function applyDamageToPed(ped: number, damageAmount: number, p2: boolean, p3: number): void { 
-	return _in(0x697157ce, 0xd63f18d4, ped, damageAmount, p2, p3); 
+export function applyDamageToPed(ped: number, damageAmount: number, p2: boolean, p3: number, weaponType: number): void { 
+	return _in(0x697157ce, 0xd63f18d4, ped, damageAmount, p2, p3, _ch(weaponType)); 
+}
+
+export function applyEmpEffect(vehicle: number): void { 
+	return _in(0x249249d7, 0x4f813eb2, vehicle); 
 }
 
 /**
@@ -3187,6 +3197,10 @@ export function clearLastDrivenVehicle(): void {
 	return _in(0xe01903c4, 0x7c7ac89e); 
 }
 
+export function clearNitrous(vehicle: number): void { 
+	return _in(0xc889ae92, 0x1400e1ed, vehicle); 
+}
+
 export function clearObjectsInsideGarage(garageHash: number, vehicles: boolean, peds: boolean, objects: boolean, isNetwork: boolean): void { 
 	return _in(0x19042851, 0x2b240692, _ch(garageHash), vehicles, peds, objects, isNetwork); 
 }
@@ -3288,6 +3302,10 @@ export function clearPedParachutePackVariation(ped: number): void {
  */
 export function clearPedProp(ped: number, propId: number, p2: number): void { 
 	return _in(0x0943e5b8, 0xe078e76e, ped, propId, p2); 
+}
+
+export function clearPedScriptTaskIfRunningThreatResponseNonTempTask(ped: number): void { 
+	return _in(0xf6dc48e5, 0x6be1243a, ped); 
 }
 
 /**
@@ -4176,9 +4194,10 @@ export function createObject(modelHash: number, x: number, y: number, z: number,
  * @param isNetwork
  * @param bScriptHostObj
  * @param dynamic
+ * @param p7
  */
-export function createObjectNoOffset(modelHash: number, x: number, y: number, z: number, isNetwork: boolean, bScriptHostObj: boolean, dynamic: boolean): number { 
-	return _in(0x9a294b21, 0x38abb884, _ch(modelHash), _fv(x), _fv(y), _fv(z), isNetwork, bScriptHostObj, dynamic, _r, _ri); 
+export function createObjectNoOffset(modelHash: number, x: number, y: number, z: number, isNetwork: boolean, bScriptHostObj: boolean, dynamic: boolean, p7: number): number { 
+	return _in(0x9a294b21, 0x38abb884, _ch(modelHash), _fv(x), _fv(y), _fv(z), isNetwork, bScriptHostObj, dynamic, p7, _r, _ri); 
 }
 
 export function createParachuteBagObject(ped: number, p1: boolean, p2: boolean): number { 
@@ -5896,6 +5915,10 @@ export function doorSystemGetIsPhysicsLoaded(p0: number): boolean {
 	return _in(0xdf97cdd4, 0xfc08fd34, p0, _r); 
 }
 
+export function doorSystemGetIsSpringRemoved(doorHash: number): boolean { 
+	return _in(0x8562fd8a, 0xb1e94d39, _ch(doorHash), _r); 
+}
+
 export function doorSystemGetOpenRatio(doorHash: number): number { 
 	return _in(0x65499865, 0xfca6e5ec, _ch(doorHash), _r, _rf); 
 }
@@ -6710,6 +6733,10 @@ export function enableDispatchService(dispatchService: number, toggle: boolean):
 	return _in(0xdc0f8178, 0x84cdd856, dispatchService, toggle); 
 }
 
+export function enableDragRaceStationaryWarningSounds(vehicle: number, enable: boolean): void { 
+	return _in(0xbefb8029, 0x0414fd4f, vehicle, enable); 
+}
+
 export function enableEntityBulletCollision(entity: number): void { 
 	return _in(0x6ce177d0, 0x14502e8a, entity); 
 }
@@ -6722,6 +6749,10 @@ export function enableEntityBulletCollision(entity: number): void {
  */
 export function enableExteriorCullModelThisFrame(mapObjectHash: number): void { 
 	return _in(0xa97f257d, 0x0151a6ab, _ch(mapObjectHash)); 
+}
+
+export function enableIndividualPlanePropeller(vehicle: number, propeller: number): void { 
+	return _in(0xdc05d277, 0x7f855f44, vehicle, propeller); 
 }
 
 /**
@@ -7525,6 +7556,10 @@ export function forceAllHeadingValuesToAlign(ped: number): void {
 	return _in(0xff287323, 0xb0e2c69a, ped); 
 }
 
+export function forceAllowSnowFootVfxOnIce(toggle: boolean): void { 
+	return _in(0xa342a376, 0x3b3afb6c, toggle); 
+}
+
 export function forceAllowTimeBasedFadingThisFrame(): void { 
 	return _in(0x03f1a106, 0xbda7dd3e); 
 }
@@ -7609,6 +7644,10 @@ export function forceExposureReadback(toggle: boolean): void {
  */
 export function forceGameStatePlaying(): void { 
 	return _in(0xc0aa53f8, 0x66b3134d); 
+}
+
+export function forceGroundSnowPass(toggle: boolean): void { 
+	return _in(0x6e9ef3a3, 0x3c8899f8, toggle); 
 }
 
 export function forceInstantLegIkSetup(ped: number): void { 
@@ -7793,6 +7832,15 @@ export function forceVehicleCamStuntSettingsThisUpdate(): void {
 	return _in(0x0aa27680, 0xa0bd43fa); 
 }
 
+/**
+ * Called together with SET_VEHICLE_TYRES_CAN_BURST
+ * @param vehicle
+ * @param force
+ */
+export function forceVehicleEngineSynth(vehicle: number, force: boolean): void { 
+	return _in(0xeb7d0e1f, 0xcc8fe17a, vehicle, force); 
+}
+
 export function forceZeroMassInCollisions(ped: number): void { 
 	return _in(0xd33daa36, 0x272177c4, ped); 
 }
@@ -7828,6 +7876,10 @@ export function freezeMicrophone(): void {
 
 export function freezeRadioStation(radioStation: string): void { 
 	return _in(0x344f393b, 0x027e38c3, _ts(radioStation)); 
+}
+
+export function fullyChargeNitrous(vehicle: number): void { 
+	return _in(0x1a2bcc8c, 0x636f9226, vehicle); 
 }
 
 /**
@@ -7949,6 +8001,11 @@ export function getAmmoInClip(ped: number, weaponHash: number, ammo: number): [b
  */
 export function getAmmoInPedWeapon(ped: number, weaponhash: number): number { 
 	return _in(0x015a5221, 0x36d7f951, ped, _ch(weaponhash), _r, _ri); 
+}
+
+export function getAmmoInVehicleWeaponClip(vehicle: number, seat: number, ammo: number): [boolean, number] { 
+	const [retval, ammo_out] = _in(0x2857938c, 0x5d407afa, vehicle, seat, _ii(ammo), _r);
+	return [retval as boolean, ammo_out as number]; 
 }
 
 export function getAngleBetween2dVectors(x1: number, y1: number, x2: number, y2: number): number { 
@@ -8791,6 +8848,14 @@ export function getContentIdIndex(contentId: number): number {
 }
 
 /**
+ * Returns prop type for given model hash
+ * @param model
+ */
+export function getContentPropType(model: number): number { 
+	return _in(0x8baf8ad5, 0x9f47aafc, _ch(model), _r, _ri); 
+}
+
+/**
  * Returns pointer to an empty string.
  */
 export function getContentToLoad(): string { 
@@ -9005,6 +9070,10 @@ export function getCurrentTvClipNamehash(): number {
 	return _in(0x30432a01, 0x18736e00, _r, _ri); 
 }
 
+export function getCurrentTvShowPlayTime(): number { 
+	return _in(0xdd3aa743, 0xab7d4d75, _r, _ri); 
+}
+
 export function getCurrentWebpageId(): number { 
 	return _in(0x01a358d9, 0x128b7a86, _r, _ri); 
 }
@@ -9033,6 +9102,10 @@ export function getCutscenePlayDuration(): number {
 	return _in(0x5d583f71, 0xc901f2a3, _r, _ri); 
 }
 
+export function getCutscenePlayTime(): number { 
+	return _in(0x710286bc, 0x5ef4d6e1, _r, _ri); 
+}
+
 export function getCutsceneSectionPlaying(): number { 
 	return _in(0x49010a6a, 0x396553d8, _r, _ri); 
 }
@@ -9043,6 +9116,10 @@ export function getCutsceneTime(): number {
 
 export function getCutsceneTotalDuration(): number { 
 	return _in(0xee53b14a, 0x19e480d4, _r, _ri); 
+}
+
+export function getDamping(entity: number, type: number): Vector3 { 
+	return _mv(_in(0x8c520a92, 0x9415bcd2, entity, type, _r, _rv)); 
 }
 
 export function getDeadPedPickupCoords(ped: number, p1: number, p2: number): Vector3 { 
@@ -10445,6 +10522,10 @@ export function getIsUsingHoodCamera(): boolean {
  */
 export function getIsVehicleDisabledByEmp(vehicle: number): boolean { 
 	return _in(0x0506ed94, 0x363ad905, vehicle, _r); 
+}
+
+export function getIsVehicleElectric(vehicleModel: number): boolean { 
+	return _in(0x1fcb07fe, 0x230b6639, _ch(vehicleModel), _r); 
 }
 
 /**
@@ -12963,6 +13044,10 @@ export function getRelationshipBetweenPeds(ped1: number, ped2: number): number {
 	return _in(0xeba5ad3a, 0x0eaf7121, ped1, ped2, _r, _ri); 
 }
 
+export function getRemainingNitrousDuration(vehicle: number): number { 
+	return _in(0xbec4b865, 0x3462450e, vehicle, _r, _rf); 
+}
+
 /**
  * This gets the height of the FONT and not the total text. You need to get the number of lines your text uses, and get the height of a newline (I'm using a smaller value) to get the total text height.
  * @param size
@@ -13669,12 +13754,24 @@ export function getTextureResolution(textureDict: string, textureName: string): 
 	return _mv(_in(0x35736ee6, 0x5bd00c11, _ts(textureDict), _ts(textureName), _r, _rv)); 
 }
 
+export function getThirdPersonCamMaxOrbitDistanceSpring(): number { 
+	return _in(0xd4592a16, 0xd36673ed, _r, _rf); 
+}
+
+export function getThirdPersonCamMinOrbitDistanceSpring(): number { 
+	return _in(0xbc456fb7, 0x03431785, _r, _rf); 
+}
+
 export function getThisScriptName(): string { 
 	return _in(0x442e0a7e, 0xde4a738a, _r, _s); 
 }
 
 export function getTimeAsString(time: number): string { 
 	return _in(0x9e23b177, 0x7a927dad, time, _r, _s); 
+}
+
+export function getTimeBeforeVehicleWeaponReloadFinishes(vehicle: number, seat: number): number { 
+	return _in(0xc8c6f4b1, 0xcdeb40ef, vehicle, seat, _r, _ri); 
 }
 
 /**
@@ -14072,6 +14169,14 @@ export function getVehicleCrewEmblemRequestState(vehicle: number, p1: number): n
 	return _in(0xfe26117a, 0x5841b2ff, vehicle, p1, _r, _ri); 
 }
 
+export function getVehicleCurrentDriveGear(vehicle: number): number { 
+	return _in(0x56185a25, 0xd45a0dcd, vehicle, _r, _ri); 
+}
+
+export function getVehicleCurrentRevRatio(vehicle: number): number { 
+	return _in(0xf9dda40b, 0xc293a61e, vehicle, _r, _rf); 
+}
+
 /**
  * Returns a float value between 0.0 and 3.0 related to its slipstream draft (boost/speedup).
  * @param vehicle
@@ -14122,6 +14227,10 @@ export function getVehicleDeformationAtPos(vehicle: number, offsetX: number, off
 	return _mv(_in(0x4ec6cfbc, 0x7b2e9536, vehicle, _fv(offsetX), _fv(offsetY), _fv(offsetZ), _r, _rv)); 
 }
 
+export function getVehicleDesiredDriveGear(vehicle: number): number { 
+	return _in(0xfd8ce533, 0x56b5d745, vehicle, _r, _ri); 
+}
+
 /**
  * Dirt level does not become greater than 15.0
  * @param vehicle
@@ -14161,6 +14270,24 @@ export function getVehicleDoorsLockedForPlayer(vehicle: number, player: number):
 }
 
 /**
+ * Returns the vehicle's drivetrain type.
+ * 
+ * enum eVehicleDrivetrainType
+ * {
+ * VehicleDrivetrainType_INVALID,
+ * VehicleDrivetrainType_FWD,
+ * VehicleDrivetrainType_RWD,
+ * VehicleDrivetrainType_AWD
+ * };
+ * 
+ * _GET_VEHICLE_DE* - _GET_VEHICLE_DI*
+ * @param vehicleModel
+ */
+export function getVehicleDrivetrainType(vehicleModel: number): number { 
+	return _in(0x14237250, 0x69ee1d14, _ch(vehicleModel), _r, _ri); 
+}
+
+/**
  * Returns 1000.0 if the function is unable to get the address of the specified vehicle or if it's not a vehicle.
  * 
  * Minimum: -4000
@@ -14186,6 +14313,11 @@ export function getVehicleEnveffScale(vehicle: number): number {
 
 export function getVehicleEstimatedMaxSpeed(vehicle: number): number { 
 	return _in(0x53af99ba, 0xa671ca47, vehicle, _r, _rf); 
+}
+
+export function getVehicleExhaustBone(vehicle: number, index: number): [boolean, number, boolean] { 
+	const [retval, boneIndex_out, axisX_out] = _in(0xe728f090, 0xd538cb18, vehicle, index, _i, _i, _r);
+	return [retval as boolean, boneIndex_out as number, axisX_out as boolean]; 
 }
 
 export function getVehicleExtraColour5(vehicle: number, color: number): number { 
@@ -14352,6 +14484,14 @@ export function getVehicleMaxBraking(vehicle: number): number {
 	return _in(0xad7e85fc, 0x227197c4, vehicle, _r, _rf); 
 }
 
+export function getVehicleMaxDriveGearCount(vehicle: number): number { 
+	return _in(0x24910c3d, 0x66ba770d, vehicle, _r, _ri); 
+}
+
+export function getVehicleMaxExhaustBoneCount(): number { 
+	return _in(0x3ee18b00, 0xcd86c54f, _r, _ri); 
+}
+
 export function getVehicleMaxNumberOfPassengers(vehicle: number): number { 
 	return _in(0xa7c4f2c6, 0xe744a550, vehicle, _r, _ri); 
 }
@@ -14487,6 +14627,10 @@ export function getVehicleModelMaxBrakingMaxMods(modelHash: number): number {
  */
 export function getVehicleModelMaxTraction(modelHash: number): number { 
 	return _in(0x539de94d, 0x44fdfd0d, _ch(modelHash), _r, _rf); 
+}
+
+export function getVehicleModelNumDriveGears(vehicleModel: number): number { 
+	return _in(0x61f02e4e, 0x9a7a61ea, _ch(vehicleModel), _r, _ri); 
 }
 
 /**
@@ -14688,6 +14832,10 @@ export function getVehicleSize(vehicle: number): [Vector3, Vector3] {
 	return [_mv(out1_out), _mv(out2_out)]; 
 }
 
+export function getVehicleThrottle(vehicle: number): number { 
+	return _in(0x92d96892, 0xfc06af22, vehicle, _r, _rf); 
+}
+
 export function getVehicleTrailerParentVehicle(trailer: number): number { 
 	return _in(0x80d9d326, 0x36369c92, trailer, _r, _ri); 
 }
@@ -14717,6 +14865,10 @@ export function getVehicleWaypointProgress(vehicle: number): number {
 
 export function getVehicleWaypointTargetPoint(vehicle: number): number { 
 	return _in(0x416b62ac, 0x8b9e5bbd, vehicle, _r, _ri); 
+}
+
+export function getVehicleWeaponReloadTime(vehicle: number, seat: number): number { 
+	return _in(0xd0ad348f, 0xfd7a6868, vehicle, seat, _r, _rf); 
 }
 
 export function getVehicleWeaponRestrictedAmmo(vehicle: number, weaponIndex: number): number { 
@@ -15799,6 +15951,10 @@ export function hasPedBeenDamagedByWeapon(ped: number, weaponHash: number, weapo
 	return _in(0x2d343d22, 0x19cd027a, ped, _ch(weaponHash), weaponType, _r); 
 }
 
+export function hasPedClearLosToEntity(ped: number, entity: number, x: number, y: number, z: number, p5: number, p6: boolean, p7: boolean): boolean { 
+	return _in(0xa32abfeb, 0x2a03b306, ped, entity, _fv(x), _fv(y), _fv(z), p5, p6, p7, _r); 
+}
+
 /**
  * p2 should be FALSE, otherwise it seems to always return FALSE
  * 
@@ -15902,6 +16058,11 @@ export function hasScaleformMovieLoaded(scaleformHandle: number): boolean {
 	return _in(0x85f01b8d, 0x5b90570e, scaleformHandle, _r); 
 }
 
+export function hasScaleformMovieNamedLoaded(scaleformName: string): [boolean, number] { 
+	const [retval, scaleformHandle_out] = _in(0x9743bccf, 0x7cd6e1f6, _i, _ts(scaleformName), _r);
+	return [retval as boolean, scaleformHandle_out as number]; 
+}
+
 export function hasScaleformScriptHudMovieLoaded(hudComponent: number): boolean { 
 	return _in(0xdf6e5987, 0xd2b4d140, hudComponent, _r); 
 }
@@ -16002,6 +16163,10 @@ export function hasWeaponAssetLoaded(weaponHash: number): boolean {
  */
 export function hasWeaponGotWeaponComponent(weapon: number, componentHash: number): boolean { 
 	return _in(0x76a18844, 0xe743bf91, weapon, _ch(componentHash), _r); 
+}
+
+export function hasWeaponReloadingInVehicle(vehicle: number, seat: number): boolean { 
+	return _in(0x8062f071, 0x53f4446f, vehicle, seat, _r); 
 }
 
 export function haveAllStreamingRequestsCompleted(ped: number): boolean { 
@@ -16289,6 +16454,10 @@ export function intToParticipantindex(value: number): number {
  */
 export function intToPlayerindex(value: number): number { 
 	return _in(0x41bd2a6b, 0x006af756, value, _r, _ri); 
+}
+
+export function interpolateCamWithParams(camera: number, camPosX: number, camPosY: number, camPosZ: number, camRotX: number, camRotY: number, camRotZ: number, fov: number, duration: number, posCurveType: number, rotCurveType: number, rotOrder: number, fovCurveType: number): void { 
+	return _in(0xdda77ee3, 0x3c005aaf, camera, _fv(camPosX), _fv(camPosY), _fv(camPosZ), _fv(camRotX), _fv(camRotY), _fv(camRotZ), _fv(fov), duration, posCurveType, rotCurveType, rotOrder, fovCurveType); 
 }
 
 /**
@@ -16637,6 +16806,10 @@ export function isContentItemLocked(itemHash: number): boolean {
  */
 export function isControlEnabled(control: number, action: number): boolean { 
 	return _in(0x1cea6bfd, 0xf248e5d9, control, action, _r); 
+}
+
+export function isControlHeldDown(control: number, action: number, duration: number): boolean { 
+	return _in(0xe9cb8c56, 0xe90d5079, control, action, duration, _r); 
 }
 
 /**
@@ -17550,6 +17723,10 @@ export function isNextWeatherType(weatherType: string): boolean {
 	return _in(0x2faa3a30, 0xbec0f25d, _ts(weatherType), _r); 
 }
 
+export function isNitrousActive(vehicle: number): boolean { 
+	return _in(0x491e822b, 0x2c464fe4, vehicle, _r); 
+}
+
 export function isObjectAPickup(object: number): boolean { 
 	return _in(0xfc481c64, 0x1ebbd27d, object, _r); 
 }
@@ -17581,6 +17758,10 @@ export function isObjectNearPoint(objectHash: number, x: number, y: number, z: n
  */
 export function isObjectPartiallyInsideGarage(garageHash: number, entity: number, p2: number): boolean { 
 	return _in(0xf0eed5a6, 0xbc7b237a, _ch(garageHash), entity, p2, _r); 
+}
+
+export function isObjectReassignmentInProgress(): boolean { 
+	return _in(0x28123c8b, 0x056cc8aa, _r); 
 }
 
 export function isObjectVisible(object: number): boolean { 
@@ -17981,6 +18162,10 @@ export function isPedInModel(ped: number, modelHash: number): boolean {
 
 export function isPedInParachuteFreeFall(ped: number): boolean { 
 	return _in(0x7dce8bda, 0x0f1c1200, ped, _r); 
+}
+
+export function isPedInSphereAreaOfAnyEnemyPeds(ped: number, x: number, y: number, z: number, range: number): boolean { 
+	return _in(0x082d79e1, 0x5302f0c2, ped, _fv(x), _fv(y), _fv(z), _fv(range), _r); 
 }
 
 /**
@@ -19273,6 +19458,10 @@ export function isVehicleExtraTurnedOn(vehicle: number, extraId: number): boolea
 	return _in(0xd2e6822d, 0xbfd6c8bd, vehicle, extraId, _r); 
 }
 
+export function isVehicleGen9ExclusiveModel(vehicleModel: number): boolean { 
+	return _in(0x6638c0f1, 0x9de692fe, _ch(vehicleModel), _r); 
+}
+
 export function isVehicleHighDetail(vehicle: number): boolean { 
 	return _in(0x1f25887f, 0x3c104278, vehicle, _r); 
 }
@@ -19337,6 +19526,10 @@ export function isVehicleNodeIdValid(vehicleNodeId: number): boolean {
  */
 export function isVehicleOnAllWheels(vehicle: number): boolean { 
 	return _in(0xb104cd1b, 0xabf302e2, vehicle, _r); 
+}
+
+export function isVehicleOnBoostPad(vehicle: number): boolean { 
+	return _in(0x71c6302c, 0xbca6ca35, vehicle, _r); 
 }
 
 export function isVehicleParachuteDeployed(vehicle: number): boolean { 
@@ -19578,11 +19771,6 @@ export function leaderboards2ReadByRadius(p1: number): [boolean, number, number]
 export function leaderboards2ReadByRank(p1: number, p2: number): [boolean, number] { 
 	const [retval, p0_out] = _in(0xba2c7db0, 0xc129449a, _i, p1, p2, _r);
 	return [retval as boolean, p0_out as number]; 
-}
-
-export function leaderboards2ReadByRow(p2: number, p4: number, p6: number): [boolean, number, number, number, number] { 
-	const [retval, p0_out, p1_out, p3_out, p5_out] = _in(0xa9cdb1e3, 0xf0a49883, _i, _i, p2, _i, p4, _i, p6, _r);
-	return [retval as boolean, p0_out as number, p1_out as number, p3_out as number, p5_out as number]; 
 }
 
 export function leaderboards2ReadByScoreFloat(p1: number, p2: number): [boolean, number] { 
@@ -20284,8 +20472,8 @@ export function networkAddFriend(message: string): [boolean, number] {
 	return [retval as boolean, gamerHandle_out as number]; 
 }
 
-export function networkAddInvalidObjectModel(modelHash: number): void { 
-	return _in(0x7f562dbc, 0x212e81f9, _ch(modelHash)); 
+export function networkAddInvalidObjectModel(modelHash: number, p1: number): void { 
+	return _in(0x7f562dbc, 0x212e81f9, _ch(modelHash), p1); 
 }
 
 /**
@@ -20586,6 +20774,15 @@ export function networkCanTextChatWithGamer(gamerHandle: number): [boolean, numb
 	return [retval as boolean, gamerHandle_out as number]; 
 }
 
+/**
+ * NETWORK_CAN_*
+ * @param gamerHandle
+ */
+export function networkCanTextFromGamerBeViewed(gamerHandle: number): [boolean, number] { 
+	const [retval, gamerHandle_out] = _in(0x9f633448, 0xe4c73207, _ii(gamerHandle), _r);
+	return [retval as boolean, gamerHandle_out as number]; 
+}
+
 export function networkCanViewGamerUserContent(gamerHandle: number): [boolean, number] { 
 	const [retval, gamerHandle_out] = _in(0xb57a4954, 0x5ba53ce7, _ii(gamerHandle), _r);
 	return [retval as boolean, gamerHandle_out as number]; 
@@ -20858,8 +21055,19 @@ export function networkClearQueuedJoinRequest(): void {
 	return _in(0x6ce50e47, 0xf5543d0c); 
 }
 
+export function networkClearTransactionTelemetryNonce(): void { 
+	return _in(0xe03b9f95, 0x556e48e9); 
+}
+
 export function networkClearTransitionCreatorHandle(): void { 
 	return _in(0xfb327222, 0x9a82c759); 
+}
+
+/**
+ * Clears tunable contexts that were set up using _NETWORK_SET_TUNABLES_REGISTRATION_CONTEXTS
+ */
+export function networkClearTunablesRegistrationContexts(): void { 
+	return _in(0x0c87c83c, 0x8950432b); 
 }
 
 export function networkClearVoiceChannel(): void { 
@@ -20880,6 +21088,15 @@ export function networkConcealEntity(entity: number, toggle: boolean): void {
 
 export function networkConcealPlayer(player: number, toggle: boolean, p2: boolean): void { 
 	return _in(0xbbdf0662, 0x52829606, player, toggle, p2); 
+}
+
+/**
+ * If the restart reason is 4 (BE_RESTART_EF_DISABLED_WITH_BE), will cause the game to exit with exit code 622011. Otherwise exits with code 622010. Has no effect when a restart hasn't been requested (reason == 0 or reason > 6).
+ * 
+ * Note that this 'confirmation' itself does not restart the game, a call to QUIT_GAME or similar is required afterwards.
+ */
+export function networkConfirmGameRestart(): void { 
+	return _in(0x0a141818, 0xca2311ad); 
 }
 
 export function networkCreateSynchronisedScene(x: number, y: number, z: number, xRot: number, yRot: number, zRot: number, rotationOrder: number, useOcclusionPortal: boolean, looped: boolean, p9: number, animTime: number, p11: number): number { 
@@ -20985,6 +21202,14 @@ export function networkDoTransitionToNewGame(p0: boolean, maxPlayers: number, p2
 	return _in(0x4665f51e, 0xfed00034, p0, maxPlayers, p2, _r); 
 }
 
+/**
+ * communicationType: 0 = VOICE; 1 = TEXT_CHAT; 2 = TEXT_MESSAGE; 3 = EMAIL; 4 = USER_CONTENT;  5 = USER_TEXT
+ * @param communicationType
+ */
+export function networkDoesCommunicationGroupExist(communicationType: number): boolean { 
+	return _in(0xdbdf8067, 0x3bba3d65, communicationType, _r); 
+}
+
 export function networkDoesEntityExistWithNetworkId(netId: number): boolean { 
 	return _in(0x18a47d07, 0x4708fd68, netId, _r); 
 }
@@ -21020,12 +21245,12 @@ export function networkEarnAgencyPhone(p0: number, p1: number, p2: number): void
 	return _in(0xe29f3d5f, 0xa63b1b82, p0, p1, p2); 
 }
 
-export function networkEarnAgencySafe(p0: number): void { 
-	return _in(0x663b4b9d, 0x11742a12, p0); 
+export function networkEarnAgencySafe(p0: number, p1: number): void { 
+	return _in(0x663b4b9d, 0x11742a12, p0, p1); 
 }
 
-export function networkEarnArcade(p0: number, p1: number, p2: number, p3: number, p4: number): void { 
-	return _in(0xd29334ed, 0x1a256dbf, p0, p1, p2, p3, p4); 
+export function networkEarnArcade(p0: number, p1: number, p2: number, p3: number, p4: number, p5: number): void { 
+	return _in(0xd29334ed, 0x1a256dbf, p0, p1, p2, p3, p4, p5); 
 }
 
 export function networkEarnArenaCareerProgression(amount: number, p1: number): void { 
@@ -21468,6 +21693,18 @@ export function networkEarnGangopsWagesBonus(amount: number, p1: number): void {
 	return _in(0x15bb2a5c, 0x757eb91f, amount, p1); 
 }
 
+/**
+ * _NETWORK_EARN_G*
+ * @param amount
+ * @param earn
+ * @param p2
+ * @param p3
+ * @param data
+ */
+export function networkEarnGeneric(amount: number, earn: number, p2: string, p3: string, data: number): number { 
+	return _in(0xbf7b5bb7, 0xed890380, amount, _ch(earn), _ts(p2), _ts(p3), _ii(data)); 
+}
+
 export function networkEarnGoon(p0: number, p1: number, p2: number): void { 
 	return _in(0xcda1c62b, 0xe2777802, p0, p1, p2); 
 }
@@ -21492,8 +21729,8 @@ export function networkEarnJuggaloStoryMissionParticipation(p0: number, p1: numb
 	return _in(0x40ff6ccc, 0xc476185c, p0, p1); 
 }
 
-export function networkEarnNightclub(p0: number): void { 
-	return _in(0xe0f82d68, 0xc7039158, p0); 
+export function networkEarnNightclub(p0: number, p1: number): void { 
+	return _in(0xe0f82d68, 0xc7039158, p0, p1); 
 }
 
 export function networkEarnNightclubAndWarehouse(p0: number, p1: number, p2: number, p3: number, p4: number, p5: number, p6: number): void { 
@@ -21813,6 +22050,23 @@ export function networkGetAveragePing(player: number): number {
 	return _in(0x0e3a041e, 0xd6ac2b45, player, _r, _rf); 
 }
 
+/**
+ * 0x20211000 = HUD_BE_ERROR_FAILED_UNKNOWN
+ * 0x20212000 = HUD_BE_ERROR_FAILED_CLIENT_INIT
+ * 0x20213000 = HUD_BE_ERROR_FAILED_SERVER_INIT
+ * 0x20214000 = HUD_BE_ERROR_FAILED_AUTH_ATTEMPTS
+ * 0x20215000 = HUD_BE_ERROR_UNTRUSTED_HOST
+ * 0x20216000 = HUD_BE_ERROR_KICKED
+ * 0x20217000 = HUD_BE_ERROR_BANNED
+ * 0x50140000 = HUD_BE_BLOCK_BANNED
+ * 
+ * Note: an invalid error code returns a null pointer!
+ * @param errorCode
+ */
+export function networkGetBattleyeErrorMessageLabel(errorCode: number): string { 
+	return _in(0xcba50f37, 0x1e45b90d, errorCode, _r, _s); 
+}
+
 export function networkGetBoneIdOfFatalHit(): number { 
 	return _in(0x7db53b37, 0xa2f211a0, _r, _ri); 
 }
@@ -21849,6 +22103,27 @@ export function networkGetCanSpendFromWallet(amount: number, characterSlot: numb
  */
 export function networkGetCanTransferCash(amount: number): boolean { 
 	return _in(0x08e8eead, 0xfd0dc4a0, amount, _r); 
+}
+
+/**
+ * Returns communicationGroupFlag
+ * communicationType: see 0xDBDF80673BBA3D65
+ * 
+ * enum eCommunicationGroupFlag
+ * {
+ * COMMUNICATION_GROUP_LOCAL_PLAYER = 1 << 0,
+ * COMMUNICATION_GROUP_FRIENDS = 1 << 1,
+ * COMMUNICATION_GROUP_SMALL_CREW = 1 << 2,
+ * COMMUNICATION_GROUP_LARGE_CREW = 1 << 3,
+ * COMMUNICATION_GROUP_RECENT_PLAYER = 1 << 4,
+ * COMMUNICATION_GROUP_SAME_SESSION = 1 << 5,
+ * COMMUNICATION_GROUP_SAME_TEAM = 1 << 6,
+ * COMMUNICATION_GROUP_INVALID = 1 << 7,
+ * };
+ * @param communicationType
+ */
+export function networkGetCommunicationGroupFlags(communicationType: number): number { 
+	return _in(0x40df02f3, 0x71f40883, communicationType, _r, _ri); 
 }
 
 /**
@@ -21944,6 +22219,29 @@ export function networkGetFriendName(friendIndex: number): string {
 
 export function networkGetGameMode(): number { 
 	return _in(0x4c903416, 0x2368e206, _r, _ri); 
+}
+
+/**
+ * enum eNetworkGameRestartReason
+ * {
+ * BE_RESTART_SERVICE_NOT_RUNNING = 1, 	// BattlEye service not running
+ * BE_RESTART_SERVICE_NEEDS_UPDATE, 		// BattlEye service needs an update
+ * BE_RESTART_UNKNOWN_REASON,				// Unknown BattlEye reason
+ * BE_RESTART_EF_DISABLED_WITH_BE,			// BattlEye Enforcement Flag is disabled, but BattlEye is active
+ * BE_RESTART_EF_ENABLED_NO_BE,			// BattlEye Enforcement Flag is enabled, but BattlEye is not active
+ * BE_RESTART_BE_MODULES_FAILED_TO_LOAD,	// BattlEye modules failed to load
+ * NUM_NETWORK_GAME_RESTART_REASONS
+ * };
+ */
+export function networkGetGameRestartReason(): number { 
+	return _in(0x7f7e8401, 0xf81cb65b, _r, _ri); 
+}
+
+/**
+ * Returns the restart reason as a string, see _NETWORK_GET_GAME_RESTART_REASON. Returns a null pointer when a restart hasn't been requested (reason == 0 or reason > 6).
+ */
+export function networkGetGameRestartReasonMessageLabel(): string { 
+	return _in(0x47b11d51, 0xfc50a259, _r, _s); 
 }
 
 export function networkGetGamerStatusFromQueue(): boolean { 
@@ -22357,6 +22655,36 @@ export function networkGetTunableCloudCrc(): number {
 	return _in(0x10bd227a, 0x753b0d84, _r, _ri); 
 }
 
+/**
+ * Checks if the given tunable exists and returns its value. Otherwise returns defaultValue.
+ * Possible tunable contexts must first be set up using _NETWORK_SET_TUNABLES_REGISTRATION_CONTEXTS.
+ * @param tunableName
+ * @param defaultValue
+ */
+export function networkGetTunablesRegistrationBool(tunableName: number, defaultValue: boolean): boolean { 
+	return _in(0xb327cf1b, 0x8c2c0ea3, _ch(tunableName), defaultValue, _r); 
+}
+
+/**
+ * Checks if the given tunable exists and returns its value. Otherwise returns defaultValue.
+ * Possible tunable contexts must first be set up using _NETWORK_SET_TUNABLES_REGISTRATION_CONTEXTS.
+ * @param tunableName
+ * @param defaultValue
+ */
+export function networkGetTunablesRegistrationFloat(tunableName: number, defaultValue: number): number { 
+	return _in(0x367e5e33, 0xe7f0dd1a, _ch(tunableName), _fv(defaultValue), _r, _rf); 
+}
+
+/**
+ * Checks if the given tunable exists and returns its value. Otherwise returns defaultValue.
+ * Possible tunable contexts must first be set up using _NETWORK_SET_TUNABLES_REGISTRATION_CONTEXTS.
+ * @param tunableName
+ * @param defaultValue
+ */
+export function networkGetTunablesRegistrationInt(tunableName: number, defaultValue: number): number { 
+	return _in(0x0d94071e, 0x55f4c9ce, _ch(tunableName), defaultValue, _r, _ri); 
+}
+
 export function networkGetUnreliableResendCount(player: number): number { 
 	return _in(0x3765c3a3, 0xe8192e10, player, _r, _ri); 
 }
@@ -22460,6 +22788,17 @@ export function networkHasPendingInvite(): boolean {
 	return _in(0xac8c7b9b, 0x88c4a668, _r); 
 }
 
+/**
+ * _NETWORK_HAS_P*
+ * checkType 3 is similar as using 0x9F633448E4C73207
+ * @param checkType
+ * @param gamerHandle
+ */
+export function networkHasPlayerPassedCheckType(checkType: number, gamerHandle: number): [boolean, number] { 
+	const [retval, gamerHandle_out] = _in(0x62e29cda, 0x11f9c230, checkType, _ii(gamerHandle), _r);
+	return [retval as boolean, gamerHandle_out as number]; 
+}
+
 export function networkHasPlayerStartedTransition(player: number): boolean { 
 	return _in(0x9ac9ccbf, 0xa8c29795, player, _r); 
 }
@@ -22481,8 +22820,29 @@ export function networkHasRosPrivilegeEndDate(privilege: number): [boolean, numb
 	return [retval as boolean, banType_out as number, timeData_out as number]; 
 }
 
+/**
+ * Checks for privilege 29
+ */
+export function networkHasRosPrivilegeMpTextCommunication(): boolean { 
+	return _in(0xd9719341, 0x663c385f, _r); 
+}
+
+/**
+ * Checks for privilege 30
+ */
+export function networkHasRosPrivilegeMpVoiceCommunication(): boolean { 
+	return _in(0x8956a309, 0xbe90057c, _r); 
+}
+
 export function networkHasRosPrivilegePlayedLastGen(): boolean { 
 	return _in(0x593570c2, 0x89a77688, _r); 
+}
+
+/**
+ * Checks for privilege 31
+ */
+export function networkHasRosPrivilegeReporting(): boolean { 
+	return _in(0x9ba54b3c, 0xfb82addd, _r); 
 }
 
 export function networkHasRosPrivilegeSpecialEditionContent(): boolean { 
@@ -22531,6 +22891,13 @@ export function networkHaveOnlinePrivileges(): boolean {
 	return _in(0x25cb5a9f, 0x37bfd063, _r); 
 }
 
+/**
+ * Appears to be PlayStation-specific. Always returns true on other platforms if signed in with the primary user profile
+ */
+export function networkHavePlatformCommunicationPrivileges(): boolean { 
+	return _in(0xe1e02509, 0x169c124e, _r); 
+}
+
 export function networkHavePlatformSubscription(): boolean { 
 	return _in(0x5ea784d1, 0x97556507, _r); 
 }
@@ -22561,6 +22928,10 @@ export function networkHaveScsPrivateMsgPriv(): boolean {
 
 export function networkHaveUserContentPrivileges(p0: number): boolean { 
 	return _in(0x72d918c9, 0x9bcacc54, p0, _r); 
+}
+
+export function networkHideEntityInTutorialSession(netHandle: number, hide: boolean): void { 
+	return _in(0xcfe359cc, 0xcfe359cc, netHandle, hide); 
 }
 
 export function networkHideProjectileInCutscene(): void { 
@@ -22605,6 +22976,13 @@ export function networkInitializeCash(wallet: number, bank: number): void {
 	return _in(0x3da5ecd1, 0xa56cba6d, wallet, bank); 
 }
 
+/**
+ * Clears the failed invite join alert reason
+ */
+export function networkInviteClearJoinFailReason(): void { 
+	return _in(0x8ef5f581, 0x1a940f82); 
+}
+
 export function networkInviteGamers(p1: number, p3: number): [boolean, number, number] { 
 	const [retval, p0_out, p2_out] = _in(0x9d80cd1d, 0x0e6327de, _i, p1, _i, p3, _r);
 	return [retval as boolean, p0_out as number, p2_out as number]; 
@@ -22613,6 +22991,13 @@ export function networkInviteGamers(p1: number, p3: number): [boolean, number, n
 export function networkInviteGamersToTransition(p1: number): [boolean, number] { 
 	const [retval, p0_out] = _in(0x4a595c32, 0xf77dff76, _i, p1, _r);
 	return [retval as boolean, p0_out as number]; 
+}
+
+/**
+ * Retrieves the failed invite join alert reason
+ */
+export function networkInviteGetJoinFailReason(): string { 
+	return _in(0x7b335f84, 0x501145bb, _r, _s); 
 }
 
 export function networkIsActivitySession(): boolean { 
@@ -22630,6 +23015,13 @@ export function networkIsActivitySpectatorFromHandle(gamerHandle: number): [bool
 
 export function networkIsAddingFriend(): boolean { 
 	return _in(0x6ea10160, 0x6f6e4d81, _r); 
+}
+
+/**
+ * Hardcoded to return 0.
+ */
+export function networkIsAmericasVersion(): boolean { 
+	return _in(0x0292bd7f, 0x3766cebc, _r); 
 }
 
 export function networkIsAnyPlayerNear(p0: number, p1: number, p2: number, p3: number, p4: number, p5: number, p6: number): boolean { 
@@ -23103,6 +23495,15 @@ export function networkLeavePedBehindBeforeWarp(player: number, x: number, y: nu
 
 export function networkLeaveTransition(): boolean { 
 	return _in(0xd23a1a81, 0x5d21db19, _r); 
+}
+
+/**
+ * Returns the name from given friend gamer handle.
+ * @param gamerHandle
+ */
+export function networkLoadGamerDisplayName(gamerHandle: number): [string, number] { 
+	const [retval, gamerHandle_out] = _in(0x338ece36, 0x37937bc2, _ii(gamerHandle), _r, _s);
+	return [retval as string, gamerHandle_out as number]; 
 }
 
 export function networkManualDeleteCharacter(characterSlot: number): void { 
@@ -23599,6 +24000,10 @@ export function networkSessionGetPrivateSlots(): number {
 	return _in(0x53afd64c, 0x6758f2f9, _r, _ri); 
 }
 
+export function networkSessionGetUniqueCrewLimit(): number { 
+	return _in(0xcdc936bf, 0x35edcb73, _r, _ri); 
+}
+
 /**
  * Does nothing in online but in offline it will cause the screen to fade to black. Nothing happens past then, the screen will sit at black until you restart GTA. Other stuff must be needed to actually host a session.
  * @param p0
@@ -23691,6 +24096,10 @@ export function networkSessionKickPlayer(player: number): void {
 
 export function networkSessionLeave(p0: number): boolean { 
 	return _in(0xb9351a07, 0xa0d458b1, p0, _r); 
+}
+
+export function networkSessionLeaveIncludingReason(leaveFlags: number, leaveReason: number): boolean { 
+	return _in(0xe0128328, 0xcf1fd9f4, leaveFlags, leaveReason, _r); 
 }
 
 export function networkSessionLeaveSinglePlayer(): void { 
@@ -23810,6 +24219,16 @@ export function networkSetAttributeDamageToPlayer(ped: number, player: number): 
 
 export function networkSetCanReceiveRsInvites(p0: boolean): void { 
 	return _in(0x68980414, 0x688f7f9d, p0); 
+}
+
+/**
+ * communicationType: see 0xDBDF80673BBA3D65
+ * communicationGroupFlag: see 0x40DF02F371F40883
+ * @param communicationType
+ * @param communicationGroupFlag
+ */
+export function networkSetCommunicationGroupFlags(communicationType: number, communicationGroupFlag: number): void { 
+	return _in(0xe549f846, 0xde7d32d5, communicationType, communicationGroupFlag); 
 }
 
 export function networkSetCurrentChatOption(newChatOption: number): void { 
@@ -24103,6 +24522,14 @@ export function networkSetTransitionCreatorHandle(p0: number): number {
 
 export function networkSetTransitionVisibilityLock(p0: boolean, p1: boolean): void { 
 	return _in(0x0c978fda, 0x19692c2c, p0, p1); 
+}
+
+/**
+ * Sets up tunable contexts for _NETWORK_GET_TUNABLES_REGISTRATION_{BOOL|INT|FLOAT}
+ * @param tunableContextData
+ */
+export function networkSetTunablesRegistrationContexts(tunableContextData: number): number { 
+	return _in(0x014a7344, 0x9675121d, _ii(tunableContextData)); 
 }
 
 /**
@@ -24562,6 +24989,10 @@ export function networkSpentFromRockstar(p0: number, p1: boolean, p2: boolean): 
 	return _in(0x6a445b64, 0xed7abeb5, p0, p1, p2); 
 }
 
+export function networkSpentGeneric(price: number, p1: boolean, p2: boolean, stat: number, spent: number, p5: string, p6: string, data: number): number { 
+	return _in(0x2803b027, 0x479fb640, price, p1, p2, _ch(stat), _ch(spent), _ts(p5), _ts(p6), _ii(data)); 
+}
+
 export function networkSpentHangarStaffCharges(amount: number, p1: boolean, p2: boolean): void { 
 	return _in(0xb1f1346f, 0xd57685d7, amount, p1, p2); 
 }
@@ -24859,10 +25290,6 @@ export function networkSpentWager(p0: number, p1: number, amount: number): void 
 	return _in(0xd99db210, 0x089617fe, p0, p1, amount); 
 }
 
-export function networkStartCommunicationPermissionsCheck(p0: number): number { 
-	return _in(0x36391f39, 0x7731595d, p0, _r, _ri); 
-}
-
 /**
  * One of the first things it does is get the players ped.
  * Then it calls a function that is used in some tasks and ped based functions.
@@ -24971,6 +25398,10 @@ export function networkTransitionStart(p0: number, p1: number, p2: number, p3: n
  */
 export function networkTriggerDamageEventForZeroDamage(entity: number, toggle: boolean): void { 
 	return _in(0x890e2c5a, 0xbed7236d, entity, toggle); 
+}
+
+export function networkTriggerDamageEventForZeroPedDamage(entity: number, trigger: boolean): void { 
+	return _in(0xe9d0244a, 0xcbee1bc4, entity, trigger); 
 }
 
 export function networkTriggerDamageEventForZeroWeaponHash(entity: number, toggle: boolean): void { 
@@ -26011,8 +26442,12 @@ export function playstatsAcquiredHiddenPackage(p0: number): void {
 	return _in(0x79ab33f0, 0xfbfac40c, p0); 
 }
 
-export function playstatsActivityDone(p0: number, activityId: number): void { 
-	return _in(0xa071e0ed, 0x98f91286, p0, activityId); 
+export function playstatsActivityDone(p0: number, activityId: number, p2: number): void { 
+	return _in(0xa071e0ed, 0x98f91286, p0, activityId, p2); 
+}
+
+export function playstatsAlert(data: number): number { 
+	return _in(0x5649ca22, 0xaf74e019, _ii(data)); 
 }
 
 export function playstatsAppendDirectorMetric(p0: number): number { 
@@ -26280,18 +26715,16 @@ export function playstatsFastTrvl(p0: number, p1: number, p2: number, p3: number
 	return _in(0x4dc416f2, 0x46a41fc8, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10); 
 }
 
-/**
- * p3: VehicleConversion, SCAdminCashGift
- * p4: 0
- * @param posX
- * @param posY
- * @param posZ
- * @param p3
- * @param p4
- * @param amount
- */
-export function playstatsFlowLow(posX: number, posY: number, posZ: number, p3: string, p4: number, amount: number): void { 
-	return _in(0xe6a27cda, 0x42887f93, _fv(posX), _fv(posY), _fv(posZ), _ts(p3), p4, amount); 
+export function playstatsFlowHigh(posX: number, posY: number, posZ: number, action: string, p4: boolean, p5: number): void { 
+	return _in(0xcfb0e9c3, 0x456319ea, _fv(posX), _fv(posY), _fv(posZ), _ts(action), p4, p5); 
+}
+
+export function playstatsFlowLow(posX: number, posY: number, posZ: number, action: string, p4: boolean, p5: number): void { 
+	return _in(0xe6a27cda, 0x42887f93, _fv(posX), _fv(posY), _fv(posZ), _ts(action), p4, p5); 
+}
+
+export function playstatsFlowMedium(posX: number, posY: number, posZ: number, action: string, p4: boolean, p5: number): void { 
+	return _in(0xc4493521, 0xbaa12cce, _fv(posX), _fv(posY), _fv(posZ), _ts(action), p4, p5); 
 }
 
 export function playstatsFmEventAtob(p0: number): void { 
@@ -26350,8 +26783,8 @@ export function playstatsFmHeistPrepEnded(data: number): number {
 	return _in(0xd8afb345, 0xa9c5ccbb, _ii(data)); 
 }
 
-export function playstatsFmMissionEnd(p0: number, p1: number, p2: number): void { 
-	return _in(0x46a70777, 0xbe6ceab9, p0, p1, p2); 
+export function playstatsFmMissionEnd(p0: number, p1: number, p2: number, p3: number): void { 
+	return _in(0x46a70777, 0xbe6ceab9, p0, p1, p2, p3); 
 }
 
 export function playstatsFreemodeCasinoMissionEnded(data: number): number { 
@@ -26434,6 +26867,10 @@ export function playstatsImportExportMissionDone(p0: number, p1: number, p2: num
 	return _in(0x2b69f507, 0x4c894811, p0, p1, p2, p3); 
 }
 
+export function playstatsInitMultiplayer(p0: number, p1: number, p2: number): void { 
+	return _in(0x7e5eed10, 0xb11cedba, p0, p1, p2); 
+}
+
 export function playstatsInstMissionEnd(p0: number): void { 
 	return _in(0xfea3f7e8, 0x3c0610fa, p0); 
 }
@@ -26466,16 +26903,12 @@ export function playstatsJobLtsRoundEnd(): [number, number, number, number] {
 	return [p0_out as number, p1_out as number, p2_out as number, p3_out as number]; 
 }
 
-export function playstatsKillYourself(): void { 
-	return _in(0x4aff7e02, 0xe485e92b); 
-}
-
 export function playstatsLeaveJobChain(p0: number, p1: number, p2: number, p3: number, p4: number): void { 
 	return _in(0xc5be134e, 0xc7ba96a0, p0, p1, p2, p3, p4); 
 }
 
-export function playstatsMasterControl(p0: number, p1: number, p2: number, p3: number): void { 
-	return _in(0x810b5fcc, 0x52ec7ff0, p0, p1, p2, p3); 
+export function playstatsMasterControl(p0: number, p1: number, p2: number, p3: number, p4: number): void { 
+	return _in(0x810b5fcc, 0x52ec7ff0, p0, p1, p2, p3, p4); 
 }
 
 export function playstatsMatchStarted(p0: number, p1: number, p2: number): void { 
@@ -26522,6 +26955,20 @@ export function playstatsMissionVote(p0: number): void {
 	return _in(0xc03fab2c, 0x2f92289b, p0); 
 }
 
+/**
+ * Known text types: NAME_YACHT, NAME_ORG_OFFICE
+ * @param isBoss
+ * @param bossType
+ * @param bossId1
+ * @param bossId2
+ * @param textType
+ * @param textString
+ * @param textSource
+ */
+export function playstatsNamedUserContent(isBoss: boolean, bossType: number, bossId1: number, bossId2: number, textType: number, textString: string, textSource: number): void { 
+	return _in(0xaa434d7d, 0x0a89a95c, isBoss, bossType, bossId1, bossId2, textType, _ts(textString), textSource); 
+}
+
 export function playstatsNightclubMissionEnded(p0: number): void { 
 	return _in(0x830c3a44, 0xeb3f2cf9, p0); 
 }
@@ -26554,6 +27001,10 @@ export function playstatsPegasusAsPersonalAircraft(modelHash: number): void {
 
 export function playstatsPimenuHideOptions(data: number): number { 
 	return _in(0x203b3811, 0x33817079, _ii(data)); 
+}
+
+export function playstatsPimenuNav(data: number): number { 
+	return _in(0xe6d323a5, 0xe9effb76, _ii(data)); 
 }
 
 export function playstatsPlayerStyle(p0: number): void { 
@@ -26596,6 +27047,10 @@ export function playstatsRecoverContrabandMission(data: number): number {
 	return _in(0x04d90ba8, 0x207ada2d, _ii(data)); 
 }
 
+export function playstatsRecoverVehicle(data: number): number { 
+	return _in(0xbeb0d930, 0xb3cce4d5, _ii(data)); 
+}
+
 export function playstatsRivalBehavior(p0: number, p1: number, p2: number, p3: number, p4: number, p5: number, p6: number, p7: number, p8: number, p9: number): void { 
 	return _in(0x27aa1c97, 0x3cacfe63, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9); 
 }
@@ -26624,8 +27079,8 @@ export function playstatsShopItem(p0: number, p1: number, p2: number, p3: number
 	return _in(0x176852ac, 0xaac173d1, p0, p1, p2, p3, p4); 
 }
 
-export function playstatsShopmenuNav(p0: number, p1: number, p2: number): void { 
-	return _in(0xf96e9ea8, 0x76d9dc92, p0, p1, p2); 
+export function playstatsShopmenuNav(p0: number, p1: number, p2: number, p3: number): void { 
+	return _in(0xf96e9ea8, 0x76d9dc92, p0, p1, p2, p3); 
 }
 
 export function playstatsShowroomNav(p0: number, p1: number, entity: number): void { 
@@ -29122,6 +29577,10 @@ export function scEmailGetRetrievalStatus(): number {
 	return _in(0x16da8172, 0x459434aa, _r, _ri); 
 }
 
+export function scEmailMarketingEmailOpened(index: number, type: number): void { 
+	return _in(0x69aa35f3, 0xf391cdba, index, _ch(type)); 
+}
+
 export function scEmailMessageClearRecipList(): void { 
 	return _in(0x55df6db4, 0x5179236e); 
 }
@@ -29226,11 +29685,6 @@ export function scInboxMessageGetUgcdata(p0: number, p1: number): [boolean, numb
 
 export function scInboxMessagePushGamerT0RecipList(gamerHandle: number): number { 
 	return _in(0xda024bdb, 0xd600f44a, _ii(gamerHandle)); 
-}
-
-export function scInboxSendBountyToRecipList(data: number): [boolean, number] { 
-	const [retval, data_out] = _in(0x6afd2cd7, 0x53feef83, _ii(data), _r);
-	return [retval as boolean, data_out as number]; 
 }
 
 export function scInboxSendUgcstatupdateToRecipList(data: number): number { 
@@ -29352,6 +29806,16 @@ export function scProfanityGetCheckIsPending(token: number): boolean {
 
 export function scProfanityGetCheckIsValid(token: number): boolean { 
 	return _in(0x1753344c, 0x770358ae, token, _r); 
+}
+
+/**
+ * Retrieves the profane part of the string with max size of 128.
+ * Returns true if profane term was retrieved.
+ * @param token
+ * @param outProfaneWord
+ */
+export function scProfanityGetProfaneWord(token: number, outProfaneWord: string): boolean { 
+	return _in(0x75cc8931, 0xa11128c9, token, _ts(outProfaneWord), _r); 
 }
 
 export function scProfanityGetStringPassed(token: number): boolean { 
@@ -29546,14 +30010,16 @@ export function sendMetricVipPoach(p0: number, p1: number, p2: number): void {
 }
 
 /**
- * See TRIGGER_SCRIPT_EVENT
+ * New variant of SEND_TU_SCRIPT_EVENT that automatically initializes the event data header.
+ * See TRIGGER_SCRIPT_EVENT for more info.
  * @param eventGroup
  * @param eventData
  * @param eventDataSize
  * @param playerBits
+ * @param eventType
  */
-export function sendTuScriptEvent(eventGroup: number, eventDataSize: number, playerBits: number): number { 
-	return _in(0xa40cc53d, 0xf8e50837, eventGroup, _i, eventDataSize, playerBits); 
+export function sendTuScriptEventNew(eventGroup: number, eventDataSize: number, playerBits: number, eventType: number): number { 
+	return _in(0x71a6f836, 0x422fdd2b, eventGroup, _i, eventDataSize, playerBits, _ch(eventType)); 
 }
 
 export function setAbilityBarValue(p0: number, p1: number): void { 
@@ -29678,6 +30144,15 @@ export function setAllVehicleGeneratorsActiveInArea(x1: number, y1: number, z1: 
 
 export function setAllowAbilityBar(toggle: boolean): void { 
 	return _in(0x889329c8, 0x0fe5963c, toggle); 
+}
+
+/**
+ * _SET_ALLOW_R* - _SET_ALLOW_V*
+ * @param vehicle
+ * @param toggle
+ */
+export function setAllowCollisionWhenInVehicle(vehicle: number, toggle: boolean): void { 
+	return _in(0x27d27223, 0xe8ef22ed, vehicle, toggle); 
 }
 
 export function setAllowCommaOnTextInput(p0: number): void { 
@@ -29805,6 +30280,10 @@ export function setAmmoInClip(ped: number, weaponHash: number, ammo: number): bo
 	return _in(0xdcd2a934, 0xd65cb497, ped, _ch(weaponHash), ammo, _r); 
 }
 
+export function setAmmoInVehicleWeaponClip(vehicle: number, seat: number, ammo: number): boolean { 
+	return _in(0x87390672, 0x0ee842c3, vehicle, seat, ammo, _r); 
+}
+
 export function setAnimLooped(entity: number, looped: boolean, priority: number, secondary: boolean): void { 
 	return _in(0x70033c3c, 0xc29a1ff4, entity, looped, priority, secondary); 
 }
@@ -29861,6 +30340,10 @@ export function setArtificialLightsState(state: boolean): void {
  */
 export function setArtificialVehicleLightsState(toggle: boolean): void { 
 	return _in(0xe2b187c0, 0x939b3d32, toggle); 
+}
+
+export function setAttachedVehicleToTowTruckArm(towTruck: number, vehicle: number): void { 
+	return _in(0x48bd57d0, 0xdd17786a, towTruck, vehicle); 
 }
 
 /**
@@ -30260,6 +30743,16 @@ export function setBlipFlashesAlternate(blip: number, toggle: boolean): void {
 	return _in(0x2e8d9498, 0xc56dd0d1, blip, toggle); 
 }
 
+/**
+ * Applies to new eBlipParams _BLIP_CHANGE_46* and _BLIP_CHANGE_47*
+ * @param blip
+ * @param blipChangeParam46
+ * @param blipChangeParam47
+ */
+export function setBlipGpsRouteDisplayDistance(blip: number, blipChangeParam46: number, blipChangeParam47: boolean): void { 
+	return _in(0x25d984cf, 0xb64ed6de, blip, blipChangeParam46, blipChangeParam47); 
+}
+
 export function setBlipHiddenOnLegend(blip: number, toggle: boolean): void { 
 	return _in(0x54318c91, 0x5d27e4ce, blip, toggle); 
 }
@@ -30381,6 +30874,10 @@ export function setBlipSprite(blip: number, spriteId: number): void {
 
 export function setBlipUseHeightIndicatorOnEdge(blip: number, p1: number): void { 
 	return _in(0x2c9f3023, 0x98e13141, blip, p1); 
+}
+
+export function setBlockAmbientPedsFromDroppingWeaponsThisFrame(): void { 
+	return _in(0xc73effc5, 0xe043a8ba); 
 }
 
 export function setBlockWantedFlash(disabled: boolean): void { 
@@ -31035,6 +31532,10 @@ export function setContentIdIndex(contentId: number, index: number): void {
 	return _in(0x4b82fa6f, 0x2d624634, _ch(contentId), index); 
 }
 
+export function setContentPropType(model: number, type: number): void { 
+	return _in(0xba4583af, 0x4c678a9b, _ch(model), type); 
+}
+
 /**
  * control: see IS_CONTROL_ENABLED
  * @param control
@@ -31450,16 +31951,35 @@ export function setDisableDecalRenderingThisFrame(): void {
 	return _in(0x4b5cfc83, 0x122df602); 
 }
 
-export function setDisableExplodeFromBodyDamageOnCollision(vehicle: number, value: number): void { 
-	return _in(0x26e13d44, 0x0e7f6064, vehicle, _fv(value)); 
+/**
+ * Prevents the vehicle from exploding when taking body damage if it was caused by a collision. Only works for planes.
+ * @param vehicle
+ * @param disable
+ */
+export function setDisableExplodeFromBodyDamageOnCollision(vehicle: number, disable: boolean): void { 
+	return _in(0x26e13d44, 0x0e7f6064, vehicle, disable); 
+}
+
+/**
+ * Prevents the vehicle from exploding when taking body damage if the inflictor is an AI-controlled vehicle. Only works for planes.
+ * @param vehicle
+ * @param disable
+ */
+export function setDisableExplodeFromBodyDamageReceivedByAiVehicle(vehicle: number, disable: boolean): void { 
+	return _in(0xb0b7df5c, 0xb876ff5e, vehicle, disable); 
 }
 
 export function setDisableFragDamage(object: number, toggle: boolean): void { 
 	return _in(0x01ba3aed, 0x21c16cfb, object, toggle); 
 }
 
-export function setDisableHeliExplodeFromBodyDamage(p0: number, p1: number): void { 
-	return _in(0xedbc8405, 0xb3895cc9, p0, p1); 
+/**
+ * Prevents the vehicle from exploding when taking body damage. Only works for helis and planes.
+ * @param vehicle
+ * @param disable
+ */
+export function setDisableHeliExplodeFromBodyDamage(vehicle: number, disable: boolean): void { 
+	return _in(0xedbc8405, 0xb3895cc9, vehicle, disable); 
 }
 
 export function setDisableHighFallDeath(ped: number, toggle: boolean): void { 
@@ -31657,6 +32177,17 @@ export function setDrawOrigin(x: number, y: number, z: number, p3: boolean): voi
 	return _in(0xaa0008f3, 0xbbb8f416, _fv(x), _fv(y), _fv(z), p3); 
 }
 
+/**
+ * First two floats relate to rumble, the last is a threshold
+ * @param vehicle
+ * @param durationScalar
+ * @param amplitudeScalar
+ * @param slipAngleLimit
+ */
+export function setDriftSlipAngleLimits(vehicle: number, durationScalar: number, amplitudeScalar: number, slipAngleLimit: number): void { 
+	return _in(0xdaf4c98c, 0x18ac6f06, vehicle, _fv(durationScalar), _fv(amplitudeScalar), _fv(slipAngleLimit)); 
+}
+
 export function setDriftTyres(vehicle: number, toggle: boolean): void { 
 	return _in(0x5ac79c98, 0xc5c17f05, vehicle, toggle); 
 }
@@ -31695,8 +32226,8 @@ export function setDriveTaskDrivingStyle(ped: number, drivingStyle: number): voi
 	return _in(0xdace1be3, 0x7d88af67, ped, drivingStyle); 
 }
 
-export function setDriveTaskMaxCruiseSpeed(ped: number, speed: number): void { 
-	return _in(0x404a5aa9, 0xb9f0b746, ped, _fv(speed)); 
+export function setDriveTaskMaxCruiseSpeed(ped: number, speed: number, updateBaseTask: boolean): void { 
+	return _in(0x404a5aa9, 0xb9f0b746, ped, _fv(speed), updateBaseTask); 
 }
 
 /**
@@ -31985,10 +32516,11 @@ export function setEntityHeading(entity: number, heading: number): void {
  * female ped ~= 0 - 100
  * @param entity
  * @param health
- * @param p2
+ * @param instigator
+ * @param weaponType
  */
-export function setEntityHealth(entity: number, health: number, p2: number): void { 
-	return _in(0x6b76dc1f, 0x3ae6e6a3, entity, health, p2); 
+export function setEntityHealth(entity: number, health: number, instigator: number, weaponType: number): void { 
+	return _in(0x6b76dc1f, 0x3ae6e6a3, entity, health, instigator, _ch(weaponType)); 
 }
 
 export function setEntityIconColor(entity: number, red: number, green: number, blue: number, alpha: number): void { 
@@ -32020,9 +32552,10 @@ export function setEntityIconVisibility(entity: number, toggle: boolean): void {
  * }
  * @param entity
  * @param toggle
+ * @param dontResetOnCleanup
  */
-export function setEntityInvincible(entity: number, toggle: boolean): void { 
-	return _in(0x3882114b, 0xde571ad4, entity, toggle); 
+export function setEntityInvincible(entity: number, toggle: boolean, dontResetOnCleanup: boolean): void { 
+	return _in(0x3882114b, 0xde571ad4, entity, toggle, dontResetOnCleanup); 
 }
 
 export function setEntityIsInVehicle(entity: number): void { 
@@ -32102,6 +32635,10 @@ export function setEntityNoCollisionEntity(entity1: number, entity2: number, thi
 	return _in(0xa53ed552, 0x0c07654a, entity1, entity2, thisFrameOnly); 
 }
 
+export function setEntityNoCollisionWithNetworkedEntity(entity1: number, entity2: number): void { 
+	return _in(0x0a27a782, 0x7347b3b1, entity1, entity2); 
+}
+
 export function setEntityNoweapondecals(entity: number, p1: boolean): void { 
 	return _in(0x2c2e3dc1, 0x28f44309, entity, p1); 
 }
@@ -32128,11 +32665,11 @@ export function setEntityOnlyDamagedByRelationshipGroup(entity: number, p1: bool
  * @param collisionProof
  * @param meleeProof
  * @param steamProof
- * @param p7
+ * @param dontResetOnCleanup
  * @param waterProof
  */
-export function setEntityProofs(entity: number, bulletProof: boolean, fireProof: boolean, explosionProof: boolean, collisionProof: boolean, meleeProof: boolean, steamProof: boolean, p7: boolean, waterProof: boolean): void { 
-	return _in(0xfaee099c, 0x6f890bb8, entity, bulletProof, fireProof, explosionProof, collisionProof, meleeProof, steamProof, p7, waterProof); 
+export function setEntityProofs(entity: number, bulletProof: boolean, fireProof: boolean, explosionProof: boolean, collisionProof: boolean, meleeProof: boolean, steamProof: boolean, dontResetOnCleanup: boolean, waterProof: boolean): void { 
+	return _in(0xfaee099c, 0x6f890bb8, entity, bulletProof, fireProof, explosionProof, collisionProof, meleeProof, steamProof, dontResetOnCleanup, waterProof); 
 }
 
 /**
@@ -32682,6 +33219,16 @@ export function setFormationLeader(vehicle: number, x: number, y: number, z: num
 
 export function setFreemodePrologueDone(p0: number, characterSlot: number): void { 
 	return _in(0x0d01d206, 0x16fc73fb, p0, characterSlot); 
+}
+
+/**
+ * reportData includes mc, ceo, yacht and licenceplate names
+ * @param gamerHandle
+ * @param reportData
+ */
+export function setFreemodeReportData(): [number, number] { 
+	const [gamerHandle_out, reportData_out] = _in(0x52780328, 0x6a8b6c81, _i, _i);
+	return [gamerHandle_out as number, reportData_out as number]; 
 }
 
 /**
@@ -33551,6 +34098,14 @@ export function setMinigameInProgress(toggle: boolean): void {
 	return _in(0x19e00d73, 0x22c6f85b, toggle); 
 }
 
+/**
+ * This native does absolutely nothing on PC master builds, just a nullsub.
+ * @param toggle
+ */
+export function setMinimapBackgroundHidden(toggle: boolean): void { 
+	return _in(0xb09d4255, 0x7c45eba1, toggle); 
+}
+
 export function setMinimapBlockWaypoint(toggle: boolean): void { 
 	return _in(0x58fadded, 0x207897dc, toggle); 
 }
@@ -33620,6 +34175,10 @@ export function setMinimapInSpectatorMode(toggle: boolean, ped: number): void {
 
 export function setMinimapSonarSweep(toggle: boolean): void { 
 	return _in(0x6b50fc87, 0x49632ec1, toggle); 
+}
+
+export function setMinimumTimeBetweenGearShifts(vehicle: number, time: number): void { 
+	return _in(0x16cfbc5e, 0x7eb32861, vehicle, time); 
 }
 
 /**
@@ -33943,8 +34502,8 @@ export function setNetworkIdVisibleInCutsceneHack(netId: number, p1: boolean, p2
 	return _in(0x32ebd154, 0xcb6b8b99, netId, p1, p2); 
 }
 
-export function setNetworkIdVisibleInCutsceneRemainHack(p0: number, p1: number): void { 
-	return _in(0x76b3f29d, 0x3f967692, p0, p1); 
+export function setNetworkIdVisibleInCutsceneRemainHack(p0: number, p1: number, p2: number): void { 
+	return _in(0x76b3f29d, 0x3f967692, p0, p1, p2); 
 }
 
 export function setNetworkVehicleAsGhost(vehicle: number, toggle: boolean): void { 
@@ -34001,6 +34560,14 @@ export function setNextRadioTrack(radioName: string, radioTrack: string, p2: str
  */
 export function setNightvision(toggle: boolean): void { 
 	return _in(0x18f621f7, 0xa5b1f85d, toggle); 
+}
+
+export function setNitrousIsActive(vehicle: number, toggle: boolean): void { 
+	return _in(0x9e566ea5, 0x51f4f1a6, vehicle, toggle); 
+}
+
+export function setNitrousIsVisible(vehicle: number, enabled: boolean): void { 
+	return _in(0x465eea70, 0xaf251045, vehicle, enabled); 
 }
 
 export function setNoDuckingForConversation(p0: boolean): void { 
@@ -34107,8 +34674,18 @@ export function setObjectTakesDamageFromCollidingWithBuildings(p0: number, p1: b
 	return _in(0xeb6f1a9b, 0x5510a5d2, p0, p1); 
 }
 
-export function setObjectTargettable(object: number, targettable: boolean): void { 
-	return _in(0x8a739169, 0x0f5afd81, object, targettable); 
+export function setObjectTargettable(object: number, targettable: boolean, p2: number): void { 
+	return _in(0x8a739169, 0x0f5afd81, object, targettable, p2); 
+}
+
+/**
+ * Sets the 34th and 35th object flags related to player peds.
+ * @param object
+ * @param setFlag34
+ * @param setFlag35
+ */
+export function setObjectTargettableByPlayer(object: number, setFlag34: boolean, setFlag35: boolean): void { 
+	return _in(0xb39f0336, 0x8db0caa2, object, setFlag34, setFlag35); 
 }
 
 /**
@@ -34152,6 +34729,10 @@ export function setOpenRearDoorsOnExplosion(vehicle: number, toggle: boolean): v
 
 export function setOverrideNitrousLevel(vehicle: number, toggle: boolean, level: number, power: number, rechargeTime: number, disableSound: boolean): void { 
 	return _in(0xc8e9b6b7, 0x1b8e660d, vehicle, toggle, _fv(level), _fv(power), _fv(rechargeTime), disableSound); 
+}
+
+export function setOverrideTractionLossMultiplier(vehicle: number, modifier: number): void { 
+	return _in(0xafd262ac, 0xca64479a, vehicle, _fv(modifier)); 
 }
 
 export function setOverrideVehicleDoorTorque(p0: number, p1: number, p2: number): void { 
@@ -34255,6 +34836,10 @@ export function setParticleFxForceVehicleInterior(toggle: boolean): void {
 
 export function setParticleFxLoopedAlpha(ptfxHandle: number, alpha: number): void { 
 	return _in(0x72684513, 0x2380142e, ptfxHandle, _fv(alpha)); 
+}
+
+export function setParticleFxLoopedCameraBias(ptfxHandle: number, p1: number): void { 
+	return _in(0x4100bf03, 0x46a8d2c3, ptfxHandle, _fv(p1)); 
 }
 
 /**
@@ -36564,6 +37149,10 @@ export function setPedSuffersCriticalHits(ped: number, toggle: boolean): void {
 	return _in(0xebd76f23, 0x59f190ac, ped, toggle); 
 }
 
+export function setPedSurvivesBeingOutOfWater(ped: number, toggle: boolean): boolean { 
+	return _in(0x100cd221, 0xf572f6e1, ped, toggle, _r); 
+}
+
 /**
  * Sweat is set to 100.0 or 0.0 in the decompiled scripts.
  * @param ped
@@ -36896,6 +37485,10 @@ export function setPickupGenerationRangeMultiplier(multiplier: number): void {
 	return _in(0x318516e0, 0x2de3ece2, _fv(multiplier)); 
 }
 
+export function setPickupGlowDisabled(pickup: number, toggle: boolean): void { 
+	return _in(0x08bd8ba5, 0xbde2c2fa, pickup, toggle); 
+}
+
 /**
  * p1 is always 0.51. This native is called before SET_PICKUP_REGENERATION_TIME in all occurances.
  * @param pickup
@@ -36972,6 +37565,14 @@ export function setPickupTransparentWhenUncollectable(pickup: number, toggle: bo
 
 export function setPickupUncollectable(pickup: number, toggle: boolean): void { 
 	return _in(0x1c1b69fa, 0xe509ba97, pickup, toggle); 
+}
+
+export function setPlaneAvoidsOthers(vehicle: number, toggle: boolean): void { 
+	return _in(0xbafb99b3, 0x04bc52a7, vehicle, toggle); 
+}
+
+export function setPlaneControlSectionsShouldBreakOffFromExplosions(vehicle: number, toggle: boolean): void { 
+	return _in(0xdd8a2d33, 0x37f04196, vehicle, toggle); 
 }
 
 /**
@@ -38021,6 +38622,10 @@ export function setRelationshipGroupAffectsWantedLevel(group: number, p1: boolea
 	return _in(0x5615e0c5, 0xeb2bc6e2, _ch(group), p1); 
 }
 
+export function setRemainingNitrousDuration(vehicle: number, duration: number): void { 
+	return _in(0x1ad0f63a, 0x94e10eff, vehicle, _fv(duration)); 
+}
+
 /**
  * Enables ghosting between specific players
  * @param player
@@ -38186,6 +38791,10 @@ export function setSavegameListUniqueId(p0: number): void {
 
 export function setScaleformMovieAsNoLongerNeeded(scaleformHandle: number): number { 
 	return _in(0x1d132d61, 0x4dd86811, _ii(scaleformHandle)); 
+}
+
+export function setScaleformMovieNamedAsNoLongerNeeded(scaleformHandle: number, scaleformName: string): void { 
+	return _in(0x2fdfb1b0, 0x4c76e9c3, scaleformHandle, _ts(scaleformName)); 
 }
 
 export function setScaleformMovieToUseLargeRt(scaleformHandle: number, toggle: boolean): void { 
@@ -38361,6 +38970,10 @@ export function setScriptRampImpulseScale(vehicle: number, impulseScale: number)
 
 export function setScriptRocketBoostRechargeTime(vehicle: number, seconds: number): void { 
 	return _in(0xe00f2ab1, 0x00b76e89, vehicle, _fv(seconds)); 
+}
+
+export function setScriptTaskEnableCollisionOnNetworkCloneWhenFixed(ped: number, enable: boolean): void { 
+	return _in(0x32f6eef0, 0x31f943dc, ped, enable); 
 }
 
 export function setScriptUpdateDoorAudio(doorHash: number, toggle: boolean): void { 
@@ -38881,6 +39494,10 @@ export function setTextLeading(p0: number): void {
 	return _in(0xa50abc31, 0xe3cdfaff, p0); 
 }
 
+export function setTextLineHeightMult(lineHeightMult: number): void { 
+	return _in(0x9f4624f7, 0x6e6953d1, _fv(lineHeightMult)); 
+}
+
 export function setTextOutline(): void { 
 	return _in(0x2513dfb0, 0xfb8400fe); 
 }
@@ -39118,6 +39735,10 @@ export function setTransitionTimecycleModifier(modifierName: string, transition:
 	return _in(0x3bcf5674, 0x85e1971c, _ts(modifierName), _fv(transition)); 
 }
 
+export function setTransmissionReducedGearRatio(vehicle: number, toggle: boolean): void { 
+	return _in(0x337ef33d, 0xa3ddb990, vehicle, toggle); 
+}
+
 export function setTreatAsAmbientPedForDriverLockon(ped: number, p1: boolean): void { 
 	return _in(0x2f3c3d9f, 0x50681de4, ped, p1); 
 }
@@ -39180,6 +39801,10 @@ export function setTvChannelPlaylist(tvChannel: number, playlistName: string, re
 
 export function setTvChannelPlaylistAtHour(tvChannel: number, playlistName: string, hour: number): void { 
 	return _in(0x2201c576, 0xfacaebe8, tvChannel, _ts(playlistName), hour); 
+}
+
+export function setTvChannelPlaylistDirty(tvChannel: number, p1: boolean): void { 
+	return _in(0xee831f15, 0xa8d0d94a, tvChannel, p1); 
 }
 
 export function setTvPlayerWatchingThisFrame(p0: number): void { 
@@ -39993,6 +40618,15 @@ export function setVehicleExplodesOnHighExplosionDamage(vehicle: number, toggle:
 }
 
 /**
+ * Does not actually return anything.
+ * @param vehicle
+ * @param scale
+ */
+export function setVehicleExplosiveDamageScale(vehicle: number, scale: number): number { 
+	return _in(0x84d7ffd2, 0x23caaffd, vehicle, _fv(scale), _r, _ri); 
+}
+
+/**
  * Max value is 32767
  * @param vehicle
  * @param range
@@ -40335,6 +40969,16 @@ export function setVehicleLivery2(vehicle: number, livery: number): void {
 
 export function setVehicleLodMultiplier(vehicle: number, multiplier: number): void { 
 	return _in(0x93ae6a61, 0xbe015bf1, vehicle, _fv(multiplier)); 
+}
+
+/**
+ * 0.0f = engine rev minimum
+ * 1.0f = engine rev limit
+ * @param vehicle
+ * @param modifier
+ */
+export function setVehicleMaxLaunchEngineRevs(vehicle: number, modifier: number): void { 
+	return _in(0x5ae614ec, 0xa5fdd423, vehicle, _fv(modifier)); 
 }
 
 /**
@@ -40893,6 +41537,10 @@ export function setVehicleUseCutsceneWheelCompression(p0: number, p1: boolean, p
 	return _in(0xe023e8ac, 0x4ef7c117, p0, p1, p2, p3, _r); 
 }
 
+export function setVehicleUseHornButtonForNitrous(toggle: boolean): void { 
+	return _in(0x1980f688, 0x72cc2c3d, toggle); 
+}
+
 export function setVehicleUseMoreRestrictiveSpawnChecks(vehicle: number, p1: boolean): void { 
 	return _in(0x88bc673c, 0xa9e0ae99, vehicle, p1); 
 }
@@ -41350,6 +41998,10 @@ export function setWeaponObjectTintIndex(weapon: number, tintIndex: number): voi
 	return _in(0xf8275890, 0x17d4e4a9, weapon, tintIndex); 
 }
 
+export function setWeaponPedDamageModifier(weapon: number, damageModifier: number): void { 
+	return _in(0x10919227, 0x15b68df0, _ch(weapon), _fv(damageModifier)); 
+}
+
 export function setWeatherPtfxOverrideCurrLevel(p0: number): void { 
 	return _in(0xf78b8030, 0x82d4386f, _fv(p0)); 
 }
@@ -41783,6 +42435,10 @@ export function showOutlineIndicatorOnBlip(blip: number, toggle: boolean): void 
 	return _in(0xb81656bc, 0x81fe24d1, blip, toggle); 
 }
 
+export function showPurchaseInstructionalButton(toggle: boolean): void { 
+	return _in(0xf6865e26, 0x067b708c, toggle); 
+}
+
 export function showScriptedHudComponentThisFrame(id: number): void { 
 	return _in(0x4f38dca1, 0x27daaea2, id); 
 }
@@ -42177,8 +42833,8 @@ export function startAudioScene(scene: string): boolean {
 	return _in(0x013a80fc, 0x08f6e4f2, _ts(scene), _r); 
 }
 
-export function startBeingBoss(p0: number, p1: number): void { 
-	return _in(0x3ebeac6c, 0x3f81f6bd, p0, p1); 
+export function startBeingBoss(p0: number, p1: number, p2: number): void { 
+	return _in(0x3ebeac6c, 0x3f81f6bd, p0, p1, p2); 
 }
 
 export function startBeingGoon(p0: number, p1: number, p2: number): void { 
@@ -42881,6 +43537,19 @@ export function startVehicleAlarm(vehicle: number): void {
  */
 export function startVehicleHorn(vehicle: number, duration: number, mode: number, forever: boolean): void { 
 	return _in(0x9c8c6504, 0xb5b63d2c, vehicle, duration, _ch(mode), forever); 
+}
+
+/**
+ * Returns ptfxHandle
+ * effectName: scr_sv_drag_burnout
+ * @param vehicle
+ * @param effectName
+ * @param frontBack
+ * @param leftRight
+ * @param localOnly
+ */
+export function startVehicleParticleFxLooped(vehicle: number, effectName: string, frontBack: boolean, leftRight: boolean, localOnly: boolean): number { 
+	return _in(0xdf269be2, 0x909e181a, vehicle, _ts(effectName), frontBack, leftRight, localOnly, _r, _ri); 
 }
 
 export function statClearDirtyReadDetected(): void { 
@@ -44277,9 +44946,10 @@ export function taskDriveBy(driverPed: number, targetPed: number, targetVehicle:
  * @param speed
  * @param flag
  * @param overrideEntryClipsetName
+ * @param p7
  */
-export function taskEnterVehicle(ped: number, vehicle: number, timeout: number, seat: number, speed: number, flag: number, overrideEntryClipsetName: string): void { 
-	return _in(0xc20e50aa, 0x46d09ca8, ped, vehicle, timeout, seat, _fv(speed), flag, _ts(overrideEntryClipsetName)); 
+export function taskEnterVehicle(ped: number, vehicle: number, timeout: number, seat: number, speed: number, flag: number, overrideEntryClipsetName: string, p7: number): void { 
+	return _in(0xc20e50aa, 0x46d09ca8, ped, vehicle, timeout, seat, _fv(speed), flag, _ts(overrideEntryClipsetName), p7); 
 }
 
 export function taskEveryoneLeaveVehicle(vehicle: number): void { 
@@ -45244,9 +45914,10 @@ export function taskPutPedDirectlyIntoMelee(ped: number, meleeTarget: number, bl
  * @param ropeHandle
  * @param clipSet
  * @param p10
+ * @param p11
  */
-export function taskRappelDownWallUsingClipsetOverride(ped: number, x1: number, y1: number, z1: number, x2: number, y2: number, z2: number, minZ: number, ropeHandle: number, clipSet: string, p10: number): void { 
-	return _in(0xeaf66acd, 0xdc794793, ped, _fv(x1), _fv(y1), _fv(z1), _fv(x2), _fv(y2), _fv(z2), _fv(minZ), ropeHandle, _ts(clipSet), p10); 
+export function taskRappelDownWallUsingClipsetOverride(ped: number, x1: number, y1: number, z1: number, x2: number, y2: number, z2: number, minZ: number, ropeHandle: number, clipSet: string, p10: number, p11: number): void { 
+	return _in(0xeaf66acd, 0xdc794793, ped, _fv(x1), _fv(y1), _fv(z1), _fv(x2), _fv(y2), _fv(z2), _fv(minZ), ropeHandle, _ts(clipSet), p10, p11); 
 }
 
 /**
@@ -45401,6 +46072,10 @@ export function taskSetDecisionMaker(ped: number, decisionMakerId: number): void
 
 export function taskSetSphereDefensiveArea(ped: number, x: number, y: number, z: number, radius: number): void { 
 	return _in(0x933c0651, 0x8b52a9a4, ped, _fv(x), _fv(y), _fv(z), _fv(radius)); 
+}
+
+export function taskSharkCircleCoord(ped: number, x: number, y: number, z: number, moveBlendRatio: number, radius: number): void { 
+	return _in(0x60a19cf8, 0x5ff4cefa, ped, _fv(x), _fv(y), _fv(z), _fv(moveBlendRatio), _fv(radius)); 
 }
 
 export function taskShockingEventReact(ped: number, eventHandle: number): void { 
@@ -46639,6 +47314,10 @@ export function triggerVehiclePartBrokenCameraShake(vehicle: number, p1: number,
 	return _in(0x5d96cfb5, 0x9da076a0, vehicle, p1, _fv(p2)); 
 }
 
+export function triggerVehicleWeaponReload(vehicle: number, seat: number, ped: number): boolean { 
+	return _in(0x5b1513f2, 0x7f279a44, vehicle, seat, ped, _r); 
+}
+
 export function ugcCancelQuery(): void { 
 	return _in(0xe9b99b68, 0x53181409); 
 }
@@ -46713,6 +47392,10 @@ export function ugcGetContentCreatedByLocalPlayer(p0: number): boolean {
 export function ugcGetContentCreatorGamerHandle(p0: number, p1: number): [boolean, number] { 
 	const [retval, p1_out] = _in(0x58477079, 0x4d758c18, p0, _ii(p1), _r);
 	return [retval as boolean, p1_out as number]; 
+}
+
+export function ugcGetContentDescription(index: number): string { 
+	return _in(0x4a56710b, 0xab5c4db4, index, _r, _s); 
 }
 
 export function ugcGetContentDescriptionHash(p0: number): number { 
@@ -46902,6 +47585,10 @@ export function ugcHasGetFinished(): boolean {
 
 export function ugcHasModifyFinished(): boolean { 
 	return _in(0x299ef3c5, 0x76773506, _r); 
+}
+
+export function ugcHasPermissionToWrite(): boolean { 
+	return _in(0xc33e7cbc, 0x06ec1a8d, _r); 
 }
 
 export function ugcHasQueryCreatorsFinished(): boolean { 
@@ -47334,6 +48021,10 @@ export function useVehicleCamStuntSettingsThisUpdate(): void {
 
 export function useVehicleTargetingReticule(p0: number): void { 
 	return _in(0x0c698d8f, 0x099174c7, p0); 
+}
+
+export function useVehicleTargetingReticuleOnVehicles(enable: boolean): void { 
+	return _in(0x1bc0ea29, 0x12708625, enable); 
 }
 
 export function useWaypointRecordingAsAssistedMovementRoute(name: string, p1: boolean, p2: number, p3: number): void { 

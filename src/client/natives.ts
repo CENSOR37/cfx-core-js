@@ -6,6 +6,14 @@ import { _i, _f, _v, _r, _ri, _rf, _rl, _s, _rv, _ro, _in, _ii, _fi, _ch, _obj, 
 
 
 /**
+ * Activates built-in timecycle editing tool.
+ */
+export function activateTimecycleEditor(): void { 
+	return _in(0x00000000, 0xeeb9b76a); 
+}
+
+
+/**
  * Adds an output for the specified audio submix.
  * @param submixId
  * @param outputSubmixId
@@ -17,10 +25,22 @@ export function addAudioSubmixOutput(submixId: number, outputSubmixId: number): 
 
 /**
  * Loads a minimap overlay from a GFx file in the current resource.
+ * 
+ * If you need to control the depth of overlay use [`ADD_MINIMAP_OVERLAY_WITH_DEPTH`](#\_0xED0935B5).
  * @param name
  */
 export function addMinimapOverlay(name: string): number { 
 	return _in(0x00000000, 0x4afd2499, _ts(name), _r, _ri); 
+}
+
+
+/**
+ * Loads a minimap overlay from a GFx file in the current resource.
+ * @param name
+ * @param depth
+ */
+export function addMinimapOverlayWithDepth(name: string, depth: number): number { 
+	return _in(0x00000000, 0xed0935b5, _ts(name), depth, _r, _ri); 
 }
 
 
@@ -46,6 +66,11 @@ export function addTextEntryByHash(entryKey: number, entryText: string): void {
 }
 
 
+export function applyWeatherCycles(numEntries: number, msPerCycle: number): boolean { 
+	return _in(0x00000000, 0x3422291c, numEntries, msPerCycle, _r); 
+}
+
+
 /**
  * Break off vehicle wheel by index. The `leaveDebrisTrail` flag requires `putOnFire` to be true.
  * @param vehicle
@@ -67,6 +92,14 @@ export function breakOffVehicleWheel(vehicle: number, wheelIndex: number, leaveD
  */
 export function callMinimapScaleformFunction(miniMap: number, fnName: string): boolean { 
 	return _in(0x00000000, 0x4c89c0ed, miniMap, _ts(fnName), _r); 
+}
+
+
+/**
+ * Resets the screen's draw-origin which was changed by the function [`SET_DRAW_ORIGIN`](#\_0xE10198D5) back to `x=0, y=0`. See [`SET_DRAW_ORIGIN`](#\_0xE10198D5) for further information.
+ */
+export function clearDrawOrigin(): void { 
+	return _in(0x00000000, 0xdd76b263); 
 }
 
 
@@ -238,6 +271,22 @@ export function doesTimecycleModifierHasVar(modifierName: string, varName: strin
 }
 
 
+export function doesTrainStopAtStations(train: number): boolean { 
+	return _in(0x00000000, 0x77cc80dc, train, _r); 
+}
+
+
+/**
+ * Checks whether the vehicle consumes fuel. The check is done based on petrol tank volume and vehicle type. Bicycles and vehicles with petrol tank volume equal to zero (only bicycles by default) do not use fuel. All other vehicles do.
+ * 
+ * You can customize petrol tank volume using [`SET_HANDLING_FLOAT`](#\_0x90DD01C)/[`SET_VEHICLE_HANDLING_FLOAT`](#\_0x488C86D2) natives with `fieldName` equal to `fPetrolTankVolume`.
+ * @param vehicle
+ */
+export function doesVehicleUseFuel(vehicle: number): boolean { 
+	return _in(0x00000000, 0xef30a696, vehicle, _r); 
+}
+
+
 /**
  * Returns a list of door system entries: a door system hash (see [ADD_DOOR_TO_SYSTEM](#\_0x6F8838D03D1DC226)) and its object handle.
  * 
@@ -254,6 +303,11 @@ export function doorSystemGetActive(): any {
 
 export function doorSystemGetSize(): number { 
 	return _in(0x00000000, 0x237613b3, _r, _ri); 
+}
+
+
+export function drawBox(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number, red: number, green: number, blue: number, alpha: number): void { 
+	return _in(0x00000000, 0xcd4d9dd5, _fv(x1), _fv(y1), _fv(z1), _fv(x2), _fv(y2), _fv(z2), red, green, blue, alpha); 
 }
 
 
@@ -278,6 +332,29 @@ export function drawGizmo(matrixPtr: any, id: string): boolean {
 
 
 /**
+ * Draw a glow sphere this frame. Up to 256 per single frame.
+ * @param posX
+ * @param posY
+ * @param posZ
+ * @param radius
+ * @param colorR
+ * @param colorG
+ * @param colorB
+ * @param intensity
+ * @param invert
+ * @param marker
+ */
+export function drawGlowSphere(posX: number, posY: number, posZ: number, radius: number, colorR: number, colorG: number, colorB: number, intensity: number, invert: boolean, marker: boolean): void { 
+	return _in(0x00000000, 0xbd25ec89, _fv(posX), _fv(posY), _fv(posZ), _fv(radius), colorR, colorG, colorB, _fv(intensity), invert, marker); 
+}
+
+
+export function drawLine(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number, red: number, green: number, blue: number, alpha: number): void { 
+	return _in(0x00000000, 0xb3426bcc, _fv(x1), _fv(y1), _fv(z1), _fv(x2), _fv(y2), _fv(z2), red, green, blue, alpha); 
+}
+
+
+/**
  * Like DRAW_RECT, but it's a line.
  * @param x1
  * @param y1
@@ -291,6 +368,11 @@ export function drawGizmo(matrixPtr: any, id: string): boolean {
  */
 export function drawLine2d(x1: number, y1: number, x2: number, y2: number, width: number, r: number, g: number, b: number, a: number): void { 
 	return _in(0x00000000, 0x0b856a90, _fv(x1), _fv(y1), _fv(x2), _fv(y2), _fv(width), r, g, b, a); 
+}
+
+
+export function drawPoly(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number, x3: number, y3: number, z3: number, red: number, green: number, blue: number, alpha: number): void { 
+	return _in(0x00000000, 0xabd19253, _fv(x1), _fv(y1), _fv(z1), _fv(x2), _fv(y2), _fv(z2), _fv(x3), _fv(y3), _fv(z3), red, green, blue, alpha); 
 }
 
 
@@ -569,6 +651,19 @@ export function getDuiHandle(duiObject: any): string {
 
 
 /**
+ * **Experimental**: This native may be altered or removed in future versions of CitizenFX without warning.
+ * 
+ * Returns the memory address of an entity.
+ * 
+ * This native is intended for singleplayer debugging, and may not be available during multiplayer.
+ * @param entity
+ */
+export function getEntityAddress(entity: number): any { 
+	return _in(0x00000000, 0x9a3144bc, entity, _r, _ri); 
+}
+
+
+/**
  * Returns entity's archetype name, if available.
  * @param entity
  */
@@ -631,24 +726,21 @@ export function getExternalKvpString(resource: string, key: string): string {
 }
 
 
+export function getFuelConsumptionRateMultiplier(): number { 
+	return _in(0x00000000, 0x5550bf9f, _r, _rf); 
+}
+
+
+export function getFuelConsumptionState(): boolean { 
+	return _in(0x00000000, 0xc66cd90c, _r); 
+}
+
+
 /**
- * Returns a list of entity handles (script GUID) for all entities in the specified pool - the data returned is an array as
- * follows:
- * 
- * ```json
- * [ 770, 1026, 1282, 1538, 1794, 2050, 2306, 2562, 2818, 3074, 3330, 3586, 3842, 4098, 4354, 4610, ...]
- * ```
- * 
- * ### Supported pools
- * 
- * *   `CPed`: Peds (including animals) and players.
- * *   `CObject`: Objects (props), doors, and projectiles.
- * *   `CVehicle`: Vehicles.
- * *   `CPickup`: Pickups.
- * @param poolName
+ * A getter for [SET_GLOBAL_PASSENGER_MASS_MULTIPLIER](#\_0x1c47f6ac).
  */
-export function getGamePool(poolName: string): any { 
-	return _in(0x00000000, 0x2b9d4f50, _ts(poolName), _r, _ro); 
+export function getGlobalPassengerMassMultiplier(): number { 
+	return _in(0x00000000, 0x78951816, _r, _rf); 
 }
 
 
@@ -847,10 +939,135 @@ export function getNuiCursorPosition(): [number, number] {
 
 
 /**
+ * An analogue of [GET_NUMBER_OF_PED_DRAWABLE_VARIATIONS](#\_0x27561561732A7842) that returns number of drawable variations inside a single collection instead of the total number across all collections.
+ * @param ped
+ * @param componentId
+ * @param collection
+ */
+export function getNumberOfPedCollectionDrawableVariations(ped: number, componentId: number, collection: string): number { 
+	return _in(0x00000000, 0x310d0271, ped, componentId, _ts(collection), _r, _ri); 
+}
+
+
+/**
+ * An analogue of [GET_NUMBER_OF_PED_PROP_DRAWABLE_VARIATIONS](#\_0x5FAF9754E789FB47) that returns number of prop variations inside a single collection instead of the total number across all collections.
+ * @param ped
+ * @param anchorPoint
+ * @param collection
+ */
+export function getNumberOfPedCollectionPropDrawableVariations(ped: number, anchorPoint: number, collection: string): number { 
+	return _in(0x00000000, 0x3b6a13e1, ped, anchorPoint, _ts(collection), _r, _ri); 
+}
+
+
+/**
+ * An alternative to [GET_NUMBER_OF_PED_PROP_TEXTURE_VARIATIONS](#\_0xA6E7F1CEB523E171) that uses local collection indexing instead of the global one.
+ * @param ped
+ * @param anchorPoint
+ * @param collection
+ * @param propIndex
+ */
+export function getNumberOfPedCollectionPropTextureVariations(ped: number, anchorPoint: number, collection: string, propIndex: number): number { 
+	return _in(0x00000000, 0x75caf9cc, ped, anchorPoint, _ts(collection), propIndex, _r, _ri); 
+}
+
+
+/**
+ * An alternative to [GET_NUMBER_OF_PED_TEXTURE_VARIATIONS](#\_0x8F7156A3142A6BAD) that uses local collection indexing instead of the global one.
+ * @param ped
+ * @param componentId
+ * @param collection
+ * @param drawableId
+ */
+export function getNumberOfPedCollectionTextureVariations(ped: number, componentId: number, collection: string, drawableId: number): number { 
+	return _in(0x00000000, 0x0d2c15d7, ped, componentId, _ts(collection), drawableId, _r, _ri); 
+}
+
+
+/**
  * A getter for [SET_PARKED_VEHICLE_DENSITY_MULTIPLIER_THIS_FRAME](#\_0xEAE6DCC7EEE3DB1D).
  */
 export function getParkedVehicleDensityMultiplier(): number { 
 	return _in(0x00000000, 0xff72df84, _r, _rf); 
+}
+
+
+/**
+ * Returns the world position the pointer is hovering on the pause map.
+ */
+export function getPauseMapPointerWorldPosition(): Vector3 { 
+	return _mv(_in(0x00000000, 0xe5af7a82, _r, _rv)); 
+}
+
+
+/**
+ * Gets local index inside a collection (which can be obtained using [GET_PED_COLLECTION_NAME_FROM_DRAWABLE](#\_0xD6BBA48B)) for the given global drawable ID. The collection name and index are used in functions like [SET_PED_COLLECTION_COMPONENT_VARIATION](#\_0x88711BBA).
+ * @param ped
+ * @param componentId
+ * @param drawableId
+ */
+export function getPedCollectionLocalIndexFromDrawable(ped: number, componentId: number, drawableId: number): number { 
+	return _in(0x00000000, 0x94eb1fe4, ped, componentId, drawableId, _r, _ri); 
+}
+
+
+/**
+ * Gets local index inside a collection (which can be obtained using [GET_PED_COLLECTION_NAME_FROM_PROP](#\_0x8ED0C17)) for the given global prop index. The collection name and index are used in functions like [SET_PED_COLLECTION_PROP_INDEX](#\_0x75240BCB).
+ * @param ped
+ * @param anchorPoint
+ * @param propIndex
+ */
+export function getPedCollectionLocalIndexFromProp(ped: number, anchorPoint: number, propIndex: number): number { 
+	return _in(0x00000000, 0xfbdb885f, ped, anchorPoint, propIndex, _r, _ri); 
+}
+
+
+/**
+ * Returns name of collection under given index for the given Ped.
+ * 
+ * Collections are groups of drawable components or props available for the given Ped. Usually collection corresponds to a certain DLC or the base game. See [SET_PED_COLLECTION_COMPONENT_VARIATION](#\_0x88711BBA), [SET_PED_COLLECTION_PROP_INDEX](#\_0x75240BCB), [GET_NUMBER_OF_PED_COLLECTION_DRAWABLE_VARIATIONS](#\_0x310D0271) etc natives for more details on how to work with collections.
+ * 
+ * `GET_PED_COLLECTION_NAME` can be used together with [GET_PED_COLLECTIONS_COUNT](#\_0x45946359) to list all collections attached to Ped.
+ * @param ped
+ * @param index
+ */
+export function getPedCollectionName(ped: number, index: number): string { 
+	return _in(0x00000000, 0xfed5d83a, ped, index, _r, _s); 
+}
+
+
+/**
+ * Gets collection name for the given global drawable ID. Together with [GET_PED_COLLECTION_LOCAL_INDEX_FROM_DRAWABLE](#\_0x94EB1FE4) is used to get collection and local index (inside the given collection) of the drawable. The collection name and index are used in functions like [SET_PED_COLLECTION_COMPONENT_VARIATION](#\_0x88711BBA).
+ * @param ped
+ * @param componentId
+ * @param drawableId
+ */
+export function getPedCollectionNameFromDrawable(ped: number, componentId: number, drawableId: number): string { 
+	return _in(0x00000000, 0xd6bba48b, ped, componentId, drawableId, _r, _s); 
+}
+
+
+/**
+ * Gets collection name for the given global prop index. Together with [GET_PED_COLLECTION_LOCAL_INDEX_FROM_PROP](#\_0xFBDB885F) is used to get collection and local index (inside the given collection) of the prop. The collection name and index are used in functions like [SET_PED_COLLECTION_PROP_INDEX](#\_0x75240BCB).
+ * @param ped
+ * @param anchorPoint
+ * @param propIndex
+ */
+export function getPedCollectionNameFromProp(ped: number, anchorPoint: number, propIndex: number): string { 
+	return _in(0x00000000, 0x08ed0c17, ped, anchorPoint, propIndex, _r, _s); 
+}
+
+
+/**
+ * Returns number of variation collections available for the given Ped.
+ * 
+ * Collections are groups of drawable components or props available for the given Ped. Usually collection corresponds to a certain DLC or the base game. See [SET_PED_COLLECTION_COMPONENT_VARIATION](#\_0x88711BBA), [SET_PED_COLLECTION_PROP_INDEX](#\_0x75240BCB), [GET_NUMBER_OF_PED_COLLECTION_DRAWABLE_VARIATIONS](#\_0x310D0271) etc natives for more details on how to work with collections.
+ * 
+ * `GET_PED_COLLECTIONS_COUNT` can be used together with [GET_PED_COLLECTION_NAME](#\_0xFED5D83A) to list all collections attached to Ped.
+ * @param ped
+ */
+export function getPedCollectionsCount(ped: number): number { 
+	return _in(0x00000000, 0x45946359, ped, _r, _ri); 
 }
 
 
@@ -876,6 +1093,44 @@ export function getPedDecorations(ped: number): any {
  */
 export function getPedDensityMultiplier(): number { 
 	return _in(0x00000000, 0xf5a904f9, _r, _rf); 
+}
+
+
+/**
+ * Returns global drawable index based on the local one. Is it a reverse to [GET_PED_COLLECTION_NAME_FROM_DRAWABLE](#\_0xD6BBA48B) and [GET_PED_COLLECTION_LOCAL_INDEX_FROM_DRAWABLE](#\_0x94EB1FE4) natives.
+ * 
+ * Drawables are stored inside collections. Each collection usually corresponds to a certain DCL or the base game.
+ * 
+ * If all drawables from all collections are placed into one continuous array - the global index will correspond to the index of drawable in such array. Local index is index of drawable in this array relative to the start of the given collection.
+ * @param ped
+ * @param componentId
+ * @param collection
+ * @param drawableId
+ */
+export function getPedDrawableGlobalIndexFromCollection(ped: number, componentId: number, collection: string, drawableId: number): number { 
+	return _in(0x00000000, 0x280f1fc3, ped, componentId, _ts(collection), drawableId, _r, _ri); 
+}
+
+
+/**
+ * An analogue to [GET_PED_DRAWABLE_VARIATION](#\_0x67F3780DD425D4FC) that returns collection local drawable index (inside [GET_PED_DRAWABLE_VARIATION_COLLECTION_NAME](#\_0xBCE0AB63) collection) instead of the global drawable index.
+ * @param ped
+ * @param componentId
+ */
+export function getPedDrawableVariationCollectionLocalIndex(ped: number, componentId: number): number { 
+	return _in(0x00000000, 0x9970386f, ped, componentId, _r, _ri); 
+}
+
+
+/**
+ * An analogue to [GET_PED_DRAWABLE_VARIATION](#\_0x67F3780DD425D4FC) that returns collection name instead of the global drawable index.
+ * 
+ * Should be used together with [GET_PED_DRAWABLE_VARIATION_COLLECTION_LOCAL_INDEX](#\_0x9970386F).
+ * @param ped
+ * @param componentId
+ */
+export function getPedDrawableVariationCollectionName(ped: number, componentId: number): string { 
+	return _in(0x00000000, 0xbce0ab63, ped, componentId, _r, _s); 
 }
 
 
@@ -947,6 +1202,44 @@ export function getPedMovementClipset(ped: number): number {
 
 
 /**
+ * An analogue to [GET_PED_PROP_INDEX](#\_0x898CC20EA75BACD8) that returns collection local prop index (inside [GET_PED_PROP_COLLECTION_NAME](#\_0x6B5653E4) collection) instead of the global prop index.
+ * @param ped
+ * @param anchorPoint
+ */
+export function getPedPropCollectionLocalIndex(ped: number, anchorPoint: number): number { 
+	return _in(0x00000000, 0xcd420ad1, ped, anchorPoint, _r, _ri); 
+}
+
+
+/**
+ * An analogue to [GET_PED_PROP_INDEX](#\_0x898CC20EA75BACD8) that returns collection name instead of the global drawable index.
+ * 
+ * Should be used together with [GET_PED_PROP_COLLECTION_LOCAL_INDEX](#\_0xCD420AD1).
+ * @param ped
+ * @param anchorPoint
+ */
+export function getPedPropCollectionName(ped: number, anchorPoint: number): string { 
+	return _in(0x00000000, 0x6b5653e4, ped, anchorPoint, _r, _s); 
+}
+
+
+/**
+ * Returns global prop index based on the local one. Is it a reverse to [GET_PED_COLLECTION_NAME_FROM_PROP](#\_0x8ED0C17) and [GET_PED_COLLECTION_LOCAL_INDEX_FROM_PROP](#\_0xFBDB885F) natives.
+ * 
+ * Props are stored inside collections. Each collection usually corresponds to a certain DCL or the base game.
+ * 
+ * If all props from all collections are placed into one continuous array - the global index will correspond to the index of the prop in such array. Local index is index of the prop in this array relative to the start of the given collection.
+ * @param ped
+ * @param anchorPoint
+ * @param collection
+ * @param propIndex
+ */
+export function getPedPropGlobalIndexFromCollection(ped: number, anchorPoint: number, collection: string, propIndex: number): number { 
+	return _in(0x00000000, 0x2cb45cdc, ped, anchorPoint, _ts(collection), propIndex, _r, _ri); 
+}
+
+
+/**
  * A getter for [SET_PED_SWEAT](#\_0x27B0405F59637D1F).
  * @param ped
  */
@@ -955,6 +1248,14 @@ export function getPedSweat(ped: number): number {
 }
 
 
+/**
+ * Gets a local client's Player ID from its server ID counterpart, assuming the passed `serverId` exists on the client.
+ * 
+ * If no matching client is found, or an invalid value is passed over as the `serverId` native's parameter, the native result will be `-1`.
+ * 
+ * It's worth noting that this native method can only retrieve information about clients that are culled to the connected client.
+ * @param serverId
+ */
 export function getPlayerFromServerId(serverId: number): number { 
 	return _in(0x00000000, 0x344ea166, serverId, _r, _ri); 
 }
@@ -1087,6 +1388,25 @@ export function getScenarioPedDensityMultiplier(): number {
 }
 
 
+/**
+ * Returns the result of a shape test, also returning the material of any touched surface.
+ * 
+ * When used with an asynchronous shape test, this native should be looped until returning 0 or 2, after which the handle is invalidated.
+ * 
+ * Unless the return value is 2, the other return values are undefined.
+ * @param shapeTestHandle
+ * @param hit
+ * @param endCoords
+ * @param surfaceNormal
+ * @param materialHash
+ * @param entityHit
+ */
+export function getShapeTestResultIncludingMaterial(shapeTestHandle: number): [number, boolean, Vector3, Vector3, any, number] { 
+	const [retval, hit_out, endCoords_out, surfaceNormal_out, materialHash_out, entityHit_out] = _in(0x00000000, 0x4301e10c, shapeTestHandle, _i, _v, _v, _i, _i, _r, _ri);
+	return [retval as number, hit_out as boolean, _mv(endCoords_out), _mv(surfaceNormal_out), materialHash_out as any, entityHit_out as number]; 
+}
+
+
 export function getTimecycleModifierCount(): number { 
 	return _in(0x00000000, 0xfe2a1d4d, _r, _ri); 
 }
@@ -1152,8 +1472,36 @@ export function getTimecycleVarNameByIndex(varIndex: number): string {
 }
 
 
+export function getTrackBrakingDistance(track: number): number { 
+	return _in(0x00000000, 0xbf482a5e, track, _r, _rf); 
+}
+
+
+export function getTrackMaxSpeed(track: number): number { 
+	return _in(0x00000000, 0x34ee2bf3, track, _r, _rf); 
+}
+
+
+/**
+ * Gets the trains desired speed.
+ * @param train
+ */
+export function getTrainCruiseSpeed(train: number): number { 
+	return _in(0x00000000, 0xa4921ef5, train, _r, _rf); 
+}
+
+
 export function getTrainCurrentTrackNode(train: number): number { 
 	return _in(0x00000000, 0xe015e854, train, _r, _ri); 
+}
+
+
+/**
+ * Gets the direction the train is facing
+ * @param train
+ */
+export function getTrainDirection(train: number): boolean { 
+	return _in(0x00000000, 0x8daf79b6, train, _r); 
 }
 
 
@@ -1173,6 +1521,20 @@ export function getTrainDoorCount(train: number): number {
  */
 export function getTrainDoorOpenRatio(train: number, doorIndex: number): number { 
 	return _in(0x00000000, 0x40b16551, train, doorIndex, _r, _rf); 
+}
+
+
+/**
+ * Gets the speed the train is currently going.
+ * @param train
+ */
+export function getTrainSpeed(train: number): number { 
+	return _in(0x00000000, 0x428668b7, train, _r, _rf); 
+}
+
+
+export function getTrainState(train: number): number { 
+	return _in(0x00000000, 0x81b50033, train, _r, _ri); 
 }
 
 
@@ -1207,6 +1569,14 @@ export function getVehicleCurrentRpm(vehicle: number): number {
 
 export function getVehicleDashboardBoost(): number { 
 	return _in(0x00000000, 0xdffaba2a, _r, _rf); 
+}
+
+
+/**
+ * Retrieves the current gear displayed on the dashboard of the vehicle the player is in, returned as a float. This value represents the gear shown in the instrument cluster, such as "R" (0.0) or positive values (e.g., 1.0, 2.0, etc.) for drive gears.
+ */
+export function getVehicleDashboardCurrentGear(): number { 
+	return _in(0x00000000, 0x435c86f4, _r, _rf); 
 }
 
 
@@ -1263,11 +1633,6 @@ export function getVehicleDashboardVacuum(): number {
 }
 
 
-export function getVehicleDashboardWaterTemp(): number { 
-	return _in(0x00000000, 0x8e3b3e42, _r, _rf); 
-}
-
-
 /**
  * A getter for [SET_VEHICLE_DENSITY_MULTIPLIER_THIS_FRAME](#\_0x245A6883D966D537).
  */
@@ -1292,6 +1657,16 @@ export function getVehicleEngineTemperature(vehicle: number): number {
 
 export function getVehicleFuelLevel(vehicle: number): number { 
 	return _in(0x00000000, 0x5f739bb8, vehicle, _r, _rf); 
+}
+
+
+/**
+ * Gets vehicles gear ratio on choosen gear.
+ * @param vehicle
+ * @param gear
+ */
+export function getVehicleGearRatio(vehicle: number, gear: number): number { 
+	return _in(0x00000000, 0x82e794b7, vehicle, gear, _r, _rf); 
 }
 
 
@@ -1391,6 +1766,38 @@ export function getVehicleTopSpeedModifier(vehicle: number): number {
 
 export function getVehicleTurboPressure(vehicle: number): number { 
 	return _in(0x00000000, 0xe02b51d7, vehicle, _r, _rf); 
+}
+
+
+/**
+ * Returns the model type of the vehicle as defined by:
+ * 
+ * ```cpp
+ * enum VehicleType
+ * {
+ * VEHICLE_TYPE_NONE = -1,
+ * VEHICLE_TYPE_CAR = 0,
+ * VEHICLE_TYPE_PLANE = 1,
+ * VEHICLE_TYPE_TRAILER = 2,
+ * VEHICLE_TYPE_QUADBIKE = 3,
+ * VEHICLE_TYPE_DRAFT = 4,
+ * VEHICLE_TYPE_SUBMARINECAR = 5,
+ * VEHICLE_TYPE_AMPHIBIOUS_AUTOMOBILE = 6,
+ * VEHICLE_TYPE_AMPHIBIOUS_QUADBIKE = 7,
+ * VEHICLE_TYPE_HELI = 8,
+ * VEHICLE_TYPE_BLIMP = 9,
+ * VEHICLE_TYPE_AUTOGYRO = 10,
+ * VEHICLE_TYPE_BIKE = 11,
+ * VEHICLE_TYPE_BICYCLE = 12,
+ * VEHICLE_TYPE_BOAT = 13,
+ * VEHICLE_TYPE_TRAIN = 14,
+ * VEHICLE_TYPE_SUBMARINE = 15,
+ * };
+ * ```
+ * @param vehicle
+ */
+export function getVehicleTypeRaw(vehicle: number): number { 
+	return _in(0x00000000, 0xde73bc10, vehicle, _r, _ri); 
 }
 
 
@@ -1585,6 +1992,14 @@ export function getVehicleXenonLightsCustomColor(vehicle: number): [boolean, num
 }
 
 
+/**
+ * A getter for [SET_VEHICLE_XMAS_SNOW_FACTOR](#\_80cc4c9e).
+ */
+export function getVehicleXmasSnowFactor(): number { 
+	return _in(0x00000000, 0x16605b30, _r, _rf); 
+}
+
+
 export function getWaterQuadAlpha(waterQuad: number): [boolean, number, number, number, number] { 
 	const [retval, a0_out, a1_out, a2_out, a3_out] = _in(0x00000000, 0x14088095, waterQuad, _i, _i, _i, _i, _r);
 	return [retval as boolean, a0_out as number, a1_out as number, a2_out as number, a3_out as number]; 
@@ -1705,7 +2120,7 @@ export function getWaveQuadDirection(waveQuad: number): [boolean, number, number
 
 
 /**
- * A getter for [SET_WEAPON_ANIMATION_OVERRIDE](\_0x1055AC3A667F09D9).
+ * A getter for [SET_WEAPON_ANIMATION_OVERRIDE](#\_0x1055AC3A667F09D9).
  * @param ped
  */
 export function getWeaponAnimationOverride(ped: number): number { 
@@ -1855,8 +2270,85 @@ export function isNuiFocused(): boolean {
 }
 
 
+/**
+ * An alternative to [IS_PED_COMPONENT_VARIATION_GEN9\_EXCLUSIVE](#\_0xC767B581) that uses local collection indexing instead of the global one.
+ * 
+ * The local / collection relative indexing is useful because the global index may get shifted after Title Update. While local index will remain the same which simplifies migration to the newer game version.
+ * 
+ * Collection name and local index inside the collection can be obtained from the global index using [GET_PED_COLLECTION_NAME_FROM_DRAWABLE](#\_0xD6BBA48B) and [GET_PED_COLLECTION_LOCAL_INDEX_FROM_DRAWABLE](#\_0x94EB1FE4) natives.
+ * @param ped
+ * @param componentId
+ * @param collection
+ * @param drawableId
+ */
+export function isPedCollectionComponentVariationGen9Exclusive(ped: number, componentId: number, collection: string, drawableId: number): boolean { 
+	return _in(0x00000000, 0x33b2afa2, ped, componentId, _ts(collection), drawableId, _r); 
+}
+
+
+/**
+ * An alternative to [IS_PED_COMPONENT_VARIATION_VALID](#\_0xE825F6B6CEA7671D) that uses local collection indexing instead of the global one.
+ * 
+ * The local / collection relative indexing is useful because the global index may get shifted after Title Update. While local index will remain the same which simplifies migration to the newer game version.
+ * 
+ * Collection name and local index inside the collection can be obtained from the global index using [GET_PED_COLLECTION_NAME_FROM_DRAWABLE](#\_0xD6BBA48B) and [GET_PED_COLLECTION_LOCAL_INDEX_FROM_DRAWABLE](#\_0x94EB1FE4) natives.
+ * @param ped
+ * @param componentId
+ * @param collection
+ * @param drawableId
+ * @param textureId
+ */
+export function isPedCollectionComponentVariationValid(ped: number, componentId: number, collection: string, drawableId: number, textureId: number): boolean { 
+	return _in(0x00000000, 0xca63a52a, ped, componentId, _ts(collection), drawableId, textureId, _r); 
+}
+
+
 export function isPedComponentVariationGen9Exclusive(ped: number, componentId: number, drawableId: number): boolean { 
 	return _in(0x00000000, 0xc767b581, ped, componentId, drawableId, _r); 
+}
+
+
+/**
+ * Can be used to get state of raw key on keyboard.
+ * 
+ * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+ * @param rawKeyIndex
+ */
+export function isRawKeyDown(rawKeyIndex: number): boolean { 
+	return _in(0x00000000, 0xd95a7387, rawKeyIndex, _r); 
+}
+
+
+/**
+ * Can be used to get state of raw key on keyboard.
+ * 
+ * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+ * @param rawKeyIndex
+ */
+export function isRawKeyPressed(rawKeyIndex: number): boolean { 
+	return _in(0x00000000, 0x69f7c29e, rawKeyIndex, _r); 
+}
+
+
+/**
+ * Can be used to get release state of raw key on keyboard.
+ * 
+ * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+ * @param rawKeyIndex
+ */
+export function isRawKeyReleased(rawKeyIndex: number): boolean { 
+	return _in(0x00000000, 0xeaa50861, rawKeyIndex, _r); 
+}
+
+
+/**
+ * Can be used to get state of raw key on keyboard.
+ * 
+ * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+ * @param rawKeyIndex
+ */
+export function isRawKeyUp(rawKeyIndex: number): boolean { 
+	return _in(0x00000000, 0x36f4e505, rawKeyIndex, _r); 
 }
 
 
@@ -1868,6 +2360,24 @@ export function isPedComponentVariationGen9Exclusive(ped: number, componentId: n
  */
 export function isStreamingFileReady(registerAs: string): boolean { 
 	return _in(0x00000000, 0xa194934d, _ts(registerAs), _r); 
+}
+
+
+/**
+ * Getter for [SET_TRACK_ENABLED](?\_0x4b41e84c)
+ * @param track
+ */
+export function isTrackEnabled(track: number): boolean { 
+	return _in(0x00000000, 0x31e695cb, track, _r); 
+}
+
+
+/**
+ * Getter for [SWITCH_TRAIN_TRACK](?\_0xFD813BB7DB977F20). Determines if ambient trains are able to spawn on this track.
+ * @param track
+ */
+export function isTrackSwitchedOff(track: number): boolean { 
+	return _in(0x00000000, 0xe0c53765, track, _r); 
 }
 
 
@@ -1982,6 +2492,15 @@ export function mumbleClearVoiceTargetChannels(targetId: number): void {
  */
 export function mumbleClearVoiceTargetPlayers(targetId: number): void { 
 	return _in(0x00000000, 0x912e21da, targetId); 
+}
+
+
+/**
+ * Check whether specified channel exists on the Mumble server.
+ * @param channel
+ */
+export function mumbleDoesChannelExist(channel: number): boolean { 
+	return _in(0x00000000, 0x0cc8ca25, channel, _r); 
 }
 
 
@@ -2163,6 +2682,20 @@ export function mumbleSetVolumeOverrideByServerId(serverId: number, volume: numb
 }
 
 
+export function networkDoesEntityExistWithNetworkId(netId: number): boolean { 
+	return _in(0x00000000, 0x1e2e3177, netId, _r); 
+}
+
+
+/**
+ * Toggles a check that prevents attaching (networked) entities to remotely owned peds. This is disabled by default.
+ * @param enable
+ */
+export function onesyncEnableRemoteAttachmentSanitization(enable: boolean): void { 
+	return _in(0x00000000, 0x30ce39d8, enable); 
+}
+
+
 /**
  * Sets whether peds can stand on top of *all* vehicles without falling off.
  * 
@@ -2171,6 +2704,17 @@ export function mumbleSetVolumeOverrideByServerId(serverId: number, volume: numb
  */
 export function overridePedsCanStandOnTopFlag(flag: boolean): void { 
 	return _in(0x00000000, 0x90a9e0b2, flag); 
+}
+
+
+/**
+ * Allows the bypassing of default game behavior that prevents the use of [SET_PED_DRIVE_BY_CLIPSET_OVERRIDE](#\_0xED34AB6C5CB36520) in certain scenarios to avoid clipping issues (e.g., when there is more than one Ped in a vehicle).
+ * 
+ * Note: This flag and the overridden clipset are not replicated values and require synchronization through user scripts. Additionally, current game behavior also restricts applying this clipset locally when in first-person mode and will require a temporary workaround.
+ * @param flag
+ */
+export function overridePedsUseDefaultDriveByClipset(flag: boolean): void { 
+	return _in(0x00000000, 0xb14f8ead, flag); 
 }
 
 
@@ -2203,18 +2747,6 @@ export function overrideVehiclePedsCanStandOnTopFlag(vehicle: number, can: boole
  */
 export function registerArchetypes(factory: any): void { 
 	return _in(0x00000000, 0x3c2f9037, _mfr(factory)); 
-}
-
-
-/**
- * **Experimental**: This native may be altered or removed in future versions of CitizenFX without warning.
- * 
- * Registers a set of entities with the game engine. These should match `CEntityDef` class information from the game.
- * At this time, this function **should not be used in a live environment**.
- * @param factory
- */
-export function registerEntities(factory: any): void { 
-	return _in(0x00000000, 0x410da7d3, _mfr(factory)); 
 }
 
 
@@ -2578,6 +3110,11 @@ export function setAudioSubmixOutputVolumes(submixId: number, outputSlot: number
 }
 
 
+export function setBackfaceculling(toggle: boolean): void { 
+	return _in(0x00000000, 0xc44c2f44, toggle); 
+}
+
+
 export function setCalmingQuadBounds(waterQuad: number, minX: number, minY: number, maxX: number, maxY: number): boolean { 
 	return _in(0x00000000, 0xc5945bd9, waterQuad, minX, minY, maxX, maxY, _r); 
 }
@@ -2674,12 +3211,37 @@ export function setDiscordRichPresenceAssetText(text: string): void {
 
 
 /**
+ * Sets the on-screen drawing origin for draw-functions in world coordinates.
+ * 
+ * The effect can be reset by calling [`CLEAR_DRAW_ORIGIN`](#\_0xDD76B263) and is limited to 32 different origins each frame.
+ * @param x
+ * @param y
+ * @param z
+ * @param is2d
+ */
+export function setDrawOrigin(x: number, y: number, z: number, is2d: boolean): void { 
+	return _in(0x00000000, 0xe10198d5, _fv(x), _fv(y), _fv(z), is2d); 
+}
+
+
+/**
  * Navigates the specified DUI browser to a different URL.
  * @param duiObject
  * @param url
  */
 export function setDuiUrl(duiObject: any, url: string): void { 
 	return _in(0x00000000, 0xf761d9f3, duiObject, _ts(url)); 
+}
+
+
+/**
+ * Allows StaticEmitter's without a linked entity to make use of environment features like occlusion and reverb even if they are located higher than 20.0 units above any static collision inside interiors.
+ * 
+ * This native allows you to extend the probe range up to 150.0 units.
+ * @param probeLength
+ */
+export function setEmitterProbeLength(probeLength: number): void { 
+	return _in(0x00000000, 0x8aa1f3c2, _fv(probeLength)); 
 }
 
 
@@ -2759,6 +3321,35 @@ export function setFlashLightKeepOnWhileMoving(state: boolean): void {
  */
 export function setFlyThroughWindscreenParams(vehMinSpeed: number, unkMinSpeed: number, unkModifier: number, minDamage: number): boolean { 
 	return _in(0x00000000, 0x4d3118ed, _fv(vehMinSpeed), _fv(unkMinSpeed), _fv(unkModifier), _fv(minDamage), _r); 
+}
+
+
+/**
+ * Sets fuel consumption rate multiplier for all vehicles operated by a player. This is a way to slow down or speed up fuel consumption for all vehicles at a time. If 0 - it practically means that fuel will not be consumed. By default is set to 1.
+ * 
+ * When the multiplier is set to 1 a default 65 litre gas tank car with average fuel consumption can stay idle for ~16.67 hours or run with max RPM for ~2.5 hours.
+ * 
+ * To customize fuel consumption per vehicle / vehicle class use [`SET_HANDLING_FLOAT`](#\_0x90DD01C)/[`SET_VEHICLE_HANDLING_FLOAT`](#\_0x488C86D2) natives with `fieldName` equal to `fPetrolConsumptionRate`. By default it is set to 0.5 for all vehicles.
+ * @param multiplier
+ */
+export function setFuelConsumptionRateMultiplier(multiplier: number): void { 
+	return _in(0x00000000, 0x845f3e5c, _fv(multiplier)); 
+}
+
+
+/**
+ * Turns on and off fuel consumption in all vehicles operated by a player. NPC operated vehicles will not consume fuel to avoid traffic disruptions.
+ * 
+ * The default Gta5 behaviour is fuel consumption turned off.
+ * @param state
+ */
+export function setFuelConsumptionState(state: boolean): void { 
+	return _in(0x00000000, 0x81dad03e, state); 
+}
+
+
+export function setGlobalPassengerMassMultiplier(massMul: number): void { 
+	return _in(0x00000000, 0x1c47f6ac, _fv(massMul)); 
 }
 
 
@@ -2863,6 +3454,23 @@ export function setInteriorPortalRoomTo(interiorId: number, portalIndex: number,
 }
 
 
+/**
+ * Overwrite the games default CPortalTracker interior detection range.
+ * This fixes potentially unwanted behaviour in the base game and allows you to build custom interiors with larger ceiling heights without running into graphical glitches.
+ * 
+ * By default CPortalTracker will probe 4 units downward trying to reach collisions that are part of the interior the entity is in.
+ * If no collision can be found 16 units are used in some circumstances.
+ * 
+ * There are 30+ hard coded special cases, only some of them exposed via script (for example `ENABLE_STADIUM_PROBES_THIS_FRAME`).
+ * 
+ * This native allows you to extend the probe range up to 150 units which is the same value the game uses for the `xs_arena_interior`
+ * @param probeLength
+ */
+export function setInteriorProbeLength(probeLength: number): void { 
+	return _in(0x00000000, 0x423f7e39, _fv(probeLength)); 
+}
+
+
 export function setInteriorRoomExtents(interiorId: number, roomIndex: number, bbMinX: number, bbMinY: number, bbMinZ: number, bbMaxX: number, bbMaxY: number, bbMaxZ: number): void { 
 	return _in(0x00000000, 0x4fdcf51e, interiorId, roomIndex, _fv(bbMinX), _fv(bbMinY), _fv(bbMinZ), _fv(bbMaxX), _fv(bbMaxY), _fv(bbMaxZ)); 
 }
@@ -2875,6 +3483,15 @@ export function setInteriorRoomFlag(interiorId: number, roomIndex: number, flag:
 
 export function setInteriorRoomTimecycle(interiorId: number, roomIndex: number, timecycleHash: number): void { 
 	return _in(0x00000000, 0x31c9a848, interiorId, roomIndex, timecycleHash); 
+}
+
+
+/**
+ * Toggles the visibility of resource names in the FiveM key mapping page.
+ * @param hide
+ */
+export function setKeyMappingHideResources(hide: boolean): void { 
+	return _in(0x00000000, 0xcb0241b5, hide); 
 }
 
 
@@ -2966,6 +3583,13 @@ export function setMinimapType(type: number): void {
 }
 
 
+/**
+ * **This native is deprecated and does nothing!**
+ * @param modelHash
+ * @param ratePerSecond
+ * @param headlightRotation
+ * @param invertRotation
+ */
 export function setModelHeadlightConfiguration(modelHash: number, ratePerSecond: number, headlightRotation: number, invertRotation: boolean): void { 
 	return _in(0x00000000, 0x7f6b8d75, modelHash, _fv(ratePerSecond), _fv(headlightRotation), invertRotation); 
 }
@@ -3005,12 +3629,140 @@ export function setNuiFocusKeepInput(keepInput: boolean): void {
 
 
 /**
+ * Set the z-index of the NUI resource.
+ * @param zIndex
+ */
+export function setNuiZindex(zIndex: number): void { 
+	return _in(0x00000000, 0x3734aaff, zIndex); 
+}
+
+
+/**
+ * An alternative to [SET_PED_COMPONENT_VARIATION](#\_0x262B14F48D29DE80) that uses local collection indexing instead of the global one.
+ * 
+ * The local / collection relative indexing is useful because the global index may get shifted after Title Update. While local index will remain the same which simplifies migration to the newer game version.
+ * 
+ * Collection name and local index inside the collection can be obtained from the global index using [GET_PED_COLLECTION_NAME_FROM_DRAWABLE](#\_0xD6BBA48B) and [GET_PED_COLLECTION_LOCAL_INDEX_FROM_DRAWABLE](#\_0x94EB1FE4) natives.
+ * @param ped
+ * @param componentId
+ * @param collection
+ * @param drawableId
+ * @param textureId
+ * @param paletteId
+ */
+export function setPedCollectionComponentVariation(ped: number, componentId: number, collection: string, drawableId: number, textureId: number, paletteId: number): void { 
+	return _in(0x00000000, 0x88711bba, ped, componentId, _ts(collection), drawableId, textureId, paletteId); 
+}
+
+
+/**
+ * An alternative to [SET_PED_PRELOAD_PROP_DATA](#\_0x2B16A3BFF1FBCE49) that uses local collection indexing instead of the global one.
+ * 
+ * The local / collection relative indexing is useful because the global index may get shifted after Title Update. While local index will remain the same which simplifies migration to the newer game version.
+ * 
+ * Collection name and local index inside the collection can be obtained from the global index using [GET_PED_COLLECTION_NAME_FROM_PROP](#\_0x8ED0C17) and [GET_PED_COLLECTION_LOCAL_INDEX_FROM_PROP](#\_0xFBDB885F) natives.
+ * @param ped
+ * @param anchorPoint
+ * @param collection
+ * @param propIndex
+ * @param textureId
+ */
+export function setPedCollectionPreloadPropData(ped: number, anchorPoint: number, collection: string, propIndex: number, textureId: number): void { 
+	return _in(0x00000000, 0x14b5bbe0, ped, anchorPoint, _ts(collection), propIndex, textureId); 
+}
+
+
+/**
+ * An alternative to [SET_PED_PRELOAD_VARIATION_DATA](#\_0x39D55A620FCB6A3A) that uses local collection indexing instead of the global one.
+ * 
+ * The local / collection relative indexing is useful because the global index may get shifted after Title Update. While local index will remain the same which simplifies migration to the newer game version.
+ * 
+ * Collection name and local index inside the collection can be obtained from the global index using [GET_PED_COLLECTION_NAME_FROM_DRAWABLE](#\_0x5C612867) and [GET_PED_COLLECTION_LOCAL_INDEX_FROM_DRAWABLE](#\_0x94EB1FE4) natives.
+ * @param ped
+ * @param componentId
+ * @param collection
+ * @param drawableId
+ * @param textureId
+ */
+export function setPedCollectionPreloadVariationData(ped: number, componentId: number, collection: string, drawableId: number, textureId: number): void { 
+	return _in(0x00000000, 0x3ec75558, ped, componentId, _ts(collection), drawableId, textureId); 
+}
+
+
+/**
+ * An alternative to [SET_PED_PROP_INDEX](#\_0x93376B65A266EB5F) that uses local collection indexing instead of the global one.
+ * 
+ * The local / collection relative indexing is useful because the global index may get shifted after Title Update. While local index will remain the same which simplifies migration to the newer game version.
+ * 
+ * Collection name and local index inside the collection can be obtained from the global index using [GET_PED_COLLECTION_NAME_FROM_PROP](#\_0x8ED0C17) and [GET_PED_COLLECTION_LOCAL_INDEX_FROM_PROP](#\_0xFBDB885F) natives.
+ * @param ped
+ * @param anchorPoint
+ * @param collection
+ * @param propIndex
+ * @param textureId
+ * @param attach
+ */
+export function setPedCollectionPropIndex(ped: number, anchorPoint: number, collection: string, propIndex: number, textureId: number, attach: boolean): void { 
+	return _in(0x00000000, 0x75240bcb, ped, anchorPoint, _ts(collection), propIndex, textureId, attach); 
+}
+
+
+/**
+ * Override the limits on the number and types of melee combatants. The game is limited to at most ten combatants among the three types: primary, secondary, and observers.
+ * 
+ * This native infers the number of observers based on the primary and secondary counts.
+ * @param primaryCount
+ * @param secondaryCount
+ * @param populationPedCount
+ */
+export function setPedMeleeCombatLimits(primaryCount: number, secondaryCount: number, populationPedCount: number): void { 
+	return _in(0x00000000, 0x8e51ec29, primaryCount, secondaryCount, populationPedCount); 
+}
+
+
+/**
  * Overrides a ped model personality type.
  * @param modelHash
  * @param personalityHash
  */
 export function setPedModelPersonality(modelHash: number, personalityHash: number): void { 
 	return _in(0x00000000, 0x46f6b38b, modelHash, personalityHash); 
+}
+
+
+/**
+ * Purpose: The game's default values for these make shooting while traveling Left quite a bit slower than shooting while traveling right (This could be a game-balance thing?)
+ * 
+ * Default Min: -45 Degrees
+ * Default Max: 135 Degrees
+ * 
+ * ```
+ * \ ,- ~ ||~ - ,
+ * , ' \    x   x    ' ,
+ * ```
+ * 
+ * ,      \    x    x   x  ,
+ * ,         \  x     x      ,
+ * ,            \     x    x  ,
+ * ,              \      x    ,
+ * ,                \   x     ,
+ * ,                 \   x x ,
+ * ,                  \  x ,
+ * ,                 , '
+ * ' - , \_ \_ \_ ,  '  \\
+ * 
+ * If the transition angle is within the shaded portion (x), there will be no transition(Quicker)
+ * The angle corresponds to where you are looking(North on the circle) vs. the heading of your Ped.
+ * Note: For some reason,
+ * 
+ * You can set these values to whatever you'd like with this native, but keep in mind that the transitional spin is only clockwise for some reason.
+ * 
+ * I'd personally recommend something like -135/135
+ * @param min
+ * @param max
+ */
+export function setPedTurningThresholds(min: number, max: number): void { 
+	return _in(0x00000000, 0x0b300f03, _fv(min), _fv(max)); 
 }
 
 
@@ -3107,8 +3859,57 @@ export function setTextChatEnabled(enabled: boolean): boolean {
 }
 
 
+/**
+ * Sets the text font for the current text drawing command.
+ * @param fontId
+ */
+export function setTextFontForCurrentCommand(fontId: number): void { 
+	return _in(0x00000000, 0xada9255d, fontId); 
+}
+
+
+export function setTextJustification(justifyType: number): void { 
+	return _in(0x00000000, 0x68cdfa60, justifyType); 
+}
+
+
+export function setTextWrap(start: number, end: number): void { 
+	return _in(0x00000000, 0x6f60ab54, _fv(start), _fv(end)); 
+}
+
+
 export function setTimecycleModifierVar(modifierName: string, varName: string, value1: number, value2: number): void { 
 	return _in(0x00000000, 0x6e0a422b, _ts(modifierName), _ts(varName), _fv(value1), _fv(value2)); 
+}
+
+
+/**
+ * Sets the braking distance of the track. Used by trains to determine the point to slow down when entering a station.
+ * @param track
+ * @param brakingDistance
+ */
+export function setTrackBrakingDistance(track: number, brakingDistance: number): void { 
+	return _in(0x00000000, 0x77eb78d0, track, _fv(brakingDistance)); 
+}
+
+
+/**
+ * Toggles the track being active. If disabled mission trains will not be able to spawn on this track and will look for the next closest track to spawn
+ * @param track
+ * @param enabled
+ */
+export function setTrackEnabled(track: number, enabled: boolean): void { 
+	return _in(0x00000000, 0x4b41e84c, track, enabled); 
+}
+
+
+/**
+ * Sets the max speed for the train tracks. Used by ambient trains and for station calculations
+ * @param track
+ * @param newSpeed
+ */
+export function setTrackMaxSpeed(track: number, newSpeed: number): void { 
+	return _in(0x00000000, 0x37bfc732, track, newSpeed); 
 }
 
 
@@ -3120,6 +3921,21 @@ export function setTimecycleModifierVar(modifierName: string, varName: string, v
  */
 export function setTrainDoorOpenRatio(train: number, doorIndex: number, ratio: number): void { 
 	return _in(0x00000000, 0x2468dbe8, train, doorIndex, _fv(ratio)); 
+}
+
+
+export function setTrainState(train: number, state: number): void { 
+	return _in(0x00000000, 0x61cb74a0, train, state); 
+}
+
+
+/**
+ * Toggles a train's ability to stop at stations
+ * @param train
+ * @param state
+ */
+export function setTrainStopAtStations(train: number, state: boolean): void { 
+	return _in(0x00000000, 0xecb8b577, train, state); 
 }
 
 
@@ -3152,6 +3968,11 @@ export function setVehicleClutch(vehicle: number, clutch: number): void {
 }
 
 
+export function setVehicleCurrentGear(vehicle: number, gear: number): void { 
+	return _in(0x00000000, 0x8923dd42, vehicle, gear); 
+}
+
+
 export function setVehicleCurrentRpm(vehicle: number, rpm: number): void { 
 	return _in(0x00000000, 0x2a01a8fc, vehicle, _fv(rpm)); 
 }
@@ -3164,6 +3985,17 @@ export function setVehicleEngineTemperature(vehicle: number, temperature: number
 
 export function setVehicleFuelLevel(vehicle: number, level: number): void { 
 	return _in(0x00000000, 0xba970511, vehicle, _fv(level)); 
+}
+
+
+/**
+ * Sets the vehicles gear ratio on choosen gear, reverse gear needs to be a negative float and forward moving gear needs to be a positive float. Refer to the examples if confused.
+ * @param vehicle
+ * @param gear
+ * @param ratio
+ */
+export function setVehicleGearRatio(vehicle: number, gear: number, ratio: number): void { 
+	return _in(0x00000000, 0x496ef2f2, vehicle, gear, _fv(ratio)); 
 }
 
 
@@ -3227,8 +4059,42 @@ export function setVehicleHighGear(vehicle: number, gear: number): void {
 }
 
 
+export function setVehicleNextGear(vehicle: number, nextGear: number): void { 
+	return _in(0x00000000, 0x3a4566f4, vehicle, nextGear); 
+}
+
+
+/**
+ * Sets the maximum distance in which [\_SET_VEHICLE_NITRO_ENABLED](#\_0xC8E9B6B71B8E660D) PTFX are rendered. Distance is measured from the camera position.
+ * @param range
+ */
+export function setVehicleNitroPtfxRange(range: number): void { 
+	return _in(0x00000000, 0xa40cb822, _fv(range)); 
+}
+
+
 export function setVehicleOilLevel(vehicle: number, level: number): void { 
 	return _in(0x00000000, 0x90d1cad1, vehicle, _fv(level)); 
+}
+
+
+/**
+ * Set the vehicle's pitch bias. Only works on planes.
+ * @param vehicle
+ * @param value
+ */
+export function setVehiclePitchBias(vehicle: number, value: number): void { 
+	return _in(0x00000000, 0x2a6cc9f2, vehicle, _fv(value)); 
+}
+
+
+/**
+ * Set the vehicle's roll bias. Only works on planes.
+ * @param vehicle
+ * @param value
+ */
+export function setVehicleRollBias(vehicle: number, value: number): void { 
+	return _in(0x00000000, 0x264b45de, vehicle, _fv(value)); 
 }
 
 
@@ -3453,6 +4319,11 @@ export function setVehicleXenonLightsCustomColor(vehicle: number, red: number, g
 }
 
 
+export function setVehicleXmasSnowFactor(gripFactor: number): void { 
+	return _in(0x00000000, 0x80cc4c9e, _fv(gripFactor)); 
+}
+
+
 /**
  * Overrides a floating point value from `visualsettings.dat` temporarily.
  * @param name
@@ -3599,6 +4470,11 @@ export function setWeaponsNoAutoreload(state: boolean): void {
  */
 export function setWeaponsNoAutoswap(state: boolean): void { 
 	return _in(0x00000000, 0x02a7b50e, state); 
+}
+
+
+export function setWeatherCycleEntry(index: number, typeName: string, timeMult: number): boolean { 
+	return _in(0x00000000, 0xd264d4e1, index, _ts(typeName), timeMult, _r); 
 }
 
 
