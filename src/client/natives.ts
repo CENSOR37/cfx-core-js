@@ -24,6 +24,24 @@ export function addAudioSubmixOutput(submixId: number, outputSubmixId: number): 
 
 
 /**
+ * Adds the given model name hash to the list of valid models for the player ped's parachute.
+ * @param modelNameHash
+ */
+export function addAuthorizedParachuteModel(modelNameHash: number): void { 
+	return _in(0x00000000, 0x08ac7ae9, modelNameHash); 
+}
+
+
+/**
+ * Adds the given model name hash to the list of valid models for the player ped's parachute pack.
+ * @param modelNameHash
+ */
+export function addAuthorizedParachutePackModel(modelNameHash: number): void { 
+	return _in(0x00000000, 0x2e86dea5, modelNameHash); 
+}
+
+
+/**
  * Loads a minimap overlay from a GFx file in the current resource.
  * 
  * If you need to control the depth of overlay use [`ADD_MINIMAP_OVERLAY_WITH_DEPTH`](#\_0xED0935B5).
@@ -308,6 +326,31 @@ export function doorSystemGetSize(): number {
 
 export function drawBox(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number, red: number, green: number, blue: number, alpha: number): void { 
 	return _in(0x00000000, 0xcd4d9dd5, _fv(x1), _fv(y1), _fv(z1), _fv(x2), _fv(y2), _fv(z2), red, green, blue, alpha); 
+}
+
+
+/**
+ * Allows drawing advanced light effects, known as coronas, which support flares, volumetric lighting, and customizable glow properties.
+ * @param posX
+ * @param posY
+ * @param posZ
+ * @param size
+ * @param red
+ * @param green
+ * @param blue
+ * @param alpha
+ * @param intensity
+ * @param zBias
+ * @param dirX
+ * @param dirY
+ * @param dirZ
+ * @param viewThreshold
+ * @param innerAngle
+ * @param outerAngle
+ * @param flags
+ */
+export function drawCorona(posX: number, posY: number, posZ: number, size: number, red: number, green: number, blue: number, alpha: number, intensity: number, zBias: number, dirX: number, dirY: number, dirZ: number, viewThreshold: number, innerAngle: number, outerAngle: number, flags: number): void { 
+	return _in(0x00000000, 0xff44780e, _fv(posX), _fv(posY), _fv(posZ), _fv(size), red, green, blue, alpha, _fv(intensity), _fv(zBias), _fv(dirX), _fv(dirY), _fv(dirZ), _fv(viewThreshold), _fv(innerAngle), _fv(outerAngle), flags); 
 }
 
 
@@ -622,6 +665,16 @@ export function getCalmingQuadDampening(waterQuad: number, calmingQuadDampening:
 export function getCamMatrix(camera: number): [Vector3, Vector3, Vector3, Vector3] { 
 	const [rightVector_out, forwardVector_out, upVector_out, position_out] = _in(0x00000000, 0x8f57a89d, camera, _v, _v, _v, _v);
 	return [_mv(rightVector_out), _mv(forwardVector_out), _mv(upVector_out), _mv(position_out)]; 
+}
+
+
+/**
+ * Get all track nodes and their track ids within the radius of the specified coordinates.
+ * @param position
+ * @param radius
+ */
+export function getClosestTrackNodes(position: Vector3, radius: number): any { 
+	return _in(0x00000000, 0x59fc24a7, position, _fv(radius), _r, _ro); 
 }
 
 
@@ -1483,6 +1536,27 @@ export function getTrackMaxSpeed(track: number): number {
 
 
 /**
+ * Gets the coordinates of a specific track node.
+ * @param trackIndex
+ * @param trackNode
+ * @param coords
+ */
+export function getTrackNodeCoords(trackIndex: number, trackNode: number, coords: Vector3): [boolean, Vector3] { 
+	const [retval, coords_out] = _in(0x00000000, 0x1628548e, trackIndex, trackNode, _v, _r);
+	return [retval as boolean, _mv(coords_out)]; 
+}
+
+
+/**
+ * Gets the specified tracks node count.
+ * @param trackIndex
+ */
+export function getTrackNodeCount(trackIndex: number): number { 
+	return _in(0x00000000, 0x896a0c11, trackIndex, _r, _ri); 
+}
+
+
+/**
  * Gets the trains desired speed.
  * @param train
  */
@@ -1708,6 +1782,18 @@ export function getVehicleHandlingInt(vehicle: number, class_: string, fieldName
  */
 export function getVehicleHandlingVector(vehicle: number, class_: string, fieldName: string): Vector3 { 
 	return _mv(_in(0x00000000, 0xfb341304, vehicle, _ts(class_), _ts(fieldName), _r, _rv)); 
+}
+
+
+/**
+ * **Note**: Flags are not the same based on your `gamebuild`. Please see [here](https://docs.fivem.net/docs/game-references/vehicle-references/vehicle-flags) to see a complete list of all vehicle flags.
+ * 
+ * Get vehicle.meta flag by index. Useful examples include `FLAG_LAW_ENFORCEMENT` (31), `FLAG_RICH_CAR` (36), `FLAG_IS_ELECTRIC` (43), `FLAG_IS_OFFROAD_VEHICLE` (48).
+ * @param vehicle
+ * @param flagIndex
+ */
+export function getVehicleHasFlag(vehicle: number, flagIndex: number): boolean { 
+	return _in(0x00000000, 0xd85c9f57, vehicle, flagIndex, _r); 
 }
 
 
@@ -2623,6 +2709,8 @@ export function mumbleSetAudioOutputDistance(distance: number): void {
 
 /**
  * Changes the Mumble server address to connect to, and reconnects to the new address.
+ * 
+ * Setting the address to an empty string and the port to -1 will reset to the built in FXServer Mumble Implementation.
  * @param address
  * @param port
  */
@@ -2801,6 +2889,28 @@ export function registerRawNuiCallback(callbackType: string, callback: any): voi
 
 
 /**
+ * Registers a custom rope data with the game. For guidance on what these values should be use common:/data/ropedata.xml as a reference.
+ * Returns a rope type which can be passed into [ADD_ROPE](?\_0xE832D760399EB220) to use a custom rope design.
+ * Once a rope data is registered it can be used indefinitely and you should take caution not too register too many as to exceed the games limit.
+ * @param numSections
+ * @param radius
+ * @param diffuseTextureName
+ * @param normalMapName
+ * @param distanceMappingScale
+ * @param uvScaleX
+ * @param uvScaleY
+ * @param specularFresnel
+ * @param specularFalloff
+ * @param specularIntensity
+ * @param bumpiness
+ * @param color
+ */
+export function registerRopeData(numSections: number, radius: number, diffuseTextureName: string, normalMapName: string, distanceMappingScale: number, uvScaleX: number, uvScaleY: number, specularFresnel: number, specularFalloff: number, specularIntensity: number, bumpiness: number, color: number): number { 
+	return _in(0x00000000, 0xf213ae8d, numSections, _fv(radius), _ts(diffuseTextureName), _ts(normalMapName), _fv(distanceMappingScale), _fv(uvScaleX), _fv(uvScaleY), _fv(specularFresnel), _fv(specularFalloff), _fv(specularIntensity), _fv(bumpiness), color, _r, _ri); 
+}
+
+
+/**
  * **Experimental**: This native may be altered or removed in future versions of CitizenFX without warning.
  * 
  * Registers a dynamic streaming asset from the server with the GTA streaming module system.
@@ -2839,6 +2949,19 @@ export function registerStreamingFileFromUrl(registerAs: string, url: string): v
 
 
 /**
+ * Registers a track junction that when enabled will cause a train on the defined trackIndex, node and direction to change its current track index and begin traveling on the new node
+ * @param trackIndex
+ * @param trackNode
+ * @param newIndex
+ * @param newNode
+ * @param direction
+ */
+export function registerTrackJunction(trackIndex: number, trackNode: number, newIndex: number, newNode: number, direction: boolean): number { 
+	return _in(0x00000000, 0x35f743b5, trackIndex, trackNode, newIndex, newNode, direction, _r, _ri); 
+}
+
+
+/**
  * Removes a dry volume from the game session.
  * See CREATE_DRY_VOLUME for more info
  * @param handle
@@ -2865,6 +2988,15 @@ export function removeTimecycleModifier(modifierName: string): void {
 
 export function removeTimecycleModifierVar(modifierName: string, varName: string): void { 
 	return _in(0x00000000, 0x5a5e0d05, _ts(modifierName), _ts(varName)); 
+}
+
+
+/**
+ * Removes the specified track junction.
+ * @param junctionIndex
+ */
+export function removeTrackJunction(junctionIndex: number): boolean { 
+	return _in(0x00000000, 0x4f3d2b2a, junctionIndex, _r); 
 }
 
 
@@ -3904,6 +4036,16 @@ export function setTrackEnabled(track: number, enabled: boolean): void {
 
 
 /**
+ * Sets the state of a track junction.
+ * @param junctionIndex
+ * @param state
+ */
+export function setTrackJunctionActive(junctionIndex: number, state: boolean): boolean { 
+	return _in(0x00000000, 0x537b449d, junctionIndex, state, _r); 
+}
+
+
+/**
  * Sets the max speed for the train tracks. Used by ambient trains and for station calculations
  * @param track
  * @param newSpeed
@@ -3980,6 +4122,17 @@ export function setVehicleCurrentRpm(vehicle: number, rpm: number): void {
 
 export function setVehicleEngineTemperature(vehicle: number, temperature: number): void { 
 	return _in(0x00000000, 0x6c93c4a9, vehicle, _fv(temperature)); 
+}
+
+
+/**
+ * This native is a setter for [`GET_VEHICLE_HAS_FLAG`](#\_0xD85C9F57).
+ * @param vehicle
+ * @param flagIndex
+ * @param value
+ */
+export function setVehicleFlag(vehicle: number, flagIndex: number, value: boolean): boolean { 
+	return _in(0x00000000, 0x63ae1a34, vehicle, flagIndex, value, _r); 
 }
 
 

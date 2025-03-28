@@ -308,10 +308,14 @@ export function getPlayerWeaponDefenseModifier2(playerId: number): number {
  * ```
  * [
  * {
- * "name": "cmdlist"
+ * "name": "cmdlist",
+ * "resource": "resource",
+ * "arity" = -1,
  * },
  * {
  * "name": "command1"
+ * "resource": "resource_2",
+ * "arity" = -1,
  * }
  * ]
  * ```
@@ -323,6 +327,31 @@ export function getRegisteredCommands(): any {
 
 export function getResourceByFindIndex(findIndex: number): string { 
 	return _in(0x00000000, 0x387246b7, findIndex, _r, _s); 
+}
+
+
+/**
+ * Returns all commands registered by the specified resource.
+ * The data returned adheres to the following layout:
+ * 
+ * ```
+ * [
+ * {
+ * "name": "cmdlist",
+ * "resource": "example_resource",
+ * "arity" = -1,
+ * },
+ * {
+ * "name": "command1"
+ * "resource": "example_resource2",
+ * "arity" = -1,
+ * }
+ * ]
+ * ```
+ * @param resource
+ */
+export function getResourceCommands(resource: string): any { 
+	return _in(0x00000000, 0x97628584, _ts(resource), _r, _ro); 
 }
 
 

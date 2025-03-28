@@ -13498,9 +13498,9 @@ export function getSoundIdFromNetworkId(netId: number): number {
 	return _in(0x75262fd1, 0x2d0a1c84, netId, _r, _ri); 
 }
 
-export function getSpawnCoordsForVehicleNode(nodeAddress: number, towardsCoorsX: number, towardsCoorsY: number, towardsCoorsZ: number): [Vector3, Vector3, number] { 
-	const [retval, centrePoint_out, heading_out] = _in(0x809549af, 0xc7aec597, nodeAddress, _fv(towardsCoorsX), _fv(towardsCoorsY), _fv(towardsCoorsZ), _v, _f, _r, _rv);
-	return [_mv(retval), _mv(centrePoint_out), heading_out as number]; 
+export function getSpawnCoordsForVehicleNode(nodeAddress: number, towardsCoorsX: number, towardsCoorsY: number, towardsCoorsZ: number): [Vector3, number] { 
+	const [centrePoint_out, heading_out] = _in(0x809549af, 0xc7aec597, nodeAddress, _fv(towardsCoorsX), _fv(towardsCoorsY), _fv(towardsCoorsZ), _v, _f);
+	return [_mv(centrePoint_out), heading_out as number]; 
 }
 
 export function getStandardBlipEnumId(): number { 
@@ -39803,8 +39803,13 @@ export function setTvChannelPlaylistAtHour(tvChannel: number, playlistName: stri
 	return _in(0x2201c576, 0xfacaebe8, tvChannel, _ts(playlistName), hour); 
 }
 
-export function setTvChannelPlaylistDirty(tvChannel: number, p1: boolean): void { 
-	return _in(0xee831f15, 0xa8d0d94a, tvChannel, p1); 
+/**
+ * Does not actually return anything.
+ * @param tvChannel
+ * @param p1
+ */
+export function setTvChannelPlaylistDirty(tvChannel: number, p1: boolean): number { 
+	return _in(0xee831f15, 0xa8d0d94a, tvChannel, p1, _r, _ri); 
 }
 
 export function setTvPlayerWatchingThisFrame(p0: number): void { 

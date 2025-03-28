@@ -834,6 +834,15 @@ export function getPedMaxHealth(ped: number): number {
 
 
 /**
+ * Gets the current relationship group hash of a ped.
+ * @param ped
+ */
+export function getPedRelationshipGroupHash(ped: number): number { 
+	return _in(0x00000000, 0x354f283c, ped, _r, _ri); 
+}
+
+
+/**
  * Gets the script task command currently assigned to the ped.
  * @param ped
  */
@@ -905,6 +914,15 @@ export function getPlayerEndpoint(playerSrc: string): string {
  */
 export function getPlayerFakeWantedLevel(playerSrc: string): number { 
 	return _in(0x00000000, 0x0098d244, _ts(playerSrc), _r, _ri); 
+}
+
+
+/**
+ * Gets the focus position (i.e. the position of the active camera in the game world) of a player.
+ * @param playerSrc
+ */
+export function getPlayerFocusPos(playerSrc: string): Vector3 { 
+	return _mv(_in(0x00000000, 0x586f80ff, _ts(playerSrc), _r, _rv)); 
 }
 
 
@@ -1476,6 +1494,11 @@ export function isPlayerCommerceInfoLoadedExt(playerSrc: string): boolean {
  */
 export function isPlayerEvadingWantedLevel(playerSrc: string): boolean { 
 	return _in(0x00000000, 0x89a3881a, _ts(playerSrc), _r); 
+}
+
+
+export function isPlayerInFreeCamMode(playerSrc: string): boolean { 
+	return _in(0x00000000, 0x1f14f2ac, _ts(playerSrc), _r); 
 }
 
 
