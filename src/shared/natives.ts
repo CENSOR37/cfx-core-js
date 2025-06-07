@@ -71,6 +71,15 @@ export function deleteResourceKvp(key: string): void {
 }
 
 
+/**
+ * Nonsynchronous [DELETE_RESOURCE_KVP](#\_0x7389B5DF) operation; see [FLUSH_RESOURCE_KVP](#\_0x5240DA5A).
+ * @param key
+ */
+export function deleteResourceKvpNoSync(key: string): void { 
+	return _in(0x00000000, 0x04152c90, _ts(key)); 
+}
+
+
 export function duplicateFunctionReference(referenceIdentity: string): string { 
 	return _in(0x00000000, 0xf4e2079d, _ts(referenceIdentity), _r, _s); 
 }
@@ -90,6 +99,10 @@ export function ensureEntityStateBag(entity: number): void {
 }
 
 
+/**
+ * Depending on your use case you may need to use `add_acl resource.<your_resource_name> command.<command_name> allow` to use this native in your resource.
+ * @param commandString
+ */
 export function executeCommand(commandString: string): void { 
 	return _in(0x00000000, 0x561c060b, _ts(commandString)); 
 }
@@ -97,6 +110,15 @@ export function executeCommand(commandString: string): void {
 
 export function findKvp(handle: number): string { 
 	return _in(0x00000000, 0xbd7bebc5, handle, _r, _s); 
+}
+
+
+/**
+ * An internal function for converting a stack trace object to a string.
+ * @param traceData
+ */
+export function formatStackTrace(traceData: any): string { 
+	return _in(0x00000000, 0xd70c3bca, ...(_obj(traceData)), _r, _s); 
 }
 
 
@@ -145,6 +167,48 @@ export function getConvarInt(varName: string, default_: number): number {
  */
 export function getCurrentResourceName(): string { 
 	return _in(0x00000000, 0xe5e9ebbb, _r, _s); 
+}
+
+
+/**
+ * ### Supported types
+ * 
+ * *   \[1] : Peds (including animals) and players.
+ * *   \[2] : Vehicles.
+ * *   \[3] : Objects (props), doors, and projectiles.
+ * 
+ * ### Coordinates need to be send unpacked (x,y,z)
+ * 
+ * ```lua
+ * 
+ * -- Define the allowed model hashes
+ * local allowedModelHashes = { GetHashKey("p_crate03x"), GetHashKey("p_crate22x") }
+ * 
+ * -- Get the player's current coordinates
+ * local playerCoords = GetEntityCoords(PlayerPedId())
+ * 
+ * -- Retrieve all entities of type Object (type 3) within a radius of 10.0 units
+ * -- that match the allowed model hashes
+ * -- and sort output entities by distance
+ * local entities = GetEntitiesInRadius(playerCoords.x, playerCoords.y, playerCoords.z, 10.0, 3, true, allowedModelHashes)
+ * 
+ * -- Iterate through the list of entities and print their ids
+ * for i = 1, #entities do
+ * local entity = entities[i]
+ * print(entity)
+ * end
+ * 
+ * ```
+ * @param x
+ * @param y
+ * @param z
+ * @param radius
+ * @param entityType
+ * @param sortByDistance
+ * @param models
+ */
+export function getEntitiesInRadius(x: number, y: number, z: number, radius: number, entityType: number, sortByDistance: boolean, models: any): any { 
+	return _in(0x00000000, 0xdffba12f, _fv(x), _fv(y), _fv(z), _fv(radius), entityType, sortByDistance, ...(_obj(models)), _r, _ro); 
 }
 
 
@@ -242,7 +306,7 @@ export function getInvokingResource(): string {
 
 /**
  * Gets the amount of metadata values with the specified key existing in the specified resource's manifest.
- * See also: [Resource manifest](https://docs.fivem.net/resources/manifest/)
+ * See also: [Resource manifest](https://docs.fivem.net/docs/scripting-reference/resource-manifest/resource-manifest/)
  * @param resourceName
  * @param metadataKey
  */
@@ -384,7 +448,7 @@ export function getResourceKvpString(key: string): string {
 
 /**
  * Gets the metadata value at a specified key/index from a resource's manifest.
- * See also: [Resource manifest](https://docs.fivem.net/resources/manifest/)
+ * See also: [Resource manifest](https://docs.fivem.net/docs/scripting-reference/resource-manifest/resource-manifest/)
  * @param resourceName
  * @param metadataKey
  * @param index
@@ -593,12 +657,42 @@ export function setResourceKvpFloat(key: string, value: number): void {
 
 
 /**
+ * Nonsynchronous [SET_RESOURCE_KVP_FLOAT](#\_0x9ADD2938) operation; see [FLUSH_RESOURCE_KVP](#\_0x5240DA5A).
+ * @param key
+ * @param value
+ */
+export function setResourceKvpFloatNoSync(key: string, value: number): void { 
+	return _in(0x00000000, 0x3517bfbe, _ts(key), _fv(value)); 
+}
+
+
+/**
  * A setter for [GET_RESOURCE_KVP_INT](#\_0x557B586A).
  * @param key
  * @param value
  */
 export function setResourceKvpInt(key: string, value: number): void { 
 	return _in(0x00000000, 0x06a2b1e8, _ts(key), value); 
+}
+
+
+/**
+ * Nonsynchronous [SET_RESOURCE_KVP_INT](#\_0x6A2B1E8) operation; see [FLUSH_RESOURCE_KVP](#\_0x5240DA5A).
+ * @param key
+ * @param value
+ */
+export function setResourceKvpIntNoSync(key: string, value: number): void { 
+	return _in(0x00000000, 0x26aeb707, _ts(key), value); 
+}
+
+
+/**
+ * Nonsynchronous [SET_RESOURCE_KVP](#\_0x21C7A35B) operation; see [FLUSH_RESOURCE_KVP](#\_0x5240DA5A).
+ * @param key
+ * @param value
+ */
+export function setResourceKvpNoSync(key: string, value: string): void { 
+	return _in(0x00000000, 0x0cf9a2ff, _ts(key), _ts(value)); 
 }
 
 

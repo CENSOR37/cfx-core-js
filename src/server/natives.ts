@@ -108,21 +108,16 @@ export function addPedDecorationFromHashes(ped: number, collection: number, over
 
 
 /**
- * Applies a force to the specified entity.
- * 
  * ```cpp
- * enum eForceType
- * {
- * MinForce = 0,
- * MaxForceRot = 1,
- * MinForce2 = 2,
- * MaxForceRot2 = 3,
- * ForceNoRot = 4,
- * ForceRotPlusForce = 5
+ * enum eApplyForceTypes {
+ * APPLY_TYPE_FORCE = 0,
+ * APPLY_TYPE_IMPULSE = 1,
+ * APPLY_TYPE_EXTERNAL_FORCE = 2,
+ * APPLY_TYPE_EXTERNAL_IMPULSE = 3,
+ * APPLY_TYPE_TORQUE = 4,
+ * APPLY_TYPE_ANGULAR_IMPULSE = 5
  * }
  * ```
- * 
- * Research/documentation on the gtaforums can be found [here](https://gtaforums.com/topic/885669-precisely-define-object-physics/) and [here](https://gtaforums.com/topic/887362-apply-forces-and-momentums-to-entityobject/).
  * 
  * **This is the server-side RPC native equivalent of the client native [APPLY_FORCE_TO_ENTITY](?\_0xC5F68BE9613E2D18).**
  * @param entity
@@ -133,15 +128,15 @@ export function addPedDecorationFromHashes(ped: number, collection: number, over
  * @param offX
  * @param offY
  * @param offZ
- * @param boneIndex
- * @param isDirectionRel
- * @param ignoreUpVec
- * @param isForceRel
- * @param p12
- * @param p13
+ * @param nComponent
+ * @param bLocalForce
+ * @param bLocalOffset
+ * @param bScaleByMass
+ * @param bPlayAudio
+ * @param bScaleByTimeWarp
  */
-export function applyForceToEntity(entity: number, forceType: number, x: number, y: number, z: number, offX: number, offY: number, offZ: number, boneIndex: number, isDirectionRel: boolean, ignoreUpVec: boolean, isForceRel: boolean, p12: boolean, p13: boolean): void { 
-	return _in(0x00000000, 0xc1c0855a, entity, forceType, _fv(x), _fv(y), _fv(z), _fv(offX), _fv(offY), _fv(offZ), boneIndex, isDirectionRel, ignoreUpVec, isForceRel, p12, p13); 
+export function applyForceToEntity(entity: number, forceType: number, x: number, y: number, z: number, offX: number, offY: number, offZ: number, nComponent: number, bLocalForce: boolean, bLocalOffset: boolean, bScaleByMass: boolean, bPlayAudio: boolean, bScaleByTimeWarp: boolean): void { 
+	return _in(0x00000000, 0xc1c0855a, entity, forceType, _fv(x), _fv(y), _fv(z), _fv(offX), _fv(offY), _fv(offZ), nComponent, bLocalForce, bLocalOffset, bScaleByMass, bPlayAudio, bScaleByTimeWarp); 
 }
 
 
@@ -332,15 +327,6 @@ export function createVehicleServerSetter(modelHash: number, type: string, x: nu
  */
 export function deleteEntity(entity: number): void { 
 	return _in(0x00000000, 0xfaa3d236, entity); 
-}
-
-
-/**
- * Nonsynchronous [DELETE_RESOURCE_KVP](#\_0x7389B5DF) operation; see [FLUSH_RESOURCE_KVP](#\_0x5240DA5A).
- * @param key
- */
-export function deleteResourceKvpNoSync(key: string): void { 
-	return _in(0x00000000, 0x04152c90, _ts(key)); 
 }
 
 
@@ -554,6 +540,11 @@ export function getEntityOrphanMode(entity: number): number {
  */
 export function getEntityPopulationType(entity: number): number { 
 	return _in(0x00000000, 0xfc30ddff, entity, _r, _ri); 
+}
+
+
+export function getEntityRemoteSyncedScenesAllowed(entity: number): boolean { 
+	return _in(0x00000000, 0x91b38fb6, entity, _r); 
 }
 
 
@@ -993,6 +984,48 @@ export function getPlayerPed(playerSrc: string): number {
 }
 
 
+/**
+ * ```cpp
+ * const int ENET_PACKET_LOSS_SCALE = 65536;
+ * 
+ * enum PeerStatistics
+ * {
+ * // PacketLoss will only update once every 10 seconds, use PacketLossEpoch if you want the time
+ * // since the last time the packet loss was updated.
+ * 
+ * // the amount of packet loss the player has, needs to be scaled with PACKET_LOSS_SCALE
+ * PacketLoss = 0,
+ * // The variance in the packet loss
+ * PacketLossVariance = 1,
+ * // The time since the last packet update in ms, relative to the peers connection time
+ * PacketLossEpoch = 2,
+ * // The mean amount of time it takes for a packet to get to the client (ping)
+ * RoundTripTime = 3,
+ * // The variance in the round trip time
+ * RoundTripTimeVariance = 4,
+ * // Despite their name, these are only updated once every 5 seconds, you can get the last time this was updated with PacketThrottleEpoch
+ * // The last recorded round trip time of a packet
+ * LastRoundTripTime = 5,
+ * // The last round trip time variance
+ * LastRoundTripTimeVariance = 6,
+ * // The time since the last packet throttle update, relative to the peers connection time
+ * PacketThrottleEpoch = 7,
+ * };
+ * ```
+ * 
+ * These statistics only update once every 10 seconds.
+ * @param playerSrc
+ * @param peerStatistic
+ */
+export function getPlayerPeerStatistics(playerSrc: string, peerStatistic: number): number { 
+	return _in(0x00000000, 0x9a928294, _ts(playerSrc), peerStatistic, _r, _ri); 
+}
+
+
+/**
+ * See [GET_PLAYER_PEER_STATISTICS](#\_0x9A928294) if you want more detailed information, like packet loss, and packet/rtt variance
+ * @param playerSrc
+ */
 export function getPlayerPing(playerSrc: string): number { 
 	return _in(0x00000000, 0xff1290d4, _ts(playerSrc), _r, _ri); 
 }
@@ -1889,14 +1922,28 @@ export function setEntityIgnoreRequestControlFilter(entity: number, ignore: bool
  * }
  * ```
  * 
- * Sets what happens when the entity is orphaned and no longer has its original owner.
+ * Sets what the server will do when the entity no longer has its original owner. By default the server will cleanup entities that it considers "no longer relevant".
  * 
- * **NOTE**: This native doesn't guarantee the persistence of the entity.
+ * When used on trains, this native will recursively call onto all attached carriages.
+ * 
+ * **NOTE**: When used with `KeepEntity` (2) this native only guarantees that the ***server*** will not delete the entity, client requests to delete the entity will still work perfectly fine.
  * @param entity
  * @param orphanMode
  */
 export function setEntityOrphanMode(entity: number, orphanMode: number): void { 
 	return _in(0x00000000, 0x489e9162, entity, orphanMode); 
+}
+
+
+/**
+ * Enables or disables the owner check for the specified entity in network-synchronized scenes. When set to `false`, the entity cannot participate in synced scenes initiated by clients that do not own the entity.
+ * 
+ * By default, this is `false` for all entities, meaning only the entity's owner can include it in networked synchronized scenes.
+ * @param entity
+ * @param allow
+ */
+export function setEntityRemoteSyncedScenesAllowed(entity: number, allow: boolean): void { 
+	return _in(0x00000000, 0xd3fc9d88, entity, allow); 
 }
 
 
@@ -2880,19 +2927,31 @@ export function setPedResetFlag(ped: number, flagId: number, doReset: boolean): 
  * 
  * **This is the server-side RPC native equivalent of the client native [SET_PED_TO_RAGDOLL](?\_0xAE99FB955581844A).**
  * @param ped
- * @param time1
- * @param time2
+ * @param minTime
+ * @param maxTime
  * @param ragdollType
- * @param p4
- * @param p5
- * @param p6
+ * @param bAbortIfInjured
+ * @param bAbortIfDead
+ * @param bForceScriptControl
  */
-export function setPedToRagdoll(ped: number, time1: number, time2: number, ragdollType: number, p4: boolean, p5: boolean, p6: boolean): void { 
-	return _in(0x00000000, 0x83cb5052, ped, time1, time2, ragdollType, p4, p5, p6); 
+export function setPedToRagdoll(ped: number, minTime: number, maxTime: number, ragdollType: number, bAbortIfInjured: boolean, bAbortIfDead: boolean, bForceScriptControl: boolean): void { 
+	return _in(0x00000000, 0x83cb5052, ped, minTime, maxTime, ragdollType, bAbortIfInjured, bAbortIfDead, bForceScriptControl); 
 }
 
 
 /**
+ * ```cpp
+ * enum eNMFallType {
+ * TYPE_FROM_HIGH = 0,
+ * TYPE_OVER_WALL = 1,
+ * TYPE_DOWN_STAIRS = 2,
+ * TYPE_DIE_TYPES = 3,
+ * TYPE_DIE_FROM_HIGH = 4,
+ * TYPE_DIE_OVER_WALL = 5,
+ * TYPE_DIE_DOWN_STAIRS = 6
+ * }
+ * ```
+ * 
  * ```
  * Return variable is never used in R*'s scripts.
  * Not sure what p2 does. It seems like it would be a time judging by it's usage in R*'s scripts, but didn't seem to affect anything in my testings.
@@ -2905,22 +2964,22 @@ export function setPedToRagdoll(ped: number, time1: number, time2: number, ragdo
  * 
  * **This is the server-side RPC native equivalent of the client native [SET_PED_TO_RAGDOLL_WITH_FALL](?\_0xD76632D99E4966C8).**
  * @param ped
- * @param time
- * @param p2
- * @param ragdollType
- * @param x
- * @param y
- * @param z
- * @param p7
- * @param p8
- * @param p9
- * @param p10
- * @param p11
- * @param p12
- * @param p13
+ * @param minTime
+ * @param maxTime
+ * @param nFallType
+ * @param dirX
+ * @param dirY
+ * @param dirZ
+ * @param fGroundHeight
+ * @param grab1X
+ * @param grab1Y
+ * @param grab1Z
+ * @param grab2X
+ * @param grab2Y
+ * @param grab2Z
  */
-export function setPedToRagdollWithFall(ped: number, time: number, p2: number, ragdollType: number, x: number, y: number, z: number, p7: number, p8: number, p9: number, p10: number, p11: number, p12: number, p13: number): void { 
-	return _in(0x00000000, 0xfa12e286, ped, time, p2, ragdollType, _fv(x), _fv(y), _fv(z), _fv(p7), _fv(p8), _fv(p9), _fv(p10), _fv(p11), _fv(p12), _fv(p13)); 
+export function setPedToRagdollWithFall(ped: number, minTime: number, maxTime: number, nFallType: number, dirX: number, dirY: number, dirZ: number, fGroundHeight: number, grab1X: number, grab1Y: number, grab1Z: number, grab2X: number, grab2Y: number, grab2Z: number): void { 
+	return _in(0x00000000, 0xfa12e286, ped, minTime, maxTime, nFallType, _fv(dirX), _fv(dirY), _fv(dirZ), _fv(fGroundHeight), _fv(grab1X), _fv(grab1Y), _fv(grab1Z), _fv(grab2X), _fv(grab2Y), _fv(grab2Z)); 
 }
 
 
@@ -3012,36 +3071,6 @@ export function setPlayerRoutingBucket(playerSrc: string, bucket: number): void 
  */
 export function setPlayerWantedLevel(player: number, wantedLevel: number, delayedResponse: boolean): void { 
 	return _in(0x00000000, 0xb7a0914b, player, wantedLevel, delayedResponse); 
-}
-
-
-/**
- * Nonsynchronous [SET_RESOURCE_KVP_FLOAT](#\_0x9ADD2938) operation; see [FLUSH_RESOURCE_KVP](#\_0x5240DA5A).
- * @param key
- * @param value
- */
-export function setResourceKvpFloatNoSync(key: string, value: number): void { 
-	return _in(0x00000000, 0x3517bfbe, _ts(key), _fv(value)); 
-}
-
-
-/**
- * Nonsynchronous [SET_RESOURCE_KVP_INT](#\_0x6A2B1E8) operation; see [FLUSH_RESOURCE_KVP](#\_0x5240DA5A).
- * @param key
- * @param value
- */
-export function setResourceKvpIntNoSync(key: string, value: number): void { 
-	return _in(0x00000000, 0x26aeb707, _ts(key), value); 
-}
-
-
-/**
- * Nonsynchronous [SET_RESOURCE_KVP](#\_0x21C7A35B) operation; see [FLUSH_RESOURCE_KVP](#\_0x5240DA5A).
- * @param key
- * @param value
- */
-export function setResourceKvpNoSync(key: string, value: string): void { 
-	return _in(0x00000000, 0x0cf9a2ff, _ts(key), _ts(value)); 
 }
 
 

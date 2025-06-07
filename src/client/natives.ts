@@ -266,6 +266,17 @@ export function disableIdleCamera(state: boolean): void {
 
 
 /**
+ * Disables the specified `rawKeyIndex`, making it not trigger the regular `IS_RAW_KEY_*` natives.
+ * 
+ * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+ * @param rawKeyIndex
+ */
+export function disableRawKeyThisFrame(rawKeyIndex: number): boolean { 
+	return _in(0x00000000, 0x8bcf0014, rawKeyIndex, _r); 
+}
+
+
+/**
  * Disables the game's afk camera that starts panning around after 30 seconds of inactivity(While riding in a car as a passenger)
  * @param state
  */
@@ -281,6 +292,15 @@ export function disableVehiclePassengerIdleCamera(state: boolean): void {
  */
 export function disableWorldhorizonRendering(state: boolean): void { 
 	return _in(0x00000000, 0xa9c92cdc, state); 
+}
+
+
+/**
+ * In compare to `0x31DC8D3F216D8509` return true if texture its created when `0x31DC8D3F216D8509` return true if you put there any id in valid range
+ * @param textureId
+ */
+export function doesTextureExist(textureId: number): boolean { 
+	return _in(0x00000000, 0x8b25bc20, textureId, _r); 
 }
 
 
@@ -687,6 +707,23 @@ export function getCurrentGameName(): string {
 
 
 /**
+ * Gets the current screen resolution.
+ * 
+ * ```lua
+ * local  width, height = GetCurrentScreenResolution()
+ * print(string.format("Current screen resolution: %dx%d", width, height))
+ * 
+ * ```
+ * @param width
+ * @param height
+ */
+export function getCurrentScreenResolution(): [number, number] { 
+	const [width_out, height_out] = _in(0x00000000, 0x337f0116, _i, _i);
+	return [width_out as number, height_out as number]; 
+}
+
+
+/**
  * Returns the peer address of the remote game server that the user is currently connected to.
  */
 export function getCurrentServerEndpoint(): string { 
@@ -790,7 +827,7 @@ export function getFuelConsumptionState(): boolean {
 
 
 /**
- * A getter for [SET_GLOBAL_PASSENGER_MASS_MULTIPLIER](#\_0x1c47f6ac).
+ * A getter for [SET_GLOBAL_PASSENGER_MASS_MULTIPLIER](#\_0x1C47F6AC).
  */
 export function getGlobalPassengerMassMultiplier(): number { 
 	return _in(0x00000000, 0x78951816, _r, _rf); 
@@ -980,6 +1017,21 @@ export function getMapdataFromHashKey(mapdataHandle: number): number {
 }
 
 
+/**
+ * Get the minimap type:
+ * 
+ * ```
+ * 0 = Off,
+ * 1 = Regular,
+ * 2 = Expanded,
+ * 3 = Simple,
+ * ```
+ */
+export function getMinimapType(): number { 
+	return _in(0x00000000, 0xa6ff71c9, _r, _ri); 
+}
+
+
 export function getNetworkWalkMode(): boolean { 
 	return _in(0x00000000, 0x2cafd5e9, _r); 
 }
@@ -1050,6 +1102,21 @@ export function getParkedVehicleDensityMultiplier(): number {
  */
 export function getPauseMapPointerWorldPosition(): Vector3 { 
 	return _mv(_in(0x00000000, 0xe5af7a82, _r, _rv)); 
+}
+
+
+/**
+ * Returns the bone matrix of the specified bone id. usefull for entity attachment
+ * @param ped
+ * @param boneId
+ * @param forwardVector
+ * @param rightVector
+ * @param upVector
+ * @param position
+ */
+export function getPedBoneMatrix(ped: number, boneId: number): [Vector3, Vector3, Vector3, Vector3] { 
+	const [forwardVector_out, rightVector_out, upVector_out, position_out] = _in(0x00000000, 0x9c5e7c9c, ped, boneId, _v, _v, _v, _v);
+	return [_mv(forwardVector_out), _mv(rightVector_out), _mv(upVector_out), _mv(position_out)]; 
 }
 
 
@@ -1612,6 +1679,11 @@ export function getTrainState(train: number): number {
 }
 
 
+export function getTrainTrackIndex(train: number): number { 
+	return _in(0x00000000, 0x09aa339d, train, _r, _ri); 
+}
+
+
 export function getVehicleAlarmTimeLeft(vehicle: number): number { 
 	return _in(0x00000000, 0xc62aac98, vehicle, _r, _ri); 
 }
@@ -2079,10 +2151,19 @@ export function getVehicleXenonLightsCustomColor(vehicle: number): [boolean, num
 
 
 /**
- * A getter for [SET_VEHICLE_XMAS_SNOW_FACTOR](#\_80cc4c9e).
+ * A getter for [SET_VEHICLE_XMAS_SNOW_FACTOR](#\_0x80CC4C9E).
  */
 export function getVehicleXmasSnowFactor(): number { 
 	return _in(0x00000000, 0x16605b30, _r, _rf); 
+}
+
+
+/**
+ * A getter for [SET_VISUAL_SETTING_FLOAT](#\_0xD1D31681).
+ * @param name
+ */
+export function getVisualSettingFloat(name: string): number { 
+	return _in(0x00000000, 0x15346b4d, _ts(name), _r, _rf); 
 }
 
 
@@ -2202,6 +2283,15 @@ export function getWaveQuadCount(): number {
 export function getWaveQuadDirection(waveQuad: number): [boolean, number, number] { 
 	const [retval, directionX_out, directionY_out] = _in(0x00000000, 0xcce49a1c, waveQuad, _f, _f, _r);
 	return [retval as boolean, directionX_out as number, directionY_out as number]; 
+}
+
+
+/**
+ * A getter for the accuracy spread of a weapon.
+ * @param weaponHash
+ */
+export function getWeaponAccuracySpread(weaponHash: number): number { 
+	return _in(0x00000000, 0x05343721, weaponHash, _r, _rf); 
 }
 
 
@@ -2332,6 +2422,50 @@ export function isBigmapFull(): boolean {
 
 
 /**
+ * Gets if the specified `rawKeyIndex` is pressed down, even if the key is disabled with [DISABLE_RAW_KEY_THIS_FRAME](#\_0x8BCF0014).
+ * 
+ * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+ * @param rawKeyIndex
+ */
+export function isDisabledRawKeyDown(rawKeyIndex: number): boolean { 
+	return _in(0x00000000, 0x36366ec3, rawKeyIndex, _r); 
+}
+
+
+/**
+ * Gets if the specified `rawKeyIndex` is pressed, even if the key is disabled with [DISABLE_RAW_KEY_THIS_FRAME](#\_0x8BCF0014).
+ * 
+ * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+ * @param rawKeyIndex
+ */
+export function isDisabledRawKeyPressed(rawKeyIndex: number): boolean { 
+	return _in(0x00000000, 0x1f7cbbaa, rawKeyIndex, _r); 
+}
+
+
+/**
+ * Gets if the specified `rawKeyIndex` was released, even if the key is disabled with [DISABLE_RAW_KEY_THIS_FRAME](#\_0x8BCF0014).
+ * 
+ * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+ * @param rawKeyIndex
+ */
+export function isDisabledRawKeyReleased(rawKeyIndex: number): boolean { 
+	return _in(0x00000000, 0x72b66c09, rawKeyIndex, _r); 
+}
+
+
+/**
+ * Gets if the specified `rawKeyIndex` is up, even if the key is disabled with [DISABLE_RAW_KEY_THIS_FRAME](#\_0x8BCF0014).
+ * 
+ * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+ * @param rawKeyIndex
+ */
+export function isDisabledRawKeyUp(rawKeyIndex: number): boolean { 
+	return _in(0x00000000, 0x2c033875, rawKeyIndex, _r); 
+}
+
+
+/**
  * Returns whether or not a browser is created for a specified DUI browser object.
  * @param duiObject
  */
@@ -2395,7 +2529,9 @@ export function isPedComponentVariationGen9Exclusive(ped: number, componentId: n
 
 
 /**
- * Can be used to get state of raw key on keyboard.
+ * Gets if the specified `rawKeyIndex` is pressed down on the keyboard.
+ * 
+ * This will not be triggered if the key is disabled with [DISABLE_RAW_KEY_THIS_FRAME](#\_0x8BCF0014)
  * 
  * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
  * @param rawKeyIndex
@@ -2406,7 +2542,9 @@ export function isRawKeyDown(rawKeyIndex: number): boolean {
 
 
 /**
- * Can be used to get state of raw key on keyboard.
+ * Gets if the specified `rawKeyIndex` is pressed on the keyboard.
+ * 
+ * This will not be triggered if the key is disabled with [DISABLE_RAW_KEY_THIS_FRAME](#\_0x8BCF0014)
  * 
  * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
  * @param rawKeyIndex
@@ -2417,7 +2555,9 @@ export function isRawKeyPressed(rawKeyIndex: number): boolean {
 
 
 /**
- * Can be used to get release state of raw key on keyboard.
+ * Gets if the specified `rawKeyIndex` was just released on the keyboard.
+ * 
+ * This will not be triggered if the key is disabled with [DISABLE_RAW_KEY_THIS_FRAME](#\_0x8BCF0014)
  * 
  * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
  * @param rawKeyIndex
@@ -2428,7 +2568,9 @@ export function isRawKeyReleased(rawKeyIndex: number): boolean {
 
 
 /**
- * Can be used to get state of raw key on keyboard.
+ * Gets if the specified `rawKeyIndex` is up  on the keyboard.
+ * 
+ * This will not be triggered if the key is disabled with [DISABLE_RAW_KEY_THIS_FRAME](#\_0x8BCF0014)
  * 
  * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
  * @param rawKeyIndex
@@ -2883,6 +3025,25 @@ export function registerNuiCallbackType(callbackType: string): void {
 }
 
 
+/**
+ * Registers a keymap that will be triggered whenever `rawKeyIndex` is pressed or released.
+ * 
+ * `onKeyUp` and `onKeyDown` will not provide any arguments.
+ * 
+ * ```ts
+ * function onStateChange();
+ * ```
+ * @param keymapName
+ * @param onKeyDown
+ * @param onKeyUp
+ * @param rawKeyIndex
+ * @param canBeDisabled
+ */
+export function registerRawKeymap(keymapName: string, onKeyDown: any, onKeyUp: any, rawKeyIndex: number, canBeDisabled: boolean): void { 
+	return _in(0x00000000, 0x49c1f6dc, _ts(keymapName), _mfr(onKeyDown), _mfr(onKeyUp), rawKeyIndex, canBeDisabled); 
+}
+
+
 export function registerRawNuiCallback(callbackType: string, callback: any): void { 
 	return _in(0x00000000, 0xa8ae9c2f, _ts(callbackType), _mfr(callback)); 
 }
@@ -2962,6 +3123,18 @@ export function registerTrackJunction(trackIndex: number, trackNode: number, new
 
 
 /**
+ * Remaps the keymap bound to `keymapName` to `newRawKeyIndex`
+ * 
+ * Virtual key codes can be found [here](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+ * @param keymapName
+ * @param newRawKeyIndex
+ */
+export function remapRawKeymap(keymapName: string, newRawKeyIndex: number): void { 
+	return _in(0x00000000, 0x6e38c1b9, _ts(keymapName), newRawKeyIndex); 
+}
+
+
+/**
  * Removes a dry volume from the game session.
  * See CREATE_DRY_VOLUME for more info
  * @param handle
@@ -2978,6 +3151,23 @@ export function removeDryVolume(handle: number): void {
  */
 export function removeReplaceTexture(origTxd: string, origTxn: string): void { 
 	return _in(0x00000000, 0xa896b20a, _ts(origTxd), _ts(origTxn)); 
+}
+
+
+/**
+ * Removes the specified texture and remove it from the ped.
+ * Unlike `0x6BEFAA907B076859` which only marks the texture as "can be reused" (and keeps it until will be reused), this function deletes it right away. Can fix some sync issues. `DOES_TEXTURE_EXIST` can be use to wait until fully unloaded by game
+ * 
+ * ```lua
+ * RemoveTexture(textureId)
+ * while DoesTextureExist(textureId) do
+ * Wait(0)
+ * end
+ * ```
+ * @param textureId
+ */
+export function removeTexture(textureId: number): void { 
+	return _in(0x00000000, 0x1582c7f2, textureId); 
 }
 
 
@@ -4585,6 +4775,16 @@ export function setWaveQuadBounds(waveQuad: number, minX: number, minY: number, 
  */
 export function setWaveQuadDirection(waveQuad: number, directionX: number, directionY: number): boolean { 
 	return _in(0x00000000, 0xfc9341a3, waveQuad, _fv(directionX), _fv(directionY), _r); 
+}
+
+
+/**
+ * A setter for the accuracy spread of a weapon.
+ * @param weaponHash
+ * @param spread
+ */
+export function setWeaponAccuracySpread(weaponHash: number, spread: number): void { 
+	return _in(0x00000000, 0x598dd6ae, weaponHash, _fv(spread)); 
 }
 
 

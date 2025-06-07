@@ -19729,6 +19729,10 @@ export function isXboxPlatform(): boolean {
 	return _in(0x138679ca, 0x01e21f53, _r); 
 }
 
+export function isXboxpcVersion(): boolean { 
+	return _in(0xe2bcd0ef, 0xae90d1f4, _r); 
+}
+
 /**
  * List of component/props ID
  * gtaxscripting.blogspot.com/2016/04/gta-v-peds-component-and-props.html
@@ -23530,6 +23534,16 @@ export function networkMemberIdFromGamerHandle(gamerHandle: number): [string, nu
 
 export function networkMoneyCanBet(amount: number, p1: boolean, p2: boolean): boolean { 
 	return _in(0x81404f3d, 0xc124fe5b, amount, p1, p2, _r); 
+}
+
+/**
+ * For the XboxPC version this returns true if XPRIVILEGE_MULTIPLAYER_SESSIONS is granted but XPRIVILEGE_CROSS_PLAY is NOT granted.
+ * For more information, see https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/live/features/identity/privileges/concepts/live-user-privileges-client#privilege-ids-to-check
+ * 
+ * Always returns false for non-XboxPC versions.
+ */
+export function networkMultiplayerCrossplayNotAllowed(): boolean { 
+	return _in(0xa6bc0d9b, 0xcf9662fa, _r); 
 }
 
 export function networkNeedToStartNewGameButBlocked(): boolean { 
