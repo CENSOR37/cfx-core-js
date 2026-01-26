@@ -42,6 +42,26 @@ export function addAuthorizedParachutePackModel(modelNameHash: number): void {
 
 
 /**
+ * Adds new health config.
+ * @param configName
+ * @param defaultHealth
+ * @param defaultArmor
+ * @param defaultEndurance
+ * @param fatiguedHealthThreshold
+ * @param injuredHealthThreshold
+ * @param dyingHealthThreshold
+ * @param hurtHealthThreshold
+ * @param dogTakedownThreshold
+ * @param writheFromBulletThreshold
+ * @param meleeCardinalFatalAttack
+ * @param invincible
+ */
+export function addHealthConfig(configName: string, defaultHealth: number, defaultArmor: number, defaultEndurance: number, fatiguedHealthThreshold: number, injuredHealthThreshold: number, dyingHealthThreshold: number, hurtHealthThreshold: number, dogTakedownThreshold: number, writheFromBulletThreshold: number, meleeCardinalFatalAttack: boolean, invincible: boolean): void { 
+	return _in(0x00000000, 0x9cbfd5c1, _ts(configName), _fv(defaultHealth), _fv(defaultArmor), _fv(defaultEndurance), _fv(fatiguedHealthThreshold), _fv(injuredHealthThreshold), _fv(dyingHealthThreshold), _fv(hurtHealthThreshold), _fv(dogTakedownThreshold), _fv(writheFromBulletThreshold), meleeCardinalFatalAttack, invincible); 
+}
+
+
+/**
  * Loads a minimap overlay from a GFx file in the current resource.
  * 
  * If you need to control the depth of overlay use [`ADD_MINIMAP_OVERLAY_WITH_DEPTH`](#\_0xED0935B5).
@@ -309,11 +329,6 @@ export function doesTimecycleModifierHasVar(modifierName: string, varName: strin
 }
 
 
-export function doesTrainStopAtStations(train: number): boolean { 
-	return _in(0x00000000, 0x77cc80dc, train, _r); 
-}
-
-
 /**
  * Checks whether the vehicle consumes fuel. The check is done based on petrol tank volume and vehicle type. Bicycles and vehicles with petrol tank volume equal to zero (only bicycles by default) do not use fuel. All other vehicles do.
  * 
@@ -409,6 +424,14 @@ export function drawGizmo(matrixPtr: any, id: string): boolean {
  */
 export function drawGlowSphere(posX: number, posY: number, posZ: number, radius: number, colorR: number, colorG: number, colorB: number, intensity: number, invert: boolean, marker: boolean): void { 
 	return _in(0x00000000, 0xbd25ec89, _fv(posX), _fv(posY), _fv(posZ), _fv(radius), colorR, colorG, colorB, _fv(intensity), invert, marker); 
+}
+
+
+/**
+ * Draw the prepared light.
+ */
+export function drawLight(): void { 
+	return _in(0x00000000, 0x374e5298); 
 }
 
 
@@ -616,6 +639,19 @@ export function getAllRopes(): any {
 
 
 /**
+ * Returns all track junctions on the client
+ * The data returned adheres to the following structure:
+ * 
+ * ```
+ * [1, 2, 4, 6, 69, 420]
+ * ```
+ */
+export function getAllTrackJunctions(): any { 
+	return _in(0x00000000, 0x81a08523, _r, _ro); 
+}
+
+
+/**
  * Returns all registered vehicle model names, including non-dlc vehicles and custom vehicles in no particular order.
  * 
  * **Example output**
@@ -644,6 +680,19 @@ export function getAmbientPedRangeMultiplier(): number {
  */
 export function getAmbientVehicleRangeMultiplier(): number { 
 	return _in(0x00000000, 0x667ec929, _r, _rf); 
+}
+
+
+/**
+ * Gets the current aspect ratio
+ * 
+ * ```lua
+ * local ratio = GetAspectRatio()
+ * print(string.format("%.2f", ratio))
+ * ```
+ */
+export function getAspectRatio(): number { 
+	return _in(0x00000000, 0x2ca8f641, _r, _rf); 
 }
 
 
@@ -685,6 +734,16 @@ export function getCalmingQuadDampening(waterQuad: number, calmingQuadDampening:
 export function getCamMatrix(camera: number): [Vector3, Vector3, Vector3, Vector3] { 
 	const [rightVector_out, forwardVector_out, upVector_out, position_out] = _in(0x00000000, 0x8f57a89d, camera, _v, _v, _v, _v);
 	return [_mv(rightVector_out), _mv(forwardVector_out), _mv(upVector_out), _mv(position_out)]; 
+}
+
+
+/**
+ * Returns whether a specific client configuration flag is currently enabled.
+ * You can find a list of configuration flags in [`SET_CLIENT_CONFIG_BOOL`](#\_0xD174EF7E).
+ * @param flagIndex
+ */
+export function getClientConfigBool(flagIndex: number): boolean { 
+	return _in(0x00000000, 0xada7db9d, flagIndex, _r); 
 }
 
 
@@ -816,6 +875,22 @@ export function getExternalKvpString(resource: string, key: string): string {
 }
 
 
+/**
+ * A getter for [SET_FALL_DAMAGE_LAND_ON_FOOT_MULTIPLIER](#\_0x164A08C9).
+ */
+export function getFallDamageLandOnFootMultiplier(): number { 
+	return _in(0x00000000, 0x2c048945, _r, _rf); 
+}
+
+
+/**
+ * A getter for [SET_FALL_DAMAGE_MULTIPLIER](#\_0xF2E1A531).
+ */
+export function getFallDamageMultiplier(): number { 
+	return _in(0x00000000, 0x7c46a6f0, _r, _rf); 
+}
+
+
 export function getFuelConsumptionRateMultiplier(): number { 
 	return _in(0x00000000, 0x5550bf9f, _r, _rf); 
 }
@@ -827,7 +902,7 @@ export function getFuelConsumptionState(): boolean {
 
 
 /**
- * A getter for [SET_GLOBAL_PASSENGER_MASS_MULTIPLIER](#\_0x1C47F6AC).
+ * A getter for [SET_GLOBAL_PASSENGER_MASS_MULTIPLIER](#\_0x3422291C).
  */
 export function getGlobalPassengerMassMultiplier(): number { 
 	return _in(0x00000000, 0x78951816, _r, _rf); 
@@ -955,6 +1030,14 @@ export function getInteriorRoomTimecycle(interiorId: number, roomIndex: number):
 export function getInteriorRotation(interiorId: number): [number, number, number, number] { 
 	const [rotx_out, rotY_out, rotZ_out, rotW_out] = _in(0x00000000, 0x5a039998, interiorId, _f, _f, _f, _f);
 	return [rotx_out as number, rotY_out as number, rotZ_out as number, rotW_out as number]; 
+}
+
+
+/**
+ * A getter for [SET_KILL_FALL_HEIGHT](#\_0x7E8D83E4).
+ */
+export function getKillFallHeight(): number { 
+	return _in(0x00000000, 0x57888d4c, _r, _rf); 
 }
 
 
@@ -1308,6 +1391,15 @@ export function getPedHeadOverlayData(ped: number, index: number): [boolean, num
 
 
 /**
+ * Gets a ped model's health config.
+ * @param modelHash
+ */
+export function getPedModelHealthConfig(modelHash: number): number { 
+	return _in(0x00000000, 0xf71542f7, modelHash, _r, _ri); 
+}
+
+
+/**
  * Gets a ped model's personality type.
  * @param modelHash
  */
@@ -1359,12 +1451,27 @@ export function getPedPropGlobalIndexFromCollection(ped: number, anchorPoint: nu
 }
 
 
+export function getPedScale(ped: number): number { 
+	return _in(0x00000000, 0xa0f3b420, ped, _r, _rf); 
+}
+
+
 /**
  * A getter for [SET_PED_SWEAT](#\_0x27B0405F59637D1F).
  * @param ped
  */
 export function getPedSweat(ped: number): number { 
 	return _in(0x00000000, 0x44b91e94, ped, _r, _rf); 
+}
+
+
+export function getPedWetness(ped: number): number { 
+	return _in(0x00000000, 0xf402c171, ped, _r, _rf); 
+}
+
+
+export function getPedWetnessHeight(ped: number): number { 
+	return _in(0x00000000, 0x2545ade0, ped, _r, _rf); 
 }
 
 
@@ -1387,6 +1494,14 @@ export function getPlayerFromServerId(serverId: number): number {
  */
 export function getPlayerInvincible2(player: number): boolean { 
 	return _in(0x00000000, 0xf2e3912b, player, _r); 
+}
+
+
+/**
+ * A getter for [SET_PLAYER_KILL_FALL_HEIGHT](#\_0xAEF2C6A4).
+ */
+export function getPlayerKillFallHeight(): number { 
+	return _in(0x00000000, 0xbfb2990c, _r, _rf); 
 }
 
 
@@ -1623,26 +1738,8 @@ export function getTrackNodeCount(trackIndex: number): number {
 }
 
 
-/**
- * Gets the trains desired speed.
- * @param train
- */
-export function getTrainCruiseSpeed(train: number): number { 
-	return _in(0x00000000, 0xa4921ef5, train, _r, _rf); 
-}
-
-
 export function getTrainCurrentTrackNode(train: number): number { 
 	return _in(0x00000000, 0xe015e854, train, _r, _ri); 
-}
-
-
-/**
- * Gets the direction the train is facing
- * @param train
- */
-export function getTrainDirection(train: number): boolean { 
-	return _in(0x00000000, 0x8daf79b6, train, _r); 
 }
 
 
@@ -1671,16 +1768,6 @@ export function getTrainDoorOpenRatio(train: number, doorIndex: number): number 
  */
 export function getTrainSpeed(train: number): number { 
 	return _in(0x00000000, 0x428668b7, train, _r, _rf); 
-}
-
-
-export function getTrainState(train: number): number { 
-	return _in(0x00000000, 0x81b50033, train, _r, _ri); 
-}
-
-
-export function getTrainTrackIndex(train: number): number { 
-	return _in(0x00000000, 0x09aa339d, train, _r, _ri); 
 }
 
 
@@ -2592,7 +2679,7 @@ export function isStreamingFileReady(registerAs: string): boolean {
 
 
 /**
- * Getter for [SET_TRACK_ENABLED](?\_0x4b41e84c)
+ * Getter for [SET_TRACK_ENABLED](#\_0x4B41E84C)
  * @param track
  */
 export function isTrackEnabled(track: number): boolean { 
@@ -2601,7 +2688,7 @@ export function isTrackEnabled(track: number): boolean {
 
 
 /**
- * Getter for [SWITCH_TRAIN_TRACK](?\_0xFD813BB7DB977F20). Determines if ambient trains are able to spawn on this track.
+ * Getter for [SWITCH_TRAIN_TRACK](#\_0xFD813BB7DB977F20). Determines if ambient trains are able to spawn on this track.
  * @param track
  */
 export function isTrackSwitchedOff(track: number): boolean { 
@@ -2631,6 +2718,16 @@ export function isVehiclePreviouslyOwnedByPlayer(vehicle: number): boolean {
 
 export function isVehicleWanted(vehicle: number): boolean { 
 	return _in(0x00000000, 0x0a7daf7c, vehicle, _r); 
+}
+
+
+/**
+ * Getter for [BREAK_OFF_VEHICLE_WHEEL](?\_0xA274CADB).
+ * @param vehicle
+ * @param wheelIndex
+ */
+export function isVehicleWheelBrokenOff(vehicle: number, wheelIndex: number): boolean { 
+	return _in(0x00000000, 0xcf1bc668, vehicle, wheelIndex, _r); 
 }
 
 
@@ -2958,6 +3055,24 @@ export function overridePopGroups(path: string): void {
 
 
 /**
+ * Setting the state to true and a value between 0 and 2 will cause pedestrian vehicles to react accordingly to sirens.
+ * 
+ * ```cpp
+ * enum Reactions {
+ * Left = 0,
+ * Right = 1,
+ * Stop = 2
+ * }
+ * ```
+ * @param state
+ * @param reaction
+ */
+export function overrideReactionToVehicleSiren(state: boolean, reaction: number): void { 
+	return _in(0x00000000, 0x3f3eb3f7, state, reaction); 
+}
+
+
+/**
  * Overrides whether or not peds can stand on top of the specified vehicle.
  * 
  * Note this flag is not replicated automatically, you will have to manually do so.
@@ -2966,6 +3081,23 @@ export function overridePopGroups(path: string): void {
  */
 export function overrideVehiclePedsCanStandOnTopFlag(vehicle: number, can: boolean): void { 
 	return _in(0x00000000, 0x7fa03e76, vehicle, can); 
+}
+
+
+/**
+ * Create a new light with specified type, flags, position, color, and intensity.
+ * @param lightType
+ * @param flags
+ * @param x
+ * @param y
+ * @param z
+ * @param r
+ * @param g
+ * @param b
+ * @param intensity
+ */
+export function prepareLight(lightType: number, flags: number, x: number, y: number, z: number, r: number, g: number, b: number, intensity: number): void { 
+	return _in(0x00000000, 0x584b4c99, lightType, flags, _fv(x), _fv(y), _fv(z), r, g, b, _fv(intensity)); 
 }
 
 
@@ -3051,7 +3183,7 @@ export function registerRawNuiCallback(callbackType: string, callback: any): voi
 
 /**
  * Registers a custom rope data with the game. For guidance on what these values should be use common:/data/ropedata.xml as a reference.
- * Returns a rope type which can be passed into [ADD_ROPE](?\_0xE832D760399EB220) to use a custom rope design.
+ * Returns a rope type which can be passed into [ADD_ROPE](#\_0xE832D760399EB220) to use a custom rope design.
  * Once a rope data is registered it can be used indefinitely and you should take caution not too register too many as to exceed the games limit.
  * @param numSections
  * @param radius
@@ -3145,6 +3277,15 @@ export function removeDryVolume(handle: number): void {
 
 
 /**
+ * Removes health config.
+ * @param configName
+ */
+export function removeHealthConfig(configName: string): void { 
+	return _in(0x00000000, 0x0e0ed5fb, _ts(configName)); 
+}
+
+
+/**
  * Experimental natives, please do not use in a live environment.
  * @param origTxd
  * @param origTxn
@@ -3207,6 +3348,14 @@ export function removeTrackJunction(junctionIndex: number): boolean {
  */
 export function requestResourceFileSet(setName: string): boolean { 
 	return _in(0x00000000, 0xe7490533, _ts(setName), _r); 
+}
+
+
+/**
+ * This function undoes changes made by [`SET_ENTITY_DRAW_OUTLINE_RENDER_TECHNIQUE`](#\_0x68DFF2DD), restoring the original outline rendering behavior. The default render technique group is `unlit`.
+ */
+export function resetEntityDrawOutlineRenderTechnique(): void { 
+	return _in(0x00000000, 0x8eb6ec38); 
 }
 
 
@@ -3447,6 +3596,27 @@ export function setCalmingQuadDampening(calmingQuad: number, dampening: number):
 }
 
 
+/**
+ * ```cpp
+ * enum ClientConfigFlag
+ * {
+ * WeaponsNoAutoReload = 0,
+ * UIVisibleWhenDead = 1,
+ * DisableDeathAudioScene = 2,
+ * DisableRemoteAttachments = 3
+ * }
+ * ```
+ * 
+ * Sets the value of a client configuration flag.
+ * This native allows enabling or disabling specific one-time client-side features.
+ * @param flagIndex
+ * @param enabled
+ */
+export function setClientConfigBool(flagIndex: number, enabled: boolean): void { 
+	return _in(0x00000000, 0xd174ef7e, flagIndex, enabled); 
+}
+
+
 export function setCursorLocation(x: number, y: number): boolean { 
 	return _in(0x00000000, 0x8a7a8dac, _fv(x), _fv(y), _r); 
 }
@@ -3590,6 +3760,66 @@ export function setEntityDrawOutlineColor(red: number, green: number, blue: numb
 
 
 /**
+ * Sets the render technique for drawing an entity's outline. This function allows you to specify a technique group name to control how the entity's outline is rendered in the game.
+ * 
+ * List of known technique group's:
+ * 
+ * ```
+ * alt0
+ * alt1
+ * alt2
+ * alt3
+ * alt4
+ * alt5
+ * alt6
+ * alt7
+ * alt8
+ * blit
+ * cube
+ * default
+ * geometry
+ * imposter
+ * imposterdeferred
+ * lightweight0
+ * lightweight0CutOut
+ * lightweight0CutOutTint
+ * lightweight0WaterRefractionAlpha
+ * lightweight4
+ * lightweight4CutOut
+ * lightweight4CutOutTint
+ * lightweight4WaterRefractionAlpha
+ * lightweight8
+ * lightweight8CutOut
+ * lightweight8CutOutTint
+ * lightweight8WaterRefractionAlpha
+ * lightweightHighQuality0
+ * lightweightHighQuality0CutOut
+ * lightweightHighQuality0WaterRefractionAlpha
+ * lightweightHighQuality4
+ * lightweightHighQuality4CutOut
+ * lightweightHighQuality4WaterRefractionAlpha
+ * lightweightHighQuality8
+ * lightweightHighQuality8CutOut
+ * lightweightHighQuality8WaterRefractionAlpha
+ * lightweightNoCapsule4
+ * lightweightNoCapsule8
+ * multilight
+ * tessellate
+ * ui
+ * unlit
+ * waterreflection
+ * waterreflectionalphaclip
+ * waterreflectionalphacliptint
+ * wdcascade
+ * ```
+ * @param techniqueGroup
+ */
+export function setEntityDrawOutlineRenderTechnique(techniqueGroup: string): void { 
+	return _in(0x00000000, 0x68dff2dd, _ts(techniqueGroup)); 
+}
+
+
+/**
  * Sets variant of shader that will be used to draw entity outline.
  * 
  * Variants are:
@@ -3626,6 +3856,24 @@ export function setEntityMatrix(entity: number, forwardX: number, forwardY: numb
 
 
 /**
+ * A setter for [GET_FALL_DAMAGE_LAND_ON_FOOT_MULTIPLIER](#\_0x3C8A1C92).
+ * @param multiplier
+ */
+export function setFallDamageLandOnFootMultiplier(multiplier: number): void { 
+	return _in(0x00000000, 0xa9ec9a79, _fv(multiplier)); 
+}
+
+
+/**
+ * A setter for [GET_FALL_DAMAGE_MULTIPLIER](#\_0x2D6A0A83).
+ * @param multiplier
+ */
+export function setFallDamageMultiplier(multiplier: number): void { 
+	return _in(0x00000000, 0xb43b621b, _fv(multiplier)); 
+}
+
+
+/**
  * Allows Weapon-Flashlight beams to stay visible while moving. Normally it only stays on while aiming.
  * @param state
  */
@@ -3643,6 +3891,15 @@ export function setFlashLightKeepOnWhileMoving(state: boolean): void {
  */
 export function setFlyThroughWindscreenParams(vehMinSpeed: number, unkMinSpeed: number, unkModifier: number, minDamage: number): boolean { 
 	return _in(0x00000000, 0x4d3118ed, _fv(vehMinSpeed), _fv(unkMinSpeed), _fv(unkModifier), _fv(minDamage), _r); 
+}
+
+
+/**
+ * This completely disables rendering of fog volumes (vfxfogvolumeinfo.ymt).
+ * @param state
+ */
+export function setFogVolumeRenderDisabled(state: boolean): void { 
+	return _in(0x00000000, 0xfbc64da3, state); 
 }
 
 
@@ -3723,6 +3980,116 @@ export function setHandlingInt(vehicle: string, class_: string, fieldName: strin
  */
 export function setHandlingVector(vehicle: string, class_: string, fieldName: string, value: Vector3): void { 
 	return _in(0x00000000, 0x07f9d543, _ts(vehicle), _ts(class_), _ts(fieldName), value); 
+}
+
+
+/**
+ * Sets default armor value for specific health config.
+ * @param configName
+ * @param newValue
+ */
+export function setHealthConfigDefaultArmor(configName: string, newValue: number): void { 
+	return _in(0x00000000, 0x20a1e6a2, _ts(configName), _fv(newValue)); 
+}
+
+
+/**
+ * Sets default endurance value for specific health config.
+ * @param configName
+ * @param newValue
+ */
+export function setHealthConfigDefaultEndurance(configName: string, newValue: number): void { 
+	return _in(0x00000000, 0x60f20b81, _ts(configName), _fv(newValue)); 
+}
+
+
+/**
+ * Sets default health value for specific health config.
+ * @param configName
+ * @param newValue
+ */
+export function setHealthConfigDefaultHealth(configName: string, newValue: number): void { 
+	return _in(0x00000000, 0xc705c778, _ts(configName), _fv(newValue)); 
+}
+
+
+/**
+ * Sets default dog takedown threshold value for specific health config.
+ * @param configName
+ * @param newValue
+ */
+export function setHealthConfigDogTakedownThreshold(configName: string, newValue: number): void { 
+	return _in(0x00000000, 0x9a995e96, _ts(configName), _fv(newValue)); 
+}
+
+
+/**
+ * Sets default dying health threshold value for specific health config.
+ * @param configName
+ * @param newValue
+ */
+export function setHealthConfigDyingThreshold(configName: string, newValue: number): void { 
+	return _in(0x00000000, 0x9b00fd77, _ts(configName), _fv(newValue)); 
+}
+
+
+/**
+ * Sets default fatigued health threshold value for specific health config.
+ * @param configName
+ * @param newValue
+ */
+export function setHealthConfigFatiguedThreshold(configName: string, newValue: number): void { 
+	return _in(0x00000000, 0xc58953fd, _ts(configName), _fv(newValue)); 
+}
+
+
+/**
+ * Sets default hurt health threshold value for specific health config.
+ * @param configName
+ * @param newValue
+ */
+export function setHealthConfigHurtThreshold(configName: string, newValue: number): void { 
+	return _in(0x00000000, 0x98df1a83, _ts(configName), _fv(newValue)); 
+}
+
+
+/**
+ * Sets default injured health threshold value for specific health config.
+ * @param configName
+ * @param newValue
+ */
+export function setHealthConfigInjuredThreshold(configName: string, newValue: number): void { 
+	return _in(0x00000000, 0xf9d9b647, _ts(configName), _fv(newValue)); 
+}
+
+
+/**
+ * Sets default invincible value for specific health config.
+ * @param configName
+ * @param newValue
+ */
+export function setHealthConfigInvincible(configName: string, newValue: boolean): void { 
+	return _in(0x00000000, 0x4a9eede6, _ts(configName), newValue); 
+}
+
+
+/**
+ * Sets default melee cardinal fatal attack value for specific health config.
+ * @param configName
+ * @param newValue
+ */
+export function setHealthConfigMeleeFatalAttack(configName: string, newValue: boolean): void { 
+	return _in(0x00000000, 0xdd443e53, _ts(configName), newValue); 
+}
+
+
+/**
+ * Sets default writhe from bullet threshold value for specific health config.
+ * @param configName
+ * @param newValue
+ */
+export function setHealthConfigWritheFromBulletThreshold(configName: string, newValue: number): void { 
+	return _in(0x00000000, 0xe97633cb, _ts(configName), _fv(newValue)); 
 }
 
 
@@ -3818,8 +4185,265 @@ export function setKeyMappingHideResources(hide: boolean): void {
 
 
 /**
- * Sets whether or not `SHUTDOWN_LOADING_SCREEN` automatically shuts down the NUI frame for the loading screen. If this is enabled,
- * you will have to manually invoke `SHUTDOWN_LOADING_SCREEN_NUI` whenever you want to hide the NUI loading screen.
+ * A setter for [GET_KILL_FALL_HEIGHT](#\_0x884C8B5A).
+ * @param height
+ */
+export function setKillFallHeight(height: number): void { 
+	return _in(0x00000000, 0x24091e09, _fv(height)); 
+}
+
+
+/**
+ * Set the alpha transparency of the light.
+ * @param alpha
+ */
+export function setLightAlpha(alpha: number): void { 
+	return _in(0x00000000, 0x0c0ebc38, _fv(alpha)); 
+}
+
+
+/**
+ * Set ambient occlusion (AO) parameters for a specified light.
+ * @param intensity
+ * @param radius
+ * @param bias
+ * @param intensity2
+ */
+export function setLightAo(intensity: number, radius: number, bias: number, intensity2: number): void { 
+	return _in(0x00000000, 0xe155b53b, _fv(intensity), _fv(radius), _fv(bias), _fv(intensity2)); 
+}
+
+
+/**
+ * Set the capsule size of a specified light.
+ * @param size
+ */
+export function setLightCapsuleSize(size: number): void { 
+	return _in(0x00000000, 0xa3881271, _fv(size)); 
+}
+
+
+/**
+ * Set the clip rectangle for a created light.
+ * @param x
+ * @param y
+ * @param width
+ * @param height
+ */
+export function setLightClipRect(x: number, y: number, width: number, height: number): void { 
+	return _in(0x00000000, 0xd9dd0717, x, y, width, height); 
+}
+
+
+/**
+ * Set the color of a specified light.
+ * @param r
+ * @param g
+ * @param b
+ */
+export function setLightColor(r: number, g: number, b: number): void { 
+	return _in(0x00000000, 0x65fe5132, r, g, b); 
+}
+
+
+/**
+ * Set the inner and outer cone angles of a specified light.
+ * @param innerConeAngle
+ * @param outerConeAngle
+ */
+export function setLightCone(innerConeAngle: number, outerConeAngle: number): void { 
+	return _in(0x00000000, 0x9fe89ef5, _fv(innerConeAngle), _fv(outerConeAngle)); 
+}
+
+
+/**
+ * Set the world coordinates of a specified light.
+ * @param x
+ * @param y
+ * @param z
+ */
+export function setLightCoords(x: number, y: number, z: number): void { 
+	return _in(0x00000000, 0x8950bd08, _fv(x), _fv(y), _fv(z)); 
+}
+
+
+/**
+ * Set the forward and tangent direction vectors for an existing light, allowing control over its orientation (useful for spotlights and directional lights).
+ * @param xDir
+ * @param yDir
+ * @param zDir
+ * @param xTanDir
+ * @param yTanDir
+ * @param zTanDir
+ */
+export function setLightDirection(xDir: number, yDir: number, zDir: number, xTanDir: number, yTanDir: number, zTanDir: number): void { 
+	return _in(0x00000000, 0xa6fe1977, _fv(xDir), _fv(yDir), _fv(zDir), _fv(xTanDir), _fv(yTanDir), _fv(zTanDir)); 
+}
+
+
+/**
+ * Set additional configuration flags for an existing light
+ * @param extraFlags
+ */
+export function setLightExtraflags(extraFlags: number): void { 
+	return _in(0x00000000, 0xb2d37e97, extraFlags); 
+}
+
+
+/**
+ * Set the fade distance.
+ * @param fadeDistance
+ */
+export function setLightFadeDistance(fadeDistance: number): void { 
+	return _in(0x00000000, 0xfa46714d, fadeDistance); 
+}
+
+
+/**
+ * Adjust the falloff parameter for an existing light, affecting how light intensity decreases over distance.
+ * @param falloff
+ */
+export function setLightFalloff(falloff: number): void { 
+	return _in(0x00000000, 0x4d7f6e03, _fv(falloff)); 
+}
+
+
+/**
+ * Set or update specific flags for a created light to control its behavior or properties.
+ * @param flags
+ */
+export function setLightFlags(flags: number): void { 
+	return _in(0x00000000, 0x28b22733, flags); 
+}
+
+
+/**
+ * Set the headlight properties of a created light, adjusting its intensity and range.
+ * @param intensity
+ * @param range
+ */
+export function setLightHeadlight(intensity: number, range: number): void { 
+	return _in(0x00000000, 0xff44d502, _fv(intensity), _fv(range)); 
+}
+
+
+/**
+ * Set the intensity of an existing light.
+ * @param intensity
+ */
+export function setLightIntensity(intensity: number): void { 
+	return _in(0x00000000, 0x2cc9a71c, _fv(intensity)); 
+}
+
+
+/**
+ * Set the interior and room where the light should be active.
+ * @param interiorId
+ * @param isPortal
+ * @param roomIndex
+ */
+export function setLightInterior(interiorId: number, isPortal: boolean, roomIndex: number): void { 
+	return _in(0x00000000, 0x1cc72443, interiorId, isPortal, roomIndex); 
+}
+
+
+/**
+ * Set the plane parameters for a light.
+ * @param x
+ * @param y
+ * @param z
+ * @param w
+ */
+export function setLightPlane(x: number, y: number, z: number, w: number): void { 
+	return _in(0x00000000, 0xe46e0cdf, _fv(x), _fv(y), _fv(z), _fv(w)); 
+}
+
+
+/**
+ * Set the radius of a created light.
+ * @param radius
+ */
+export function setLightRadius(radius: number): void { 
+	return _in(0x00000000, 0x4a4b5cbe, _fv(radius)); 
+}
+
+
+/**
+ * Set the shadow details for a created light.
+ * @param shadowFlags
+ * @param shadowDistance
+ * @param shadowFade
+ * @param shadowDepthBiasScale
+ */
+export function setLightShadowDetails(shadowFlags: number, shadowDistance: number, shadowFade: number, shadowDepthBiasScale: number): void { 
+	return _in(0x00000000, 0xa40eac1a, shadowFlags, _fv(shadowDistance), _fv(shadowFade), _fv(shadowDepthBiasScale)); 
+}
+
+
+/**
+ * Set the fade distance for the shadows of a created light.
+ * @param fadeDistance
+ */
+export function setLightShadowFadeDistance(fadeDistance: number): void { 
+	return _in(0x00000000, 0x3c54c2a8, fadeDistance); 
+}
+
+
+/**
+ * Set the specular fade distance for a created light.
+ * @param fadeDistance
+ */
+export function setLightSpecularFadeDistance(fadeDistance: number): void { 
+	return _in(0x00000000, 0xc3a35a50, fadeDistance); 
+}
+
+
+/**
+ * Assign a texture to an existing light source, allowing custom light shapes or patterns using textures from streaming assets.
+ * @param textureDict
+ * @param textureHash
+ */
+export function setLightTexture(textureDict: string, textureHash: number): void { 
+	return _in(0x00000000, 0x55a50736, _ts(textureDict), textureHash); 
+}
+
+
+/**
+ * Change the light type of a already created light.
+ * Certain light type needs more configurations to work properly (Like direction, flags or size)
+ * @param lightType
+ */
+export function setLightType(lightType: number): void { 
+	return _in(0x00000000, 0xcb58679d, lightType); 
+}
+
+
+/**
+ * Set volumetric light properties for an existing light, enabling custom volumetric effects such as fog-like glow.
+ * @param volIntensity
+ * @param volSizeScale
+ * @param r
+ * @param g
+ * @param b
+ * @param i
+ * @param outerExponent
+ */
+export function setLightVolumeDetails(volIntensity: number, volSizeScale: number, r: number, g: number, b: number, i: number, outerExponent: number): void { 
+	return _in(0x00000000, 0x2f731ae7, _fv(volIntensity), _fv(volSizeScale), _fv(r), _fv(g), _fv(b), _fv(i), _fv(outerExponent)); 
+}
+
+
+/**
+ * Set the fade distance for volumetric lightingn.
+ * @param volumetricFadeDistance
+ */
+export function setLightVolumetricFadeDistance(volumetricFadeDistance: number): void { 
+	return _in(0x00000000, 0xe1f41605, volumetricFadeDistance); 
+}
+
+
+/**
+ * **Note**: This native is deprecated and doesn't work anymore. Use [loadscreen_manual_shutdown](https://docs.fivem.net/docs/scripting-reference/resource-manifest/resource-manifest/#loadscreen_manual_shutdown) in the fxmanifest.lua instead.
  * @param manualShutdown
  */
 export function setManualShutdownLoadingScreenNui(manualShutdown: boolean): void { 
@@ -3999,7 +4623,7 @@ export function setPedCollectionPreloadPropData(ped: number, anchorPoint: number
  * 
  * The local / collection relative indexing is useful because the global index may get shifted after Title Update. While local index will remain the same which simplifies migration to the newer game version.
  * 
- * Collection name and local index inside the collection can be obtained from the global index using [GET_PED_COLLECTION_NAME_FROM_DRAWABLE](#\_0x5C612867) and [GET_PED_COLLECTION_LOCAL_INDEX_FROM_DRAWABLE](#\_0x94EB1FE4) natives.
+ * Collection name and local index inside the collection can be obtained from the global index using [GET_PED_COLLECTION_NAME_FROM_DRAWABLE](#\_0xD6BBA48B) and [GET_PED_COLLECTION_LOCAL_INDEX_FROM_DRAWABLE](#\_0x94EB1FE4) natives.
  * @param ped
  * @param componentId
  * @param collection
@@ -4039,6 +4663,17 @@ export function setPedCollectionPropIndex(ped: number, anchorPoint: number, coll
  */
 export function setPedMeleeCombatLimits(primaryCount: number, secondaryCount: number, populationPedCount: number): void { 
 	return _in(0x00000000, 0x8e51ec29, primaryCount, secondaryCount, populationPedCount); 
+}
+
+
+/**
+ * Sets a ped model's health config.
+ * Takes effect only after setting player model with `SET_PLAYER_MODEL`.
+ * @param modelHash
+ * @param configName
+ */
+export function setPedModelHealthConfig(modelHash: number, configName: string): void { 
+	return _in(0x00000000, 0xaf12a05d, modelHash, _ts(configName)); 
 }
 
 
@@ -4088,6 +4723,15 @@ export function setPedTurningThresholds(min: number, max: number): void {
 }
 
 
+/**
+ * A setter for [GET_PLAYER_KILL_FALL_HEIGHT](#\_0x13BC2C63).
+ * @param height
+ */
+export function setPlayerKillFallHeight(height: number): void { 
+	return _in(0x00000000, 0x86bd5722, _fv(height)); 
+}
+
+
 export function setPlayerMaxStamina(playerId: number, maxStamina: number): boolean { 
 	return _in(0x00000000, 0x35594f67, playerId, _fv(maxStamina), _r); 
 }
@@ -4106,6 +4750,15 @@ export function setPlayerStamina(playerId: number, stamina: number): boolean {
  */
 export function setPlayerTalkingOverride(player: number, state: boolean): void { 
 	return _in(0x00000000, 0xfc02caf6, player, state); 
+}
+
+
+/**
+ * This completely disables pedestrian vehicles from reacting to sirens. They will not try to do any maneuver to evade.
+ * @param state
+ */
+export function setReactionToVehicleSirenDisabled(state: boolean): void { 
+	return _in(0x00000000, 0x8c3ec64f, state); 
 }
 
 
@@ -4839,6 +5492,16 @@ export function setWeatherCycleEntry(index: number, typeName: string, timeMult: 
  */
 export function setWeatherOwnedByNetwork(network: boolean): void { 
 	return _in(0x00000000, 0x2703d582, network); 
+}
+
+
+/**
+ * Modifies the radius scale used in the simulation of wet cloth physics.
+ * This affects how cloth behaves when wet, changing how it sticks or reacts to movement.
+ * @param scale
+ */
+export function setWetClothPinRadiusScale(scale: number): void { 
+	return _in(0x00000000, 0xf1bd2cef, _fv(scale)); 
 }
 
 

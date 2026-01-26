@@ -42,8 +42,8 @@ export function addConvarChangeListener(conVarFilter: string, handler: any): num
  * 
  * At this time, the change handler can't opt to reject changes.
  * 
- * If bagName refers to an entity, use [GET_ENTITY_FROM_STATE_BAG_NAME](?\_0x4BDF1868) to get the entity handle
- * If bagName refers to a player, use [GET_PLAYER_FROM_STATE_BAG_NAME](?\_0xA56135E0) to get the player handle
+ * If bagName refers to an entity, use [GET_ENTITY_FROM_STATE_BAG_NAME](#\_0x4BDF1867) to get the entity handle
+ * If bagName refers to a player, use [GET_PLAYER_FROM_STATE_BAG_NAME](#\_0xA56135E0) to get the player handle
  * @param keyFilter
  * @param bagFilter
  * @param handler
@@ -77,6 +77,11 @@ export function deleteResourceKvp(key: string): void {
  */
 export function deleteResourceKvpNoSync(key: string): void { 
 	return _in(0x00000000, 0x04152c90, _ts(key)); 
+}
+
+
+export function doesTrainStopAtStations(train: number): boolean { 
+	return _in(0x00000000, 0x77cc80dc, train, _r); 
 }
 
 
@@ -213,7 +218,7 @@ export function getEntitiesInRadius(x: number, y: number, z: number, radius: num
 
 
 /**
- * Returns the entity handle for the specified state bag name. For use with [ADD_STATE_BAG_CHANGE_HANDLER](?\_0x5BA35AAF).
+ * Returns the entity handle for the specified state bag name. For use with [ADD_STATE_BAG_CHANGE_HANDLER](#\_0x5BA35AAF).
  * @param bagName
  */
 export function getEntityFromStateBagName(bagName: string): number { 
@@ -240,6 +245,8 @@ export function getEntityFromStateBagName(bagName: string): number {
  * *   3258
  * *   3323
  * *   3407
+ * *   3570
+ * *   3717
  * *   RedM
  * *   1311
  * *   1355
@@ -479,6 +486,34 @@ export function getStateBagKeys(bagName: string): any {
  */
 export function getStateBagValue(bagName: string, key: string): any { 
 	return _in(0x00000000, 0x637f4c75, _ts(bagName), _ts(key), _r, _ro); 
+}
+
+
+/**
+ * Gets the trains desired speed.
+ * @param train
+ */
+export function getTrainCruiseSpeed(train: number): number { 
+	return _in(0x00000000, 0xa4921ef5, train, _r, _rf); 
+}
+
+
+/**
+ * Gets the direction the train is facing
+ * @param train
+ */
+export function getTrainDirection(train: number): boolean { 
+	return _in(0x00000000, 0x8daf79b6, train, _r); 
+}
+
+
+export function getTrainState(train: number): number { 
+	return _in(0x00000000, 0x81b50033, train, _r, _ri); 
+}
+
+
+export function getTrainTrackIndex(train: number): number { 
+	return _in(0x00000000, 0x09aa339d, train, _r, _ri); 
 }
 
 

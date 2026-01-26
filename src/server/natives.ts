@@ -779,6 +779,80 @@ export function getLastPedInVehicleSeat(vehicle: number, seatIndex: number): num
 }
 
 
+export function getMount(ped: number): number { 
+	return _in(0x00000000, 0xdd31ec4e, ped, _r, _ri); 
+}
+
+
+/**
+ * Gets the specific entity type (as an integer), which can be one of the following defined down below:
+ * 
+ * #### FiveM:
+ * 
+ * ```cpp
+ * enum eNetObjEntityType
+ * {
+ * Automobile = 0,
+ * Bike = 1,
+ * Boat = 2,
+ * Door = 3,
+ * Heli = 4,
+ * Object = 5,
+ * Ped = 6,
+ * Pickup = 7,
+ * PickupPlacement = 8,
+ * Plane = 9,
+ * Submarine = 10,
+ * Player = 11,
+ * Trailer = 12,
+ * Train = 13
+ * };
+ * ```
+ * 
+ * #### RedM:
+ * 
+ * ```cpp
+ * enum eNetObjEntityType
+ * {
+ * Animal = 0,
+ * Automobile = 1,
+ * Bike = 2,
+ * Boat = 3,
+ * Door = 4,
+ * Heli = 5,
+ * Object = 6,
+ * Ped = 7,
+ * Pickup = 8,
+ * PickupPlacement = 9,
+ * Plane = 10,
+ * Submarine = 11,
+ * Player = 12,
+ * Trailer = 13,
+ * Train = 14,
+ * DraftVeh = 15,
+ * StatsTracker = 16,
+ * PropSet = 17,
+ * AnimScene = 18,
+ * GroupScenario = 19,
+ * Herd = 20,
+ * Horse = 21,
+ * WorldState = 22,
+ * WorldProjectile = 23,
+ * Incident = 24,
+ * Guardzone = 25,
+ * PedGroup = 26,
+ * CombatDirector = 27,
+ * PedSharedTargeting = 28,
+ * Persistent = 29
+ * };
+ * ```
+ * @param entity
+ */
+export function getNetTypeFromEntity(entity: number): number { 
+	return _in(0x00000000, 0x23b2a641, entity, _r, _ri); 
+}
+
+
 export function getNumPlayerIdentifiers(playerSrc: string): number { 
 	return _in(0x00000000, 0xff7f66ab, _ts(playerSrc), _r, _ri); 
 }
@@ -928,9 +1002,9 @@ export function getPlayerGuid(playerSrc: string): string {
 
 
 /**
- * To get the number of identifiers, use [GET_NUM_PLAYER_IDENTIFIERS](?\_0xFF7F66AB)
+ * To get the number of identifiers, use [GET_NUM_PLAYER_IDENTIFIERS](#\_0xFF7F66AB)
  * 
- * To get a specific type of identifier, use [GET_PLAYER_IDENTIFIER_BY_TYPE](?\_0xA61C8FC6)
+ * To get a specific type of identifier, use [GET_PLAYER_IDENTIFIER_BY_TYPE](#\_0xA61C8FC6)
  * @param playerSrc
  * @param identiferIndex
  */
@@ -1109,6 +1183,11 @@ export function getResourcePath(resourceName: string): string {
 }
 
 
+export function getSeatPedIsUsing(ped: number): number { 
+	return _in(0x00000000, 0x57b78c17, ped, _r, _ri); 
+}
+
+
 /**
  * An alias of [GET_CURRENT_PED_WEAPON](#\_0xB0237302).
  * 
@@ -1130,6 +1209,11 @@ export function getThrusterThrottle(jetpack: number): number {
 }
 
 
+export function getTrainBackwardCarriage(train: number): number { 
+	return _in(0x00000000, 0x0456e34a, train, _r, _ri); 
+}
+
+
 export function getTrainCarriageEngine(train: number): number { 
 	return _in(0x00000000, 0x095070fa, train, _r, _ri); 
 }
@@ -1137,6 +1221,11 @@ export function getTrainCarriageEngine(train: number): number {
 
 export function getTrainCarriageIndex(train: number): number { 
 	return _in(0x00000000, 0x4b8285cf, train, _r, _ri); 
+}
+
+
+export function getTrainForwardCarriage(train: number): number { 
+	return _in(0x00000000, 0x24dc88d9, train, _r, _ri); 
 }
 
 
@@ -1250,7 +1339,7 @@ export function getVehicleHomingLockonState(vehicle: number): number {
 
 
 /**
- * This is a getter for the client-side native [`START_VEHICLE_HORN`](https://docs.fivem.net/natives/?\_0x9C8C6504B5B63D2C), which allows you to return the horn type of the vehicle.
+ * This is a getter for the client-side native [`START_VEHICLE_HORN`](#\_0x9C8C6504B5B63D2C), which allows you to return the horn type of the vehicle.
  * 
  * **Note**: This native only gets the hash value set with `START_VEHICLE_HORN`. If a wrong hash is passed into `START_VEHICLE_HORN`, it will return this wrong hash.
  * 
@@ -1478,6 +1567,21 @@ export function isPedHandcuffed(ped: number): boolean {
 }
 
 
+export function isPedInAnyVehicle(ped: number): boolean { 
+	return _in(0x00000000, 0x3b0171ee, ped, _r); 
+}
+
+
+export function isPedInVehicle(ped: number, vehicle: number): boolean { 
+	return _in(0x00000000, 0x7da6bc83, ped, vehicle, _r); 
+}
+
+
+export function isPedOnMount(ped: number): boolean { 
+	return _in(0x00000000, 0x43103006, ped, _r); 
+}
+
+
 export function isPedRagdoll(ped: number): boolean { 
 	return _in(0x00000000, 0xc833bbe1, ped, _r); 
 }
@@ -1540,6 +1644,11 @@ export function isPlayerUsingSuperJump(playerSrc: string): boolean {
 }
 
 
+export function isTrainCaboose(train: number): boolean { 
+	return _in(0x00000000, 0xfa9336e5, train, _r); 
+}
+
+
 export function isVehicleExtraTurnedOn(vehicle: number, extraId: number): boolean { 
 	return _in(0x00000000, 0x042098b5, vehicle, extraId, _r); 
 }
@@ -1556,7 +1665,7 @@ export function isVehicleTyreBurst(vehicle: number, wheelID: number, completely:
 
 
 /**
- * See the client-side [IS_VEHICLE_WINDOW_INTACT](https://docs.fivem.net/natives/?\_0x46E571A0E20D01F1) for a window indexes list.
+ * See the client-side [IS_VEHICLE_WINDOW_INTACT](#\_0x46E571A0E20D01F1) for a window indexes list.
  * @param vehicle
  * @param windowIndex
  */
@@ -1719,7 +1828,7 @@ export function removeAllPedWeapons(ped: number, p1: boolean): void {
 
 /**
  * Removes the blip from your map.
- * **Note:** This function only works on the script that created the blip, if you wish to remove blips created by other scripts, see [`SET_THIS_SCRIPT_CAN_REMOVE_BLIPS_CREATED_BY_ANY_SCRIPT`](#\_0x86A652570E5F25DD).
+ * **Note:** This function only works on the script that created the blip, if you wish to remove blips created by other scripts, see [`SET_THIS_SCRIPT_CAN_REMOVE_BLIPS_CREATED_BY_ANY_SCRIPT`](#\_0xB98236CAAECEF897).
  * 
  * **This is the server-side RPC native equivalent of the client native [REMOVE_BLIP](?\_0x86A652570E5F25DD).**
  * @param blip
@@ -2738,12 +2847,12 @@ export function setPedHairTint(ped: number, colorID: number, highlightColorID: n
 
 
 /**
- * For more info please refer to [this](https://gtaforums.com/topic/858970-all-gtao-face-ids-pedset-ped-head-blend-data-explained) topic.
+ * For more info and the list of faceIDs please refer to [this](https://gtaforums.com/topic/858970-all-gtao-face-ids-pedset-ped-head-blend-data-explained) topic. Note that the Skin and Shape IDs are shared. This native will use this same list for both Skin and Shape IDs.
  * **Other information:**
- * IDs start at zero and go Male Non-DLC, Female Non-DLC, Male DLC, and Female DLC.</br>
+ * IDs start at zero and go Male Non-DLC, Female Non-DLC, Male DLC, and Female DLC.
  * This native function is often called prior to calling natives such as:
  * 
- * *   [`SetPedHairColor`](#\_0xBB43F090)
+ * *   [`SetPedHairColor`](#\_0xA23FE32C)
  * *   [`SetPedHeadOverlayColor`](#\_0x78935A27)
  * *   [`SetPedHeadOverlay`](#\_0xD28DBA90)
  * *   [`SetPedFaceFeature`](#\_0x6C8D4458)
