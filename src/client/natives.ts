@@ -370,10 +370,10 @@ export function drawBox(x1: number, y1: number, z1: number, x2: number, y2: numb
  * @param posY
  * @param posZ
  * @param size
+ * @param alpha
  * @param red
  * @param green
  * @param blue
- * @param alpha
  * @param intensity
  * @param zBias
  * @param dirX
@@ -384,8 +384,8 @@ export function drawBox(x1: number, y1: number, z1: number, x2: number, y2: numb
  * @param outerAngle
  * @param flags
  */
-export function drawCorona(posX: number, posY: number, posZ: number, size: number, red: number, green: number, blue: number, alpha: number, intensity: number, zBias: number, dirX: number, dirY: number, dirZ: number, viewThreshold: number, innerAngle: number, outerAngle: number, flags: number): void { 
-	return _in(0x00000000, 0xff44780e, _fv(posX), _fv(posY), _fv(posZ), _fv(size), red, green, blue, alpha, _fv(intensity), _fv(zBias), _fv(dirX), _fv(dirY), _fv(dirZ), _fv(viewThreshold), _fv(innerAngle), _fv(outerAngle), flags); 
+export function drawCorona(posX: number, posY: number, posZ: number, size: number, alpha: number, red: number, green: number, blue: number, intensity: number, zBias: number, dirX: number, dirY: number, dirZ: number, viewThreshold: number, innerAngle: number, outerAngle: number, flags: number): void { 
+	return _in(0x00000000, 0xff44780e, _fv(posX), _fv(posY), _fv(posZ), _fv(size), alpha, red, green, blue, _fv(intensity), _fv(zBias), _fv(dirX), _fv(dirY), _fv(dirZ), _fv(viewThreshold), _fv(innerAngle), _fv(outerAngle), flags); 
 }
 
 

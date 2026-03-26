@@ -16493,7 +16493,7 @@ export function intToPlayerindex(value: number): number {
 	return _in(0x41bd2a6b, 0x006af756, value, _r, _ri); 
 }
 
-export function interpolateCamWithParams(camera: number, camPosX: number, camPosY: number, camPosZ: number, camRotX: number, camRotY: number, camRotZ: number, fov: number, duration: number, posCurveType: number, rotCurveType: number, rotOrder: number, fovCurveType: number): void { 
+export function interpolateCameraWithParams(camera: number, camPosX: number, camPosY: number, camPosZ: number, camRotX: number, camRotY: number, camRotZ: number, fov: number, duration: number, posCurveType: number, rotCurveType: number, rotOrder: number, fovCurveType: number): void { 
 	return _in(0xdda77ee3, 0x3c005aaf, camera, _fv(camPosX), _fv(camPosY), _fv(camPosZ), _fv(camRotX), _fv(camRotY), _fv(camRotZ), _fv(fov), duration, posCurveType, rotCurveType, rotOrder, fovCurveType); 
 }
 
@@ -20751,7 +20751,7 @@ export function networkCanBet(amount: number): boolean {
 }
 
 export function networkCanCommunicateWithGamer(gamerHandle: number): [boolean, number] { 
-	const [retval, gamerHandle_out] = _in(0x8f5d1ad8, 0x32aeb06c, _ii(gamerHandle), _r);
+	const [retval, gamerHandle_out] = _in(0xa150a4f0, 0x65806b1f, _ii(gamerHandle), _r);
 	return [retval as boolean, gamerHandle_out as number]; 
 }
 
@@ -20809,7 +20809,7 @@ export function networkCanSpendMoney2(p0: number, p1: boolean, p2: boolean, p3: 
 }
 
 export function networkCanTextChatWithGamer(gamerHandle: number): [boolean, number] { 
-	const [retval, gamerHandle_out] = _in(0xa150a4f0, 0x65806b1f, _ii(gamerHandle), _r);
+	const [retval, gamerHandle_out] = _in(0xeec02c7c, 0x0666d990, _ii(gamerHandle), _r);
 	return [retval as boolean, gamerHandle_out as number]; 
 }
 
